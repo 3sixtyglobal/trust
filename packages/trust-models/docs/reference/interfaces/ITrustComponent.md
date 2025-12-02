@@ -10,7 +10,7 @@ Interface describing a trust component.
 
 ### verify()
 
-> **verify**(`payload`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: \{\[`id`: `string`\]: `IError`[]; \}; \}\>
+> **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: \{\[`id`: `string`\]: `IError`[]; \}; \}\>
 
 Verify a payload by checking the validity of its structure and content using the registered verifiers.
 
@@ -21,6 +21,12 @@ Verify a payload by checking the validity of its structure and content using the
 `unknown`
 
 The payload to verify.
+
+##### overrideVerifiers?
+
+`string`[]
+
+List of verifiers to use instead of the default ones.
 
 #### Returns
 
