@@ -1,0 +1,17 @@
+# Interface: ITrustServiceConstructorOptions
+
+The options for the trust service.
+
+## Properties
+
+### loggingComponentType?
+
+> `optional` **loggingComponentType**: `string`
+
+The logging component type.
+
+#### Default
+
+```ts
+logging
+```

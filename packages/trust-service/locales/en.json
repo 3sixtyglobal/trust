@@ -1,0 +1,13 @@
+{
+	"info": {
+		"trustService": {
+			"verifying": "Verifying payload: \"{payload}\"",
+			"verified": "Payload verified successfully: \"{info}\""
+		}
+	},
+	"error": {
+		"trustService": {
+			"notVerified": "Payload verification failed: \"{failures}\""
+		}
+	}
+}

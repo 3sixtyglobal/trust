@@ -1,0 +1,10 @@
+{
+	"error": {
+		"jwtVerifiableCredentialVerifier": {
+			"tokenMissingCredential": "The JWT token does not contain a verifiable credential.",
+			"tokenMissingIssuer": "The verifiable credential in the JWT does not contain an issuer.",
+			"tokenExpired": "The JWT token has expired.",
+			"tokenMissingSubject": "The verifiable credential in the JWT does not contain a subject."
+		}
+	}
+}

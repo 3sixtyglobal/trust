@@ -1,0 +1,5 @@
+{
+	"packages/trust-models": "0.0.1",
+	"packages/trust-service": "0.0.1",
+	"packages/trust-verifiers": "0.0.1"
+}
