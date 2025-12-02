@@ -1,5 +1,5 @@
 {
-	"packages/trust-models": "0.0.3-next.0",
-	"packages/trust-service": "0.0.3-next.0",
-	"packages/trust-verifiers": "0.0.3-next.0"
+	"packages/trust-models": "0.0.3-next.1",
+	"packages/trust-service": "0.0.3-next.1",
+	"packages/trust-verifiers": "0.0.3-next.1"
 }
