@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.2](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.1...trust-models-v0.0.3-next.2) (2025-12-03)
+
+
+### Features
+
+* support pass through of info between verifiers ([1ce64b9](https://github.com/twinfoundation/trust/commit/1ce64b97a949278b447cc12b576ce5de537f30f3))
+
 ## [0.0.3-next.1](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.0...trust-models-v0.0.3-next.1) (2025-12-02)
 
 
