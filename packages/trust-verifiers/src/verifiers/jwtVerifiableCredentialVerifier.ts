@@ -53,14 +53,19 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	/**
 	 * Verify a payload by checking the validity of its structure and content.
 	 * @param payload The payload to verify.
-	 * @returns Whether the payload is verified and any additional information extracted from the payload, or verification failures.
+	 * @param info Information extracted from previous verifiers and to be added by this verifier.
+	 * @returns Whether the payload is verified and possible verification failures, returns undefined if payload not processed.
 	 */
-	public async verify(payload: unknown): Promise<{
-		verified: boolean;
-		info?: IJsonLdNodeObject[];
-		failures?: IError[];
-	}> {
-		const info: IJsonLdNodeObject[] = [];
+	public async verify(
+		payload: unknown,
+		info: IJsonLdNodeObject[]
+	): Promise<
+		| {
+				verified: boolean;
+				failures?: IError[];
+		  }
+		| undefined
+	> {
 		const failures: IError[] = [];
 
 		if (Is.stringValue(payload)) {
@@ -87,6 +92,8 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 						failures.push(
 							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingCredential")
 						);
+					} else {
+						info.push(verifiableCredential as unknown as IJsonLdNodeObject);
 					}
 
 					const issuer: string | undefined = Is.stringValue(verifiableCredential?.issuer)
@@ -110,13 +117,12 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 				} catch (err) {
 					failures.push(BaseError.fromError(err));
 				}
+
+				return {
+					verified: failures.length === 0,
+					failures
+				};
 			}
 		}
-
-		return {
-			verified: failures.length === 0,
-			info,
-			failures
-		};
 	}
 }

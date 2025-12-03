@@ -56,7 +56,7 @@ The class name of the component.
 
 ### verify()
 
-> **verify**(`payload`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: `IError`[]; \}\>
+> **verify**(`payload`, `info`): `Promise`\<\{ `verified`: `boolean`; `failures?`: `IError`[]; \} \| `undefined`\>
 
 Verify a payload by checking the validity of its structure and content.
 
@@ -68,11 +68,17 @@ Verify a payload by checking the validity of its structure and content.
 
 The payload to verify.
 
+##### info
+
+`IJsonLdNodeObject`[]
+
+Information extracted from previous verifiers and to be added by this verifier.
+
 #### Returns
 
-`Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: `IError`[]; \}\>
+`Promise`\<\{ `verified`: `boolean`; `failures?`: `IError`[]; \} \| `undefined`\>
 
-Whether the payload is verified and any additional information extracted from the payload, or verification failures.
+Whether the payload is verified and possible verification failures, returns undefined if payload not processed.
 
 #### Implementation of
 

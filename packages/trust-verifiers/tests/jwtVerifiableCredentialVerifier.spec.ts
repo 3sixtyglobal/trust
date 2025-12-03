@@ -1,6 +1,7 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { ComponentFactory, type IError } from "@twin.org/core";
+import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import { type IJwtHeader, Jwt } from "@twin.org/web";
 import { describe, it, expect, vi, beforeEach } from "vitest";
@@ -44,9 +45,13 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const result = await verifier.verify(token);
-		expect(result.verified).toBe(true);
-		expect(result.info).toEqual([{ id: "subject" }]);
+		const info: IJsonLdNodeObject[] = [];
+		const result = await verifier.verify(token, info);
+		expect(result?.verified).toBe(true);
+		expect(info).toEqual([
+			{ credentialSubject: { id: "subject" }, issuer: "issuer" },
+			{ id: "subject" }
+		]);
 	});
 
 	it("should fail verification for expired JWT", async () => {
@@ -67,9 +72,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const result = await verifier.verify(token);
-		expect(result.verified).toBe(false);
-		expect(result.failures?.some((f: IError) => f.message?.includes("tokenExpired"))).toBe(true);
+		const info: IJsonLdNodeObject[] = [];
+		const result = await verifier.verify(token, info);
+		expect(result?.verified).toBe(false);
+		expect(result?.failures?.some((f: IError) => f.message?.includes("tokenExpired"))).toBe(true);
 	});
 
 	it("should fail verification for missing credential", async () => {
@@ -87,10 +93,11 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			verifiableCredential: undefined
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const result = await verifier.verify(token);
-		expect(result.verified).toBe(false);
+		const info: IJsonLdNodeObject[] = [];
+		const result = await verifier.verify(token, info);
+		expect(result?.verified).toBe(false);
 		expect(
-			result.failures?.some((f: IError) => f.message?.includes("tokenMissingCredential"))
+			result?.failures?.some((f: IError) => f.message?.includes("tokenMissingCredential"))
 		).toBe(true);
 	});
 
@@ -112,9 +119,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const result = await verifier.verify(token);
-		expect(result.verified).toBe(false);
-		expect(result.failures?.some((f: IError) => f.message?.includes("tokenMissingIssuer"))).toBe(
+		const info: IJsonLdNodeObject[] = [];
+		const result = await verifier.verify(token, info);
+		expect(result?.verified).toBe(false);
+		expect(result?.failures?.some((f: IError) => f.message?.includes("tokenMissingIssuer"))).toBe(
 			true
 		);
 	});
@@ -137,9 +145,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const result = await verifier.verify(token);
-		expect(result.verified).toBe(false);
-		expect(result.failures?.some((f: IError) => f.message?.includes("tokenMissingSubject"))).toBe(
+		const info: IJsonLdNodeObject[] = [];
+		const result = await verifier.verify(token, info);
+		expect(result?.verified).toBe(false);
+		expect(result?.failures?.some((f: IError) => f.message?.includes("tokenMissingSubject"))).toBe(
 			true
 		);
 	});

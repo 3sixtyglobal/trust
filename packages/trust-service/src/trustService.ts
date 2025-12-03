@@ -71,18 +71,14 @@ export class TrustService implements ITrustComponent {
 
 		for (const verifierName of verifierNames) {
 			const verifier = TrustVerifierFactory.get(verifierName);
-			const verifierResult = await verifier.verify(payload);
+			const verifierResult = await verifier.verify(payload, info);
 
-			if (verifierResult.verified) {
-				verified = true;
+			if (Is.object(verifierResult)) {
+				verified = verifierResult.verified;
 
-				if (Is.arrayValue(verifierResult.info)) {
-					info.push(...verifierResult.info);
+				if (Is.arrayValue(verifierResult.failures)) {
+					failures[verifierName] = verifierResult.failures;
 				}
-			}
-
-			if (Is.arrayValue(verifierResult.failures)) {
-				failures[verifierName] = verifierResult.failures;
 			}
 		}
 

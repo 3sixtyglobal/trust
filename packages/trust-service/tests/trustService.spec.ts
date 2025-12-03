@@ -57,7 +57,6 @@ describe("TrustService", () => {
 		const trustService = new TrustService();
 		const result = await trustService.verify({ test: "payload" });
 		expect(result.verified).toBe(true);
-		expect(result.info).toEqual([{ mock: "info" }]);
 		expect(result.failures).toBeUndefined();
 
 		TrustVerifierFactory.unregister("mockVerifier");
