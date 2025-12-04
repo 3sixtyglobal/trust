@@ -10,7 +10,7 @@ Interface describing a trust verifier component.
 
 ### verify()
 
-> **verify**(`payload`, `info`): `Promise`\<\{ `verified`: `boolean`; `failures?`: `IError`[]; \} \| `undefined`\>
+> **verify**(`payload`, `info`, `errors`): `Promise`\<`boolean` \| `undefined`\>
 
 Verify a payload by checking the validity of its structure and content.
 
@@ -28,8 +28,14 @@ The payload to verify.
 
 Information extracted from previous verifiers and to be added by this verifier.
 
+##### errors
+
+`IError`[]
+
+Array to collect verification errors.
+
 #### Returns
 
-`Promise`\<\{ `verified`: `boolean`; `failures?`: `IError`[]; \} \| `undefined`\>
+`Promise`\<`boolean` \| `undefined`\>
 
-Whether the payload is verified and possible verification failures, returns undefined if payload not processed.
+Whether the payload is verified, returns undefined if payload was not processed.

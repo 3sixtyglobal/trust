@@ -1,8 +1,8 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import type { IError } from "@twin.org/core";
-import { TrustVerifierFactory } from "@twin.org/trust-models";
 import type { ITrustVerifier } from "@twin.org/trust-models";
+import { TrustVerifierFactory } from "@twin.org/trust-models";
 import { TrustService } from "../src/trustService.js";
 
 describe("TrustService", () => {
@@ -31,10 +31,10 @@ describe("TrustService", () => {
 		const result = await trustService.verify({});
 		expect(result).toHaveProperty("verified");
 		expect(result).toHaveProperty("info");
-		expect(result).toHaveProperty("failures");
+		expect(result).toHaveProperty("errors");
 		expect(result.verified).toEqual(false);
 		expect(result.info).toBeUndefined();
-		expect(result.failures).toBeUndefined();
+		expect(result.errors).toBeUndefined();
 	});
 
 	test("verify handles invalid payload gracefully", async () => {
@@ -45,11 +45,10 @@ describe("TrustService", () => {
 
 	test("verify with mock verifier returns true", async () => {
 		const mockVerifier: ITrustVerifier = {
-			verify: async (payload: unknown) => ({
-				verified: true,
-				info: [{ mock: "info" }],
-				failures: []
-			}),
+			verify: async (payload: unknown, info, errors) => {
+				info.push({ mock: "info" });
+				return true;
+			},
 			className: () => "MockVerifier"
 		};
 		TrustVerifierFactory.register("mockVerifier", () => mockVerifier);
@@ -57,18 +56,22 @@ describe("TrustService", () => {
 		const trustService = new TrustService();
 		const result = await trustService.verify({ test: "payload" });
 		expect(result.verified).toBe(true);
-		expect(result.failures).toBeUndefined();
+		expect(result.errors).toBeUndefined();
 
 		TrustVerifierFactory.unregister("mockVerifier");
 	});
 
-	test("verify with failing verifier returns false and failures", async () => {
-		const failError: IError = { name: "FailError", message: "Failed" };
+	test("verify with failing verifier returns false and errors", async () => {
+		const failError: IError = {
+			name: "MockError",
+			source: "Mock",
+			message: "Failed"
+		};
 		const failVerifier: ITrustVerifier = {
-			verify: async (payload: unknown) => ({
-				verified: false,
-				failures: [failError]
-			}),
+			verify: async (payload: unknown, info, errors) => {
+				errors.push(failError);
+				return false;
+			},
 			className: () => "FailVerifier"
 		};
 		TrustVerifierFactory.register("failVerifier", () => failVerifier);
@@ -77,7 +80,7 @@ describe("TrustService", () => {
 		const result = await trustService.verify({ test: "payload" });
 		expect(result.verified).toBe(false);
 		expect(result.info).toBeUndefined();
-		expect(result.failures?.failVerifier).toEqual([failError]);
+		expect(result.errors).toEqual([failError]);
 
 		TrustVerifierFactory.unregister("failVerifier");
 	});

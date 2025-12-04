@@ -44,7 +44,7 @@ export class TrustService implements ITrustComponent {
 	 * Verify a payload by checking the validity of its structure and content using the registered verifiers.
 	 * @param payload The payload to verify.
 	 * @param overrideVerifiers List of verifiers to use instead of the default ones.
-	 * @returns Whether the payload is verified and any additional information extracted from the payload, or failures per verifier.
+	 * @returns Whether the payload is verified and any additional information extracted from the payload, or verification errors.
 	 */
 	public async verify(
 		payload: unknown,
@@ -52,12 +52,12 @@ export class TrustService implements ITrustComponent {
 	): Promise<{
 		verified: boolean;
 		info?: IJsonLdNodeObject[];
-		failures?: { [id: string]: IError[] };
+		errors?: IError[];
 	}> {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();
 		let verified = false;
 		const info: IJsonLdNodeObject[] = [];
-		const failures: { [id: string]: IError[] } = {};
+		const errors: IError[] = [];
 
 		await this._loggingComponent?.log({
 			level: "info",
@@ -71,14 +71,10 @@ export class TrustService implements ITrustComponent {
 
 		for (const verifierName of verifierNames) {
 			const verifier = TrustVerifierFactory.get(verifierName);
-			const verifierResult = await verifier.verify(payload, info);
+			const verifierResult = await verifier.verify(payload, info, errors);
 
-			if (Is.object(verifierResult)) {
-				verified = verifierResult.verified;
-
-				if (Is.arrayValue(verifierResult.failures)) {
-					failures[verifierName] = verifierResult.failures;
-				}
+			if (!Is.empty(verifierResult)) {
+				verified = verifierResult;
 			}
 		}
 
@@ -89,7 +85,7 @@ export class TrustService implements ITrustComponent {
 				message: "verified",
 				ts: Date.now(),
 				data: {
-					info: JSON.stringify(info)
+					info
 				}
 			});
 		} else {
@@ -99,15 +95,15 @@ export class TrustService implements ITrustComponent {
 				message: "notVerified",
 				ts: Date.now(),
 				data: {
-					failures: JSON.stringify(failures)
+					errors
 				}
 			});
 		}
 
 		return {
 			verified,
-			info: Is.arrayValue(info) ? info : undefined,
-			failures: Is.objectValue(failures) ? failures : undefined
+			info: info.length > 0 ? info : undefined,
+			errors: errors.length > 0 ? errors : undefined
 		};
 	}
 }

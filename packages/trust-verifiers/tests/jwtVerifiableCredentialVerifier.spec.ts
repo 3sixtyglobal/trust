@@ -46,8 +46,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
 		const info: IJsonLdNodeObject[] = [];
-		const result = await verifier.verify(token, info);
-		expect(result?.verified).toBe(true);
+		const errors: IError[] = [];
+		const result = await verifier.verify(token, info, errors);
+		expect(result).toBe(true);
 		expect(info).toEqual([
 			{ credentialSubject: { id: "subject" }, issuer: "issuer" },
 			{ id: "subject" }
@@ -73,9 +74,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
 		const info: IJsonLdNodeObject[] = [];
-		const result = await verifier.verify(token, info);
-		expect(result?.verified).toBe(false);
-		expect(result?.failures?.some((f: IError) => f.message?.includes("tokenExpired"))).toBe(true);
+		const errors: IError[] = [];
+		const result = await verifier.verify(token, info, errors);
+		expect(result).toBe(false);
+		expect(errors.some((f: IError) => f.message?.includes("tokenExpired"))).toBe(true);
 	});
 
 	it("should fail verification for missing credential", async () => {
@@ -94,11 +96,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
 		const info: IJsonLdNodeObject[] = [];
-		const result = await verifier.verify(token, info);
-		expect(result?.verified).toBe(false);
-		expect(
-			result?.failures?.some((f: IError) => f.message?.includes("tokenMissingCredential"))
-		).toBe(true);
+		const errors: IError[] = [];
+		const result = await verifier.verify(token, info, errors);
+		expect(result).toBe(false);
+		expect(errors.some((f: IError) => f.message?.includes("tokenMissingCredential"))).toBe(true);
 	});
 
 	it("should fail verification for missing issuer", async () => {
@@ -120,11 +121,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
 		const info: IJsonLdNodeObject[] = [];
-		const result = await verifier.verify(token, info);
-		expect(result?.verified).toBe(false);
-		expect(result?.failures?.some((f: IError) => f.message?.includes("tokenMissingIssuer"))).toBe(
-			true
-		);
+		const errors: IError[] = [];
+		const result = await verifier.verify(token, info, errors);
+		expect(result).toBe(false);
+		expect(errors.some((f: IError) => f.message?.includes("tokenMissingIssuer"))).toBe(true);
 	});
 
 	it("should fail verification for missing subject", async () => {
@@ -146,10 +146,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
 		const info: IJsonLdNodeObject[] = [];
-		const result = await verifier.verify(token, info);
-		expect(result?.verified).toBe(false);
-		expect(result?.failures?.some((f: IError) => f.message?.includes("tokenMissingSubject"))).toBe(
-			true
-		);
+		const errors: IError[] = [];
+		const result = await verifier.verify(token, info, errors);
+		expect(result).toBe(false);
+		expect(errors.some((f: IError) => f.message?.includes("tokenMissingSubject"))).toBe(true);
 	});
 });

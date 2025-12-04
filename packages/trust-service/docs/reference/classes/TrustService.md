@@ -56,7 +56,7 @@ The class name of the component.
 
 ### verify()
 
-> **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: \{\[`id`: `string`\]: `IError`[]; \}; \}\>
+> **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `errors?`: `IError`[]; \}\>
 
 Verify a payload by checking the validity of its structure and content using the registered verifiers.
 
@@ -76,9 +76,9 @@ List of verifiers to use instead of the default ones.
 
 #### Returns
 
-`Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: \{\[`id`: `string`\]: `IError`[]; \}; \}\>
+`Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `errors?`: `IError`[]; \}\>
 
-Whether the payload is verified and any additional information extracted from the payload, or failures per verifier.
+Whether the payload is verified and any additional information extracted from the payload, or verification errors.
 
 #### Implementation of
 
