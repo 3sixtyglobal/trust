@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.5](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.4...trust-verifiers-v0.0.3-next.5) (2025-12-04)
+
+
+### Miscellaneous Chores
+
+* **trust-verifiers:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.4 to 0.0.3-next.5
+
 ## [0.0.3-next.4](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.3...trust-verifiers-v0.0.3-next.4) (2025-12-04)
 
 

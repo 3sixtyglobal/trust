@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.5](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.4...trust-models-v0.0.3-next.5) (2025-12-04)
+
+
+### Features
+
+* add default generator config ([54d98ba](https://github.com/twinfoundation/trust/commit/54d98ba53b7450b56337daeda504437be0d21943))
+
 ## [0.0.3-next.4](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.3...trust-models-v0.0.3-next.4) (2025-12-04)
 
 

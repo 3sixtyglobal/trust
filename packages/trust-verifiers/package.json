@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/trust-verifiers",
-	"version": "0.0.3-next.4",
+	"version": "0.0.3-next.5",
 	"description": "Verifiers for trust",
 	"repository": {
 		"type": "git",
@@ -32,7 +32,7 @@
 		"@twin.org/identity-models": "next",
 		"@twin.org/logging-models": "next",
 		"@twin.org/nameof": "next",
-		"@twin.org/trust-models": "0.0.3-next.4",
+		"@twin.org/trust-models": "0.0.3-next.5",
 		"@twin.org/web": "next"
 	},
 	"devDependencies": {

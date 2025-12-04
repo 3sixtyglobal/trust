@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.5](https://github.com/twinfoundation/trust/compare/trust-generators-v0.0.3-next.4...trust-generators-v0.0.3-next.5) (2025-12-04)
+
+
+### Features
+
+* add default generator config ([54d98ba](https://github.com/twinfoundation/trust/commit/54d98ba53b7450b56337daeda504437be0d21943))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.4 to 0.0.3-next.5
+
 ## [0.0.3-next.4](https://github.com/twinfoundation/trust/compare/trust-generators-v0.0.3-next.3...trust-generators-v0.0.3-next.4) (2025-12-04)
 
 
