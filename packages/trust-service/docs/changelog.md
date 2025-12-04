@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.3](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.2...trust-service-v0.0.3-next.3) (2025-12-04)
+
+
+### Features
+
+* flatten error structure ([5fdd665](https://github.com/twinfoundation/trust/commit/5fdd665d0fc523a655563a0c20d1d82b634534e2))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.2 to 0.0.3-next.3
+
 ## [0.0.3-next.2](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.1...trust-service-v0.0.3-next.2) (2025-12-03)
 
 
