@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.7](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.6...trust-service-v0.0.3-next.7) (2025-12-04)
+
+
+### Miscellaneous Chores
+
+* **trust-service:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.6 to 0.0.3-next.7
+
 ## [0.0.3-next.6](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.5...trust-service-v0.0.3-next.6) (2025-12-04)
 
 

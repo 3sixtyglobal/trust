@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.7](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.6...trust-models-v0.0.3-next.7) (2025-12-04)
+
+
+### Features
+
+* guarantee identity in helper return value ([8a582f3](https://github.com/twinfoundation/trust/commit/8a582f32125365a414dbd61c28dd870fb60d3acb))
+
 ## [0.0.3-next.6](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.5...trust-models-v0.0.3-next.6) (2025-12-04)
 
 
