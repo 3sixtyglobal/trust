@@ -1,11 +1,11 @@
 {
-	"name": "@twin.org/trust-verifiers",
+	"name": "@twin.org/trust-generators",
 	"version": "0.0.3-next.3",
-	"description": "Verifiers for trust",
+	"description": "Generators for trust",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/twinfoundation/trust.git",
-		"directory": "packages/trust-verifiers"
+		"directory": "packages/trust-generators"
 	},
 	"author": "martyn.janes@iota.org",
 	"license": "Apache-2.0",
@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@twin.org/core": "next",
+		"@twin.org/data-json-ld": "next",
 		"@twin.org/identity-models": "next",
 		"@twin.org/logging-models": "next",
 		"@twin.org/nameof": "next",
@@ -72,7 +73,7 @@
 		"framework",
 		"blockchain",
 		"trust",
-		"verifiers",
+		"generators",
 		"types",
 		"schemas"
 	],

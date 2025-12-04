@@ -1,10 +1,13 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory, type IError, Is } from "@twin.org/core";
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { ComponentFactory, Guards, Is, type IError } from "@twin.org/core";
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { TrustVerifierFactory, type ITrustComponent } from "@twin.org/trust-models";
+import {
+	TrustGeneratorFactory,
+	TrustVerifierFactory,
+	type ITrustComponent
+} from "@twin.org/trust-models";
 import type { ITrustServiceConstructorOptions } from "./models/ITrustServiceConstructorOptions.js";
 
 /**
@@ -51,12 +54,14 @@ export class TrustService implements ITrustComponent {
 		overrideVerifiers?: string[]
 	): Promise<{
 		verified: boolean;
-		info?: IJsonLdNodeObject[];
+		info?: {
+			[key: string]: unknown;
+		};
 		errors?: IError[];
 	}> {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();
 		let verified = false;
-		const info: IJsonLdNodeObject[] = [];
+		const info: { [key: string]: unknown } = {};
 		const errors: IError[] = [];
 
 		await this._loggingComponent?.log({
@@ -102,8 +107,27 @@ export class TrustService implements ITrustComponent {
 
 		return {
 			verified,
-			info: info.length > 0 ? info : undefined,
+			info: Object.keys(info).length > 0 ? info : undefined,
 			errors: errors.length > 0 ? errors : undefined
 		};
+	}
+
+	/**
+	 * Generate a payload using the specified generators.
+	 * @param generatorType The type of generator to use.
+	 * @param info Optional information to include in the generated payload.
+	 * @returns The generated payload.
+	 */
+	public async generate(
+		generatorType: string,
+		info?: {
+			[key: string]: unknown;
+		}
+	): Promise<unknown> {
+		Guards.stringValue(TrustService.CLASS_NAME, nameof(generatorType), generatorType);
+
+		const generator = TrustGeneratorFactory.get(generatorType);
+
+		return generator.generate(info);
 	}
 }

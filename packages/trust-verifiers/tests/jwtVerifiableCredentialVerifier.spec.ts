@@ -1,7 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { ComponentFactory, type IError } from "@twin.org/core";
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import { type IJwtHeader, Jwt } from "@twin.org/web";
 import { describe, it, expect, vi, beforeEach } from "vitest";
@@ -45,14 +44,66 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: IJsonLdNodeObject[] = [];
+		const info: { [id: string]: unknown } = {};
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(true);
-		expect(info).toEqual([
-			{ credentialSubject: { id: "subject" }, issuer: "issuer" },
-			{ id: "subject" }
-		]);
+		expect(info.credentialSubject).toEqual({
+			id: "subject"
+		});
+		expect(info.jwtHeader).toEqual({
+			alg: "EdDSA",
+			typ: "JWT"
+		});
+		expect(info.jwtPayload).toEqual({
+			exp: expect.any(Number)
+		});
+		expect(info.verifiableCredential).toEqual({
+			credentialSubject: {
+				id: "subject"
+			},
+			issuer: "issuer"
+		});
+	});
+
+	it("should verify a valid JWT with no expiration", async () => {
+		const payload = {
+			header: { alg: "EdDSA" },
+			payload: {}
+		};
+		const token = await Jwt.encodeWithSigner(
+			payload.header as IJwtHeader,
+			payload.payload,
+			async (signHeader, signPayload) =>
+				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
+		);
+		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async jwtString => ({
+			verifiableCredential: {
+				issuer: "issuer",
+				credentialSubject: { id: "subject" }
+			}
+		}));
+		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
+		const info: { [id: string]: unknown } = {};
+		const errors: IError[] = [];
+		const result = await verifier.verify(token, info, errors);
+		expect(result).toBe(true);
+		expect(info.credentialSubject).toEqual({
+			id: "subject"
+		});
+		expect(info.jwtHeader).toEqual({
+			alg: "EdDSA",
+			typ: "JWT"
+		});
+		expect(info.jwtPayload).toEqual({
+			exp: undefined
+		});
+		expect(info.verifiableCredential).toEqual({
+			credentialSubject: {
+				id: "subject"
+			},
+			issuer: "issuer"
+		});
 	});
 
 	it("should fail verification for expired JWT", async () => {
@@ -73,7 +124,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: IJsonLdNodeObject[] = [];
+		const info: { [id: string]: unknown } = {};
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);
@@ -95,7 +146,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			verifiableCredential: undefined
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: IJsonLdNodeObject[] = [];
+		const info: { [id: string]: unknown } = {};
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);
@@ -120,7 +171,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: IJsonLdNodeObject[] = [];
+		const info: { [id: string]: unknown } = {};
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);
@@ -145,7 +196,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: IJsonLdNodeObject[] = [];
+		const info: { [id: string]: unknown } = {};
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);

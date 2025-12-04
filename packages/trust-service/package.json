@@ -28,7 +28,6 @@
 		"dist:no-test": "npm run clean && npm run build && npm run test:build && npm run docs"
 	},
 	"dependencies": {
-		"@twin.org/data-json-ld": "next",
 		"@twin.org/core": "next",
 		"@twin.org/logging-models": "next",
 		"@twin.org/nameof": "next",

@@ -1,7 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import type { IComponent, IError } from "@twin.org/core";
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
 
 /**
  * Interface describing a trust verifier component.
@@ -16,7 +15,9 @@ export interface ITrustVerifier extends IComponent {
 	 */
 	verify(
 		payload: unknown,
-		info: IJsonLdNodeObject[],
+		info: {
+			[key: string]: unknown;
+		},
 		errors: IError[]
 	): Promise<boolean | undefined>;
 }

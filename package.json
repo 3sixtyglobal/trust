@@ -54,6 +54,7 @@
 	"workspaces": [
 		"packages/trust-models",
 		"packages/trust-service",
+		"packages/trust-generators",
 		"packages/trust-verifiers"
 	],
 	"type": "module",

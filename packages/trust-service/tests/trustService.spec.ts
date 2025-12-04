@@ -46,7 +46,7 @@ describe("TrustService", () => {
 	test("verify with mock verifier returns true", async () => {
 		const mockVerifier: ITrustVerifier = {
 			verify: async (payload: unknown, info, errors) => {
-				info.push({ mock: "info" });
+				info.mock = "info";
 				return true;
 			},
 			className: () => "MockVerifier"

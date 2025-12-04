@@ -70,8 +70,6 @@ The payload to verify.
 
 ##### info
 
-`IJsonLdNodeObject`[]
-
 Information extracted from previous verifiers and to be added by this verifier.
 
 ##### errors

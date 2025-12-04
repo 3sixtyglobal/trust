@@ -18,6 +18,10 @@
 			"package-name": "trust-service",
 			"changelog-path": "docs/changelog.md"
 		},
+		"packages/trust-generators": {
+			"package-name": "trust-generators",
+			"changelog-path": "docs/changelog.md"
+		},
 		"packages/trust-verifiers": {
 			"package-name": "trust-verifiers",
 			"changelog-path": "docs/changelog.md"
@@ -31,6 +35,7 @@
 			"components": [
 				"trust-models",
 				"trust-service",
+				"trust-generators",
 				"trust-verifiers"
 			]
 		}
