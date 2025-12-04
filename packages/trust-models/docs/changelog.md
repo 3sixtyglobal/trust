@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.6](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.5...trust-models-v0.0.3-next.6) (2025-12-04)
+
+
+### Features
+
+* always include identity in verification info ([9594d19](https://github.com/twinfoundation/trust/commit/9594d19e9d718bd42b82964750ae3bcfb7df51bf))
+
 ## [0.0.3-next.5](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.4...trust-models-v0.0.3-next.5) (2025-12-04)
 
 
