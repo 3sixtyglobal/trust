@@ -1,6 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { UnauthorizedError } from "@twin.org/core";
+import { Is, UnauthorizedError } from "@twin.org/core";
 import { nameof } from "@twin.org/nameof";
 import type { ITrustComponent } from "../models/ITrustComponent.js";
 import type { ITrustVerificationInfo } from "../models/ITrustVerificationInfo.js";
@@ -27,9 +27,9 @@ export class TrustHelper {
 		trustPayload: unknown,
 		action: string,
 		overrideVerifiers?: string[]
-	): Promise<ITrustVerificationInfo | undefined> {
+	): Promise<ITrustVerificationInfo> {
 		const trustResult = await component.verify(trustPayload, overrideVerifiers);
-		if (!trustResult.verified) {
+		if (!trustResult.verified || !Is.stringValue(trustResult.info?.identity)) {
 			throw new UnauthorizedError(TrustHelper.CLASS_NAME, "trustVerifyFailed", {
 				action,
 				errors: trustResult.errors
