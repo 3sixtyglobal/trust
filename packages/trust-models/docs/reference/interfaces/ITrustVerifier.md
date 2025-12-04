@@ -24,6 +24,8 @@ The payload to verify.
 
 ##### info
 
+[`ITrustVerificationInfo`](ITrustVerificationInfo.md)
+
 Information extracted from previous verifiers and to be added by this verifier.
 
 ##### errors

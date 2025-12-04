@@ -3,6 +3,7 @@
 import { UnauthorizedError } from "@twin.org/core";
 import { nameof } from "@twin.org/nameof";
 import type { ITrustComponent } from "../models/ITrustComponent.js";
+import type { ITrustVerificationInfo } from "../models/ITrustVerificationInfo.js";
 
 /**
  * Helper class for trust-related operations.
@@ -26,7 +27,7 @@ export class TrustHelper {
 		trustPayload: unknown,
 		action: string,
 		overrideVerifiers?: string[]
-	): Promise<{ [key: string]: unknown } | undefined> {
+	): Promise<ITrustVerificationInfo | undefined> {
 		const trustResult = await component.verify(trustPayload, overrideVerifiers);
 		if (!trustResult.verified) {
 			throw new UnauthorizedError(TrustHelper.CLASS_NAME, "trustVerifyFailed", {

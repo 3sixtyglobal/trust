@@ -4,6 +4,7 @@ import { ComponentFactory, GeneralError, Guards, Is, type IError } from "@twin.o
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import {
+	type ITrustVerificationInfo,
 	TrustGeneratorFactory,
 	TrustVerifierFactory,
 	type ITrustComponent
@@ -64,12 +65,13 @@ export class TrustService implements ITrustComponent {
 		verified: boolean;
 		info?: {
 			[key: string]: unknown;
+			identity: string;
 		};
 		errors?: IError[];
 	}> {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();
 		let verified = false;
-		const info: { [key: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 
 		await this._loggingComponent?.log({
@@ -115,7 +117,7 @@ export class TrustService implements ITrustComponent {
 
 		return {
 			verified,
-			info: Object.keys(info).length > 0 ? info : undefined,
+			info: info.identity.length > 0 ? info : undefined,
 			errors: errors.length > 0 ? errors : undefined
 		};
 	}

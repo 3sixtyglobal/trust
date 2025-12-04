@@ -70,6 +70,8 @@ The payload to verify.
 
 ##### info
 
+`ITrustVerificationInfo`
+
 Information extracted from previous verifiers and to be added by this verifier.
 
 ##### errors

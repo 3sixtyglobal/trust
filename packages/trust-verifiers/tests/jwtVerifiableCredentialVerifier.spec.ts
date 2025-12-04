@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { ComponentFactory, type IError } from "@twin.org/core";
 import type { IIdentityComponent } from "@twin.org/identity-models";
+import type { ITrustVerificationInfo } from "@twin.org/trust-models";
 import { type IJwtHeader, Jwt } from "@twin.org/web";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { JwtVerifiableCredentialVerifier } from "../src/verifiers/jwtVerifiableCredentialVerifier.js";
@@ -44,7 +45,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: { [id: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(true);
@@ -84,7 +85,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: { [id: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(true);
@@ -124,7 +125,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: { [id: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);
@@ -146,7 +147,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			verifiableCredential: undefined
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: { [id: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);
@@ -171,7 +172,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: { [id: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);
@@ -196,7 +197,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
-		const info: { [id: string]: unknown } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(false);

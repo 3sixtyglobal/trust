@@ -4,7 +4,7 @@ import { BaseError, Coerce, ComponentFactory, GeneralError, Is, type IError } fr
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import type { ITrustVerifier } from "@twin.org/trust-models";
+import type { ITrustVerificationInfo, ITrustVerifier } from "@twin.org/trust-models";
 import { Jwt } from "@twin.org/web";
 import type { IJwtVerifiableCredentialVerifierConstructorOptions } from "../models/IJwtVerifiableCredentialVerifierConstructorOptions.js";
 
@@ -53,14 +53,13 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	 * Verify a payload by checking the validity of its structure and content.
 	 * @param payload The payload to verify.
 	 * @param info Information extracted from previous verifiers and to be added by this verifier.
+	 * @param info.identity The identity associated with the payload.
 	 * @param errors Array to collect verification errors.
 	 * @returns Whether the payload is verified, returns undefined if payload was not processed.
 	 */
 	public async verify(
 		payload: unknown,
-		info: {
-			[key: string]: unknown;
-		},
+		info: ITrustVerificationInfo,
 		errors: IError[]
 	): Promise<boolean | undefined> {
 		if (Is.stringValue(payload)) {
@@ -102,6 +101,8 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingIssuer")
 						);
 						isVerified = false;
+					} else {
+						info.identity = issuer;
 					}
 
 					const subject = verifiableCredential?.credentialSubject;

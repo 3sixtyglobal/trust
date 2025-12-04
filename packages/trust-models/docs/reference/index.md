@@ -8,6 +8,7 @@
 
 - [ITrustComponent](interfaces/ITrustComponent.md)
 - [ITrustGenerator](interfaces/ITrustGenerator.md)
+- [ITrustVerificationInfo](interfaces/ITrustVerificationInfo.md)
 - [ITrustVerifier](interfaces/ITrustVerifier.md)
 
 ## Variables
