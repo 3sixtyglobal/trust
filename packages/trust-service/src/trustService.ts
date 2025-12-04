@@ -1,6 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory, Guards, Is, type IError } from "@twin.org/core";
+import { ComponentFactory, GeneralError, Guards, Is, type IError } from "@twin.org/core";
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import {
@@ -26,6 +26,12 @@ export class TrustService implements ITrustComponent {
 	private readonly _loggingComponent?: ILoggingComponent;
 
 	/**
+	 * The default generator type.
+	 * @internal
+	 */
+	private readonly _defaultGeneratorType?: string;
+
+	/**
 	 * Create a new instance of TrustService.
 	 * @param options The options for the service.
 	 */
@@ -33,6 +39,8 @@ export class TrustService implements ITrustComponent {
 		this._loggingComponent = ComponentFactory.getIfExists(
 			options?.loggingComponentType ?? "logging"
 		);
+
+		this._defaultGeneratorType = options?.config?.defaultGeneratorType;
 	}
 
 	/**
@@ -114,20 +122,34 @@ export class TrustService implements ITrustComponent {
 
 	/**
 	 * Generate a payload using the specified generators.
-	 * @param generatorType The type of generator to use.
+	 * @param identity The identity for which to generate the payload.
+	 * @param generatorType The type of generator to use, defaults to the default generator type or first in factory.
 	 * @param info Optional information to include in the generated payload.
 	 * @returns The generated payload.
 	 */
 	public async generate(
-		generatorType: string,
+		identity: string,
+		generatorType?: string,
 		info?: {
 			[key: string]: unknown;
 		}
 	): Promise<unknown> {
-		Guards.stringValue(TrustService.CLASS_NAME, nameof(generatorType), generatorType);
+		Guards.stringValue(TrustService.CLASS_NAME, nameof(identity), identity);
+
+		if (Is.empty(generatorType)) {
+			generatorType = this._defaultGeneratorType;
+
+			if (Is.empty(generatorType)) {
+				const names = TrustGeneratorFactory.names();
+				if (names.length === 0) {
+					throw new GeneralError(TrustService.CLASS_NAME, "noGeneratorsRegistered");
+				}
+				generatorType = names[0];
+			}
+		}
 
 		const generator = TrustGeneratorFactory.get(generatorType);
 
-		return generator.generate(info);
+		return generator.generate(identity, info);
 	}
 }

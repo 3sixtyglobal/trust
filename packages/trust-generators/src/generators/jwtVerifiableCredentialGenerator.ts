@@ -66,17 +66,17 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 
 	/**
 	 * Generate a trust payload.
+	 * @param identity The identity for which to generate the payload.
 	 * @param info Information to use in the generation.
-	 * @param info.identity The identity issuing the verifiable credential.
 	 * @param info.subject The subject of the verifiable credential.
 	 * @returns The generated payload.
 	 */
-	public async generate(info: { identity: string; subject?: IJsonLdNodeObject }): Promise<unknown> {
-		Guards.stringValue(
-			JwtVerifiableCredentialGenerator.CLASS_NAME,
-			nameof(info.identity),
-			info.identity
-		);
+	public async generate(
+		identity: string,
+		info?: { subject?: IJsonLdNodeObject }
+	): Promise<unknown> {
+		Guards.stringValue(JwtVerifiableCredentialGenerator.CLASS_NAME, nameof(identity), identity);
+
 		let expirationDate;
 
 		if (Is.integer(this._tokenTtlInSeconds)) {
@@ -85,9 +85,9 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 		}
 
 		const credential = await this._identityComponent.verifiableCredentialCreate(
-			info.identity,
-			DocumentHelper.joinId(info.identity, this._verificationMethodId),
-			info.subject ?? {},
+			identity,
+			DocumentHelper.joinId(identity, this._verificationMethodId),
+			info?.subject ?? {},
 			{
 				expirationDate
 			}

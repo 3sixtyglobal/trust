@@ -10,11 +10,17 @@ Interface describing a trust generator component.
 
 ### generate()
 
-> **generate**(`info?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `info?`): `Promise`\<`unknown`\>
 
 Generate a trust payload.
 
 #### Parameters
+
+##### identity
+
+`string`
+
+The identity for which to generate the payload.
 
 ##### info?
 

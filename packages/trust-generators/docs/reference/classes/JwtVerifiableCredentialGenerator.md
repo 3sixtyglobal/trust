@@ -56,21 +56,21 @@ The class name of the component.
 
 ### generate()
 
-> **generate**(`info`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `info?`): `Promise`\<`unknown`\>
 
 Generate a trust payload.
 
 #### Parameters
 
-##### info
-
-Information to use in the generation.
-
-###### identity
+##### identity
 
 `string`
 
-The identity issuing the verifiable credential.
+The identity for which to generate the payload.
+
+##### info?
+
+Information to use in the generation.
 
 ###### subject?
 

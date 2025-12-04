@@ -88,17 +88,23 @@ Whether the payload is verified and any additional information extracted from th
 
 ### generate()
 
-> **generate**(`generatorType`, `info?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `generatorType?`, `info?`): `Promise`\<`unknown`\>
 
 Generate a payload using the specified generators.
 
 #### Parameters
 
-##### generatorType
+##### identity
 
 `string`
 
-The type of generator to use.
+The identity for which to generate the payload.
+
+##### generatorType?
+
+`string`
+
+The type of generator to use, defaults to the default generator type or first in factory.
 
 ##### info?
 

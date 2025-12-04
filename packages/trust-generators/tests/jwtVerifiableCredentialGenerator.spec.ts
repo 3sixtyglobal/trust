@@ -44,7 +44,7 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		const mockCredential = { jwt: "jwt-token" };
 		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue(mockCredential);
 		const subject = { id: "did:example:456", foo: "bar" };
-		const result = await generator.generate({ identity: "did:example:123", subject });
+		const result = await generator.generate("did:example:123", { subject });
 		expect(mockIdentityComponent.verifiableCredentialCreate).toHaveBeenCalled();
 		expect(result).toBe(mockCredential);
 	});
@@ -56,8 +56,6 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		});
 		mockIdentityComponent.verifiableCredentialCreate.mockRejectedValue(new Error("fail"));
 		const subject = { id: "did:example:456", foo: "bar" };
-		await expect(generator.generate({ identity: "did:example:123", subject })).rejects.toThrow(
-			"fail"
-		);
+		await expect(generator.generate("did:example:123", { subject })).rejects.toThrow("fail");
 	});
 });

@@ -23,9 +23,14 @@ export interface ITrustComponent extends IComponent {
 
 	/**
 	 * Generate a payload using the specified generators.
-	 * @param generatorType The type of generator to use.
+	 * @param identity The identity for which to generate the payload.
+	 * @param generatorType The type of generator to use, defaults to the default generator type or first in factory.
 	 * @param info Optional information to include in the generated payload.
 	 * @returns The generated payload.
 	 */
-	generate(generatorType: string, info?: { [key: string]: unknown }): Promise<unknown>;
+	generate(
+		identity: string,
+		generatorType?: string,
+		info?: { [key: string]: unknown }
+	): Promise<unknown>;
 }

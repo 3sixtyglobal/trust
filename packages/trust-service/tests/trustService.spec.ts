@@ -1,18 +1,13 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IError } from "@twin.org/core";
-import type { ITrustVerifier } from "@twin.org/trust-models";
-import { TrustVerifierFactory } from "@twin.org/trust-models";
+import { Factory, type IError } from "@twin.org/core";
+import type { ITrustVerifier, ITrustGenerator } from "@twin.org/trust-models";
+import { TrustVerifierFactory, TrustGeneratorFactory } from "@twin.org/trust-models";
 import { TrustService } from "../src/trustService.js";
 
 describe("TrustService", () => {
 	beforeEach(() => {
-		if (TrustVerifierFactory.names().includes("mockVerifier")) {
-			TrustVerifierFactory.unregister("mockVerifier");
-		}
-		if (TrustVerifierFactory.names().includes("failVerifier")) {
-			TrustVerifierFactory.unregister("failVerifier");
-		}
+		Factory.clearFactories();
 	});
 
 	test("can construct with dependencies", async () => {
@@ -83,5 +78,65 @@ describe("TrustService", () => {
 		expect(result.errors).toEqual([failError]);
 
 		TrustVerifierFactory.unregister("failVerifier");
+	});
+
+	test("generate returns payload from mock generator", async () => {
+		const mockPayload = { success: true };
+		const mockGenerator: ITrustGenerator = {
+			generate: async (identity: string, info?: { [key: string]: unknown }) => ({
+				...mockPayload,
+				identity,
+				info
+			}),
+			className: () => "MockGenerator"
+		};
+		TrustGeneratorFactory.register("mockGenerator", () => mockGenerator);
+
+		const trustService = new TrustService();
+		const result = await trustService.generate("test-id", "mockGenerator", { foo: "bar" });
+		expect(result).toMatchObject({ success: true, identity: "test-id", info: { foo: "bar" } });
+
+		TrustGeneratorFactory.unregister("mockGenerator");
+	});
+
+	test("generate throws error if no generators registered", async () => {
+		// Unregister all generators
+		const names = TrustGeneratorFactory.names();
+		names.forEach(name => TrustGeneratorFactory.unregister(name));
+
+		const trustService = new TrustService();
+		await expect(trustService.generate("test-id")).rejects.toThrow(/noGeneratorsRegistered/);
+	});
+
+	test("generate uses first registered generator if type not provided", async () => {
+		const mockPayload = { ok: true };
+		const mockGenerator: ITrustGenerator = {
+			generate: async (identity: string, info?: { [key: string]: unknown }) => ({
+				...mockPayload,
+				identity
+			}),
+			className: () => "MockGenerator"
+		};
+		TrustGeneratorFactory.register("mockGenerator", () => mockGenerator);
+
+		const trustService = new TrustService();
+		const result = await trustService.generate("default-id");
+		expect(result).toMatchObject({ ok: true, identity: "default-id" });
+
+		TrustGeneratorFactory.unregister("mockGenerator");
+	});
+
+	test("generate throws error for invalid identity", async () => {
+		const mockGenerator: ITrustGenerator = {
+			generate: async (_identity: string, _info?: { [key: string]: unknown }) => ({}),
+			className: () => "MockGenerator"
+		};
+		TrustGeneratorFactory.register("mockGenerator", () => mockGenerator);
+
+		const trustService = new TrustService();
+		// Pass empty string instead of undefined to trigger validation error
+		await expect(trustService.generate("", "mockGenerator")).rejects.toThrow();
+
+		TrustGeneratorFactory.unregister("mockGenerator");
 	});
 });

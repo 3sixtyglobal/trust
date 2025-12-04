@@ -15,3 +15,11 @@ The logging component type.
 ```ts
 logging
 ```
+
+***
+
+### config?
+
+> `optional` **config**: [`ITrustServiceConfig`](ITrustServiceConfig.md)
+
+The trust service configuration.
