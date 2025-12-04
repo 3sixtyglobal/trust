@@ -1,6 +1,6 @@
 {
-	"packages/trust-models": "0.0.3-next.5",
-	"packages/trust-service": "0.0.3-next.5",
-	"packages/trust-generators": "0.0.3-next.5",
-	"packages/trust-verifiers": "0.0.3-next.5"
+	"packages/trust-models": "0.0.3-next.6",
+	"packages/trust-service": "0.0.3-next.6",
+	"packages/trust-generators": "0.0.3-next.6",
+	"packages/trust-verifiers": "0.0.3-next.6"
 }

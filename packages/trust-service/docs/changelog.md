@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.6](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.5...trust-service-v0.0.3-next.6) (2025-12-04)
+
+
+### Features
+
+* always include identity in verification info ([9594d19](https://github.com/twinfoundation/trust/commit/9594d19e9d718bd42b82964750ae3bcfb7df51bf))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.5 to 0.0.3-next.6
+
 ## [0.0.3-next.5](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.4...trust-service-v0.0.3-next.5) (2025-12-04)
 
 
