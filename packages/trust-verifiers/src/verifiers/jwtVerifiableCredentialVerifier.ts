@@ -1,6 +1,7 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
 import { BaseError, Coerce, ComponentFactory, GeneralError, Is, type IError } from "@twin.org/core";
+import { JsonLdHelper } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
@@ -66,10 +67,6 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 			const jwt = await Jwt.decode(payload);
 
 			if (Is.objectValue(jwt.header) && Is.object(jwt.payload) && Is.uint8Array(jwt.signature)) {
-				info.jwtHeader = jwt.header;
-				info.jwtPayload = jwt.payload;
-				info.jwtSignature = jwt.signature;
-
 				let isVerified = true;
 				try {
 					const expiredMs = (Coerce.number(jwt.payload.exp) ?? 0) * 1000;
@@ -90,7 +87,8 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 						);
 						isVerified = false;
 					} else {
-						info.verifiableCredential = verifiableCredential;
+						info.data ??= {};
+						info.data.verifiableCredential = JsonLdHelper.toNodeObject(verifiableCredential);
 					}
 
 					const issuer: string | undefined = Is.stringValue(verifiableCredential?.issuer)
@@ -112,7 +110,8 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 						);
 						isVerified = false;
 					} else {
-						info.credentialSubject = subject;
+						info.data ??= {};
+						info.data.subject = JsonLdHelper.toNodeObject(subject);
 					}
 				} catch (err) {
 					isVerified = false;

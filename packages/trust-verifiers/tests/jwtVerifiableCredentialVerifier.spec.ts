@@ -49,17 +49,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(true);
-		expect(info.credentialSubject).toEqual({
+		expect(info.data?.subject).toEqual({
 			id: "subject"
 		});
-		expect(info.jwtHeader).toEqual({
-			alg: "EdDSA",
-			typ: "JWT"
-		});
-		expect(info.jwtPayload).toEqual({
-			exp: expect.any(Number)
-		});
-		expect(info.verifiableCredential).toEqual({
+		expect(info.data?.verifiableCredential).toEqual({
 			credentialSubject: {
 				id: "subject"
 			},
@@ -89,17 +82,10 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		const errors: IError[] = [];
 		const result = await verifier.verify(token, info, errors);
 		expect(result).toBe(true);
-		expect(info.credentialSubject).toEqual({
+		expect(info.data?.subject).toEqual({
 			id: "subject"
 		});
-		expect(info.jwtHeader).toEqual({
-			alg: "EdDSA",
-			typ: "JWT"
-		});
-		expect(info.jwtPayload).toEqual({
-			exp: undefined
-		});
-		expect(info.verifiableCredential).toEqual({
+		expect(info.data?.verifiableCredential).toEqual({
 			credentialSubject: {
 				id: "subject"
 			},

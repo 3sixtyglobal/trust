@@ -41,7 +41,13 @@ describe("TrustService", () => {
 	test("verify with mock verifier returns true", async () => {
 		const mockVerifier: ITrustVerifier = {
 			verify: async (payload: unknown, info, errors) => {
-				info.mock = "info";
+				info.identity = "did:test:123456";
+				info.data ??= {};
+				info.data.person = {
+					"@context": "https://scheme.org",
+					"@type": "Person",
+					name: "John Doe"
+				};
 				return true;
 			},
 			className: () => "MockVerifier"

@@ -63,10 +63,7 @@ export class TrustService implements ITrustComponent {
 		overrideVerifiers?: string[]
 	): Promise<{
 		verified: boolean;
-		info?: {
-			[key: string]: unknown;
-			identity: string;
-		};
+		info?: ITrustVerificationInfo;
 		errors?: IError[];
 	}> {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();

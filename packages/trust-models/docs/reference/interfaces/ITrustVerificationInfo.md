@@ -2,10 +2,6 @@
 
 Interface describing a trust verifier information.
 
-## Indexable
-
-\[`key`: `string`\]: `unknown`
-
 ## Properties
 
 ### identity
@@ -13,3 +9,15 @@ Interface describing a trust verifier information.
 > **identity**: `string`
 
 The identity associated with the payload.
+
+***
+
+### data?
+
+> `optional` **data**: `object`
+
+Additional JSON-LD node objects associated with the verification.
+
+#### Index Signature
+
+\[`key`: `string`\]: `IJsonLdNodeObject`
