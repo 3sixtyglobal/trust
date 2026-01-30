@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.8](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.7...trust-service-v0.0.3-next.8) (2026-01-30)
+
+
+### Features
+
+* verification info structure ([#10](https://github.com/twinfoundation/trust/issues/10)) ([8b09ec8](https://github.com/twinfoundation/trust/commit/8b09ec8128214b659f427fc3a985eb8ced9ed5dc))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.7 to 0.0.3-next.8
+
 ## [0.0.3-next.7](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.6...trust-service-v0.0.3-next.7) (2025-12-04)
 
 
