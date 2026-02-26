@@ -24,7 +24,7 @@ Runtime name for the class.
 
 ### verifyTrust()
 
-> `static` **verifyTrust**(`component`, `trustPayload`, `action`, `overrideVerifiers?`): `Promise`\<[`ITrustVerificationInfo`](../interfaces/ITrustVerificationInfo.md)\>
+> `static` **verifyTrust**(`component`, `trustPayload`, `action`, `overrideVerifiers?`, `includeErrorDetails?`): `Promise`\<[`ITrustVerificationInfo`](../interfaces/ITrustVerificationInfo.md)\>
 
 Verify the trust payload for the action.
 
@@ -53,6 +53,12 @@ The action being performed.
 `string`[]
 
 List of verifiers to use instead of the default ones.
+
+##### includeErrorDetails?
+
+`boolean` = `false`
+
+Whether to include detailed error information in the exception if verification fails.
 
 #### Returns
 

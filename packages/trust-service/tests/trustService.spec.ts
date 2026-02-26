@@ -21,21 +21,31 @@ describe("TrustService", () => {
 		expect(trustService.className()).toBe(TrustService.CLASS_NAME);
 	});
 
-	test("verify returns expected structure", async () => {
+	test("verify returns noVerifiersRegistered error if no verifiers registered", async () => {
 		const trustService = new TrustService();
 		const result = await trustService.verify({});
-		expect(result).toHaveProperty("verified");
-		expect(result).toHaveProperty("info");
-		expect(result).toHaveProperty("errors");
-		expect(result.verified).toEqual(false);
+
+		expect(result.verified).toBe(false);
 		expect(result.info).toBeUndefined();
-		expect(result.errors).toBeUndefined();
+		expect(result.errors).toBeDefined();
+		expect(result.errors).toHaveLength(1);
+		expect(result.errors?.[0].message).toContain("noVerifiersRegistered");
 	});
 
 	test("verify handles invalid payload gracefully", async () => {
+		const mockVerifier: ITrustVerifier = {
+			verify: async () => false,
+			className: () => "MockVerifier"
+		};
+		TrustVerifierFactory.register("mockVerifier", () => mockVerifier);
+
 		const trustService = new TrustService();
 		const result = await trustService.verify(undefined);
 		expect(result.verified).toBe(false);
+		expect(result.info).toBeUndefined();
+		expect(result.errors).toBeUndefined();
+
+		TrustVerifierFactory.unregister("mockVerifier");
 	});
 
 	test("verify with mock verifier returns true", async () => {

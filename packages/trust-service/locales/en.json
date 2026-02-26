@@ -8,7 +8,8 @@
 	"error": {
 		"trustService": {
 			"notVerified": "Payload verification failed",
-			"noGeneratorsRegistered": "No trust generators are registered in the factory"
+			"noGeneratorsRegistered": "No trust generators are registered in the factory",
+			"noVerifiersRegistered": "No trust verifiers are registered in the factory"
 		}
 	}
 }

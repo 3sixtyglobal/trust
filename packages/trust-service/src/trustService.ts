@@ -67,6 +67,7 @@ export class TrustService implements ITrustComponent {
 		errors?: IError[];
 	}> {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();
+
 		let verified = false;
 		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
@@ -81,12 +82,16 @@ export class TrustService implements ITrustComponent {
 			}
 		});
 
-		for (const verifierName of verifierNames) {
-			const verifier = TrustVerifierFactory.get(verifierName);
-			const verifierResult = await verifier.verify(payload, info, errors);
+		if (verifierNames.length === 0) {
+			errors.push(new GeneralError(TrustService.CLASS_NAME, "noVerifiersRegistered"));
+		} else {
+			for (const verifierName of verifierNames) {
+				const verifier = TrustVerifierFactory.get(verifierName);
+				const verifierResult = await verifier.verify(payload, info, errors);
 
-			if (!Is.empty(verifierResult)) {
-				verified = verifierResult;
+				if (!Is.empty(verifierResult)) {
+					verified = verifierResult;
+				}
 			}
 		}
 
