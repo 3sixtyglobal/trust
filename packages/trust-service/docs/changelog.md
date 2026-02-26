@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.9](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.8...trust-service-v0.0.3-next.9) (2026-02-26)
+
+
+### Features
+
+* error if no verifiers registered ([aa1cef6](https://github.com/twinfoundation/trust/commit/aa1cef6a130b008144073696077fd0a41d4bc533))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.8 to 0.0.3-next.9
+
 ## [0.0.3-next.8](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.7...trust-service-v0.0.3-next.8) (2026-01-30)
 
 
