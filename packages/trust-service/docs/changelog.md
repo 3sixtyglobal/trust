@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.10](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.9...trust-service-v0.0.3-next.10) (2026-02-27)
+
+
+### Miscellaneous Chores
+
+* **trust-service:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.9 to 0.0.3-next.10
+
 ## [0.0.3-next.9](https://github.com/twinfoundation/trust/compare/trust-service-v0.0.3-next.8...trust-service-v0.0.3-next.9) (2026-02-26)
 
 

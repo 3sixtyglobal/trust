@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.10](https://github.com/twinfoundation/trust/compare/trust-generators-v0.0.3-next.9...trust-generators-v0.0.3-next.10) (2026-02-27)
+
+
+### Bug Fixes
+
+* pass correct parameters to vc create ([bca9529](https://github.com/twinfoundation/trust/commit/bca95292605720f45f1f9dd2cec34053734b2d7f))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.9 to 0.0.3-next.10
+
 ## [0.0.3-next.9](https://github.com/twinfoundation/trust/compare/trust-generators-v0.0.3-next.8...trust-generators-v0.0.3-next.9) (2026-02-26)
 
 
