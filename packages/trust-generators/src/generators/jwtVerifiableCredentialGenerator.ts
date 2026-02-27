@@ -85,12 +85,13 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 		}
 
 		const credential = await this._identityComponent.verifiableCredentialCreate(
-			identity,
 			DocumentHelper.joinId(identity, this._verificationMethodId),
+			undefined,
 			info?.subject ?? {},
 			{
 				expirationDate
-			}
+			},
+			identity
 		);
 
 		return credential;
