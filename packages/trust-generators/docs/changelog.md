@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.11](https://github.com/twinfoundation/trust/compare/trust-generators-v0.0.3-next.10...trust-generators-v0.0.3-next.11) (2026-03-04)
+
+
+### Bug Fixes
+
+* jwt verifier return just token on creation ([9778491](https://github.com/twinfoundation/trust/commit/97784917c0ce53c3908e91a0db9137f8473eadeb))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.10 to 0.0.3-next.11
+
 ## [0.0.3-next.10](https://github.com/twinfoundation/trust/compare/trust-generators-v0.0.3-next.9...trust-generators-v0.0.3-next.10) (2026-02-27)
 
 

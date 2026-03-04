@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.11](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.10...trust-models-v0.0.3-next.11) (2026-03-04)
+
+
+### Miscellaneous Chores
+
+* **trust-models:** Synchronize repo versions
+
 ## [0.0.3-next.10](https://github.com/twinfoundation/trust/compare/trust-models-v0.0.3-next.9...trust-models-v0.0.3-next.10) (2026-02-27)
 
 
