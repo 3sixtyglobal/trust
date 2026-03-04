@@ -94,6 +94,6 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 			identity
 		);
 
-		return credential;
+		return credential.jwt;
 	}
 }
