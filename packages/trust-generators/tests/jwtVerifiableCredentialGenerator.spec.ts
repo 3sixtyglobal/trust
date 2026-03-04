@@ -46,7 +46,7 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		const subject = { id: "did:example:456", foo: "bar" };
 		const result = await generator.generate("did:example:123", { subject });
 		expect(mockIdentityComponent.verifiableCredentialCreate).toHaveBeenCalled();
-		expect(result).toBe(mockCredential);
+		expect(result).toBe(mockCredential.jwt);
 	});
 
 	it("should handle errors from identity component", async () => {
