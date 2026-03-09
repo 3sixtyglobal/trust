@@ -1,7 +1,7 @@
 {
 	"name": "@twin.org/trust-models",
 	"version": "0.0.3-next.11",
-	"description": "Models which define the structure of the trust contracts",
+	"description": "Defines shared trust data models and interfaces for credentials, proofs, and trust components",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/twinfoundation/trust.git",

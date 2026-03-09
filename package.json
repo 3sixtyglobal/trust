@@ -1,7 +1,7 @@
 {
 	"name": "@twin.org/trust",
 	"version": "0.0.0",
-	"description": "Trust",
+	"description": "Trust packages for issuing, verifying, and orchestrating credential trust workflows",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/twinfoundation/trust.git"

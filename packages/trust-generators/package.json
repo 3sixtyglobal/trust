@@ -1,7 +1,7 @@
 {
 	"name": "@twin.org/trust-generators",
 	"version": "0.0.3-next.11",
-	"description": "Generators for trust",
+	"description": "Implements trust credential generators that produce signed verifiable credential artefacts",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/twinfoundation/trust.git",

@@ -1,7 +1,7 @@
 {
 	"name": "@twin.org/trust-service",
 	"version": "0.0.3-next.11",
-	"description": "Trust service implementation",
+	"description": "Provides an orchestrating trust service that composes generators and verifiers into a unified API",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/twinfoundation/trust.git",
