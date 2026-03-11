@@ -78,4 +78,4 @@
 * add verifier overrides ([bb16a35](https://github.com/twinfoundation/trust/commit/bb16a35e0d6966e050cbdcc9e32a8c78839431d4))
 * initial commit ([d378ef4](https://github.com/twinfoundation/trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
 
-## @twin.org/trust-models - Changelog
+## Changelog

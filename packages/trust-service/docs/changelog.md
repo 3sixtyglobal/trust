@@ -155,4 +155,4 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.0 to 0.0.3-next.1
 
-## @twin.org/trust-service - Changelog
+## Changelog
