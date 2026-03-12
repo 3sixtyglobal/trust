@@ -4,21 +4,15 @@ The options for the trust service.
 
 ## Properties
 
-### loggingComponentType?
+### loggingComponentType? {#loggingcomponenttype}
 
 > `optional` **loggingComponentType**: `string`
 
 The logging component type.
 
-#### Default
-
-```ts
-logging
-```
-
 ***
 
-### config?
+### config? {#config}
 
 > `optional` **config**: [`ITrustServiceConfig`](ITrustServiceConfig.md)
 

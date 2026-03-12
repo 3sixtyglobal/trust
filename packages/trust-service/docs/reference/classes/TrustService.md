@@ -28,7 +28,7 @@ The options for the service.
 
 ## Properties
 
-### CLASS\_NAME
+### CLASS\_NAME {#class_name}
 
 > `readonly` `static` **CLASS\_NAME**: `string`
 
@@ -36,7 +36,7 @@ Runtime name for the class.
 
 ## Methods
 
-### className()
+### className() {#classname}
 
 > **className**(): `string`
 
@@ -54,7 +54,7 @@ The class name of the component.
 
 ***
 
-### verify()
+### verify() {#verify}
 
 > **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `ITrustVerificationInfo`; `errors?`: `IError`[]; \}\>
 
@@ -86,7 +86,7 @@ Whether the payload is verified and any additional information extracted from th
 
 ***
 
-### generate()
+### generate() {#generate}
 
 > **generate**(`identity`, `generatorType?`, `info?`): `Promise`\<`unknown`\>
 

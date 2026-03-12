@@ -4,21 +4,15 @@ The options for the JWT Verifiable Credential Generator.
 
 ## Properties
 
-### tokenTtlInSeconds?
+### tokenTtlInSeconds? {#tokenttlinseconds}
 
 > `optional` **tokenTtlInSeconds**: `number`
 
 The time-to-live (TTL) for token in seconds.
 
-#### Default
-
-```ts
-60 (1 minute)
-```
-
 ***
 
-### verificationMethodId
+### verificationMethodId {#verificationmethodid}
 
 > **verificationMethodId**: `string`
 

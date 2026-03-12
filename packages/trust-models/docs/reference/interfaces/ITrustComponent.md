@@ -8,7 +8,7 @@ Interface describing a trust component.
 
 ## Methods
 
-### verify()
+### verify() {#verify}
 
 > **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: [`ITrustVerificationInfo`](ITrustVerificationInfo.md); `errors?`: `IError`[]; \}\>
 
@@ -36,7 +36,7 @@ Whether the payload is verified and any additional information extracted from th
 
 ***
 
-### generate()
+### generate() {#generate}
 
 > **generate**(`identity`, `generatorType?`, `info?`): `Promise`\<`unknown`\>
 

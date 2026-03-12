@@ -4,7 +4,7 @@ Interface describing a trust verifier information.
 
 ## Properties
 
-### identity
+### identity {#identity}
 
 > **identity**: `string`
 
@@ -12,7 +12,7 @@ The identity associated with the payload.
 
 ***
 
-### data?
+### data? {#data}
 
 > `optional` **data**: `object`
 

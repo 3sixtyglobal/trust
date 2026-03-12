@@ -8,7 +8,7 @@ Interface describing a trust generator component.
 
 ## Methods
 
-### generate()
+### generate() {#generate}
 
 > **generate**(`identity`, `info?`): `Promise`\<`unknown`\>
 

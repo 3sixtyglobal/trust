@@ -8,7 +8,7 @@ Interface describing a trust verifier component.
 
 ## Methods
 
-### verify()
+### verify() {#verify}
 
 > **verify**(`payload`, `info`, `errors`): `Promise`\<`boolean` \| `undefined`\>
 

@@ -4,7 +4,7 @@ The options for the trust service.
 
 ## Properties
 
-### defaultGeneratorType?
+### defaultGeneratorType? {#defaultgeneratortype}
 
 > `optional` **defaultGeneratorType**: `string`
 

@@ -14,7 +14,7 @@ Helper class for trust-related operations.
 
 ## Properties
 
-### CLASS\_NAME
+### CLASS\_NAME {#class_name}
 
 > `readonly` `static` **CLASS\_NAME**: `string`
 
@@ -22,7 +22,7 @@ Runtime name for the class.
 
 ## Methods
 
-### verifyTrust()
+### verifyTrust() {#verifytrust}
 
 > `static` **verifyTrust**(`component`, `trustPayload`, `action`, `overrideVerifiers?`, `includeErrorDetails?`): `Promise`\<[`ITrustVerificationInfo`](../interfaces/ITrustVerificationInfo.md)\>
 
