@@ -14,7 +14,7 @@ The identity associated with the payload.
 
 ### data? {#data}
 
-> `optional` **data**: `object`
+> `optional` **data?**: `object`
 
 Additional JSON-LD node objects associated with the verification.
 

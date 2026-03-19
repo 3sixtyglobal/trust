@@ -6,6 +6,6 @@ The options for the trust service.
 
 ### defaultGeneratorType? {#defaultgeneratortype}
 
-> `optional` **defaultGeneratorType**: `string`
+> `optional` **defaultGeneratorType?**: `string`
 
 The default generator type, uses first in factory if not specified.

@@ -6,9 +6,15 @@ The options for the JWT Verifiable Credential Generator.
 
 ### tokenTtlInSeconds? {#tokenttlinseconds}
 
-> `optional` **tokenTtlInSeconds**: `number`
+> `optional` **tokenTtlInSeconds?**: `number`
 
 The time-to-live (TTL) for token in seconds.
+
+#### Default
+
+```ts
+60 (1 minute)
+```
 
 ***
 
