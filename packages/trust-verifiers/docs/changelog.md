@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.0.3-next.11](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.10...trust-verifiers-v0.0.3-next.11) (2026-03-04)
+## [0.0.3-next.11](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.10...trust-verifiers-v0.0.3-next.11) (2026-03-04)
 
 
 ### Miscellaneous Chores
@@ -14,7 +14,7 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.10 to 0.0.3-next.11
 
-## [0.0.3-next.10](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.9...trust-verifiers-v0.0.3-next.10) (2026-02-27)
+## [0.0.3-next.10](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.9...trust-verifiers-v0.0.3-next.10) (2026-02-27)
 
 
 ### Miscellaneous Chores
@@ -28,7 +28,7 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.9 to 0.0.3-next.10
 
-## [0.0.3-next.9](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.8...trust-verifiers-v0.0.3-next.9) (2026-02-26)
+## [0.0.3-next.9](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.8...trust-verifiers-v0.0.3-next.9) (2026-02-26)
 
 
 ### Miscellaneous Chores
@@ -42,12 +42,12 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.8 to 0.0.3-next.9
 
-## [0.0.3-next.8](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.7...trust-verifiers-v0.0.3-next.8) (2026-01-30)
+## [0.0.3-next.8](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.7...trust-verifiers-v0.0.3-next.8) (2026-01-30)
 
 
 ### Features
 
-* verification info structure ([#10](https://github.com/twinfoundation/trust/issues/10)) ([8b09ec8](https://github.com/twinfoundation/trust/commit/8b09ec8128214b659f427fc3a985eb8ced9ed5dc))
+* verification info structure ([#10](https://github.com/iotaledger/twin-trust/issues/10)) ([8b09ec8](https://github.com/iotaledger/twin-trust/commit/8b09ec8128214b659f427fc3a985eb8ced9ed5dc))
 
 
 ### Dependencies
@@ -56,7 +56,7 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.7 to 0.0.3-next.8
 
-## [0.0.3-next.7](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.6...trust-verifiers-v0.0.3-next.7) (2025-12-04)
+## [0.0.3-next.7](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.6...trust-verifiers-v0.0.3-next.7) (2025-12-04)
 
 
 ### Miscellaneous Chores
@@ -70,12 +70,12 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.6 to 0.0.3-next.7
 
-## [0.0.3-next.6](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.5...trust-verifiers-v0.0.3-next.6) (2025-12-04)
+## [0.0.3-next.6](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.5...trust-verifiers-v0.0.3-next.6) (2025-12-04)
 
 
 ### Features
 
-* always include identity in verification info ([9594d19](https://github.com/twinfoundation/trust/commit/9594d19e9d718bd42b82964750ae3bcfb7df51bf))
+* always include identity in verification info ([9594d19](https://github.com/iotaledger/twin-trust/commit/9594d19e9d718bd42b82964750ae3bcfb7df51bf))
 
 
 ### Dependencies
@@ -84,7 +84,7 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.5 to 0.0.3-next.6
 
-## [0.0.3-next.5](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.4...trust-verifiers-v0.0.3-next.5) (2025-12-04)
+## [0.0.3-next.5](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.4...trust-verifiers-v0.0.3-next.5) (2025-12-04)
 
 
 ### Miscellaneous Chores
@@ -98,12 +98,12 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.4 to 0.0.3-next.5
 
-## [0.0.3-next.4](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.3...trust-verifiers-v0.0.3-next.4) (2025-12-04)
+## [0.0.3-next.4](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.3...trust-verifiers-v0.0.3-next.4) (2025-12-04)
 
 
 ### Features
 
-* add generators ([6228c88](https://github.com/twinfoundation/trust/commit/6228c88a8f0244b7bdfc76b8624c427c81d23f7b))
+* add generators ([6228c88](https://github.com/iotaledger/twin-trust/commit/6228c88a8f0244b7bdfc76b8624c427c81d23f7b))
 
 
 ### Dependencies
@@ -112,12 +112,12 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.3 to 0.0.3-next.4
 
-## [0.0.3-next.3](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.2...trust-verifiers-v0.0.3-next.3) (2025-12-04)
+## [0.0.3-next.3](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.2...trust-verifiers-v0.0.3-next.3) (2025-12-04)
 
 
 ### Features
 
-* flatten error structure ([5fdd665](https://github.com/twinfoundation/trust/commit/5fdd665d0fc523a655563a0c20d1d82b634534e2))
+* flatten error structure ([5fdd665](https://github.com/iotaledger/twin-trust/commit/5fdd665d0fc523a655563a0c20d1d82b634534e2))
 
 
 ### Dependencies
@@ -126,12 +126,12 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.2 to 0.0.3-next.3
 
-## [0.0.3-next.2](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.1...trust-verifiers-v0.0.3-next.2) (2025-12-03)
+## [0.0.3-next.2](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.1...trust-verifiers-v0.0.3-next.2) (2025-12-03)
 
 
 ### Features
 
-* support pass through of info between verifiers ([1ce64b9](https://github.com/twinfoundation/trust/commit/1ce64b97a949278b447cc12b576ce5de537f30f3))
+* support pass through of info between verifiers ([1ce64b9](https://github.com/iotaledger/twin-trust/commit/1ce64b97a949278b447cc12b576ce5de537f30f3))
 
 
 ### Dependencies
@@ -140,12 +140,12 @@
   * dependencies
     * @twin.org/trust-models bumped from 0.0.3-next.1 to 0.0.3-next.2
 
-## [0.0.3-next.1](https://github.com/twinfoundation/trust/compare/trust-verifiers-v0.0.3-next.0...trust-verifiers-v0.0.3-next.1) (2025-12-02)
+## [0.0.3-next.1](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.0...trust-verifiers-v0.0.3-next.1) (2025-12-02)
 
 
 ### Features
 
-* initial commit ([d378ef4](https://github.com/twinfoundation/trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
+* initial commit ([d378ef4](https://github.com/iotaledger/twin-trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
 
 
 ### Dependencies
