@@ -4,7 +4,7 @@
 	"description": "Provides an orchestrating trust service that composes generators and verifiers into a unified API",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/twinfoundation/trust.git",
+		"url": "git+https://github.com/iotaledger/trust.git",
 		"directory": "packages/trust-service"
 	},
 	"author": "martyn.janes@iota.org",
@@ -80,7 +80,7 @@
 		"business-logic"
 	],
 	"bugs": {
-		"url": "git+https://github.com/twinfoundation/trust/issues"
+		"url": "git+https://github.com/iotaledger/trust/issues"
 	},
 	"homepage": "https://twindev.org"
 }

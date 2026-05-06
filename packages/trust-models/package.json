@@ -4,7 +4,7 @@
 	"description": "Defines shared trust data models and interfaces for credentials, proofs, and trust components",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/twinfoundation/trust.git",
+		"url": "git+https://github.com/iotaledger/trust.git",
 		"directory": "packages/trust-models"
 	},
 	"author": "martyn.janes@iota.org",
@@ -74,7 +74,7 @@
 		"schemas"
 	],
 	"bugs": {
-		"url": "git+https://github.com/twinfoundation/trust/issues"
+		"url": "git+https://github.com/iotaledger/trust/issues"
 	},
 	"homepage": "https://twindev.org"
 }
