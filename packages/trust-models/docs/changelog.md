@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.12](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.11...trust-models-v0.0.3-next.12) (2026-05-11)
+
+
+### Features
+
+* typescript 6 update ([a232da2](https://github.com/iotaledger/twin-trust/commit/a232da293afbd3b42843e187e4952dabd7917397))
+
 ## [0.0.3-next.11](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.10...trust-models-v0.0.3-next.11) (2026-03-04)
 
 
