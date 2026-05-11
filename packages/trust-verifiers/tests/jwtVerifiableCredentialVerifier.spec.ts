@@ -3,8 +3,8 @@
 import { ComponentFactory, type IError } from "@twin.org/core";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import type { ITrustVerificationInfo } from "@twin.org/trust-models";
-import { type IJwtHeader, Jwt } from "@twin.org/web";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { Jwt } from "@twin.org/web";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { JwtVerifiableCredentialVerifier } from "../src/verifiers/jwtVerifiableCredentialVerifier.js";
 
 // Mock identity component
@@ -33,7 +33,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
-			payload.header as IJwtHeader,
+			payload.header,
 			payload.payload,
 			async (signHeader, signPayload) =>
 				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
@@ -66,7 +66,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			payload: {}
 		};
 		const token = await Jwt.encodeWithSigner(
-			payload.header as IJwtHeader,
+			payload.header,
 			payload.payload,
 			async (signHeader, signPayload) =>
 				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
@@ -99,7 +99,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			payload: { exp: Math.floor(Date.now() / 1000) - 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
-			payload.header as IJwtHeader,
+			payload.header,
 			payload.payload,
 			async (signHeader, signPayload) =>
 				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
@@ -124,7 +124,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
-			payload.header as IJwtHeader,
+			payload.header,
 			payload.payload,
 			async (signHeader, signPayload) =>
 				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
@@ -146,7 +146,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
-			payload.header as IJwtHeader,
+			payload.header,
 			payload.payload,
 			async (signHeader, signPayload) =>
 				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
@@ -171,7 +171,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
-			payload.header as IJwtHeader,
+			payload.header,
 			payload.payload,
 			async (signHeader, signPayload) =>
 				Jwt.defaultSigner(signHeader, signPayload, new Uint8Array(32).fill(0))
