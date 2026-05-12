@@ -4,7 +4,6 @@ import { ComponentFactory, type IError } from "@twin.org/core";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import type { ITrustVerificationInfo } from "@twin.org/trust-models";
 import { Jwt } from "@twin.org/web";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { JwtVerifiableCredentialVerifier } from "../src/verifiers/jwtVerifiableCredentialVerifier.js";
 
 // Mock identity component

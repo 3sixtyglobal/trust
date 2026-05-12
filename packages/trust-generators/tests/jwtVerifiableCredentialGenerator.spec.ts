@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0.
 import { ComponentFactory } from "@twin.org/core";
 import type { IIdentityComponent } from "@twin.org/identity-models";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { JwtVerifiableCredentialGenerator } from "../src/generators/jwtVerifiableCredentialGenerator.js";
 import type { IJwtVerifiableCredentialGeneratorConstructorOptions } from "../src/models/IJwtVerifiableCredentialGeneratorConstructorOptions.js";
 
