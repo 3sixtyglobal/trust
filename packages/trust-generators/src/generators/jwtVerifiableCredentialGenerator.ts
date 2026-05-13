@@ -21,6 +21,7 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	 * The logging component.
 	 * @internal
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-private-class-members
 	private readonly _loggingComponent?: ILoggingComponent;
 
 	/**
