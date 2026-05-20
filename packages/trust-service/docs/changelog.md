@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.13](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.12...trust-service-v0.0.3-next.13) (2026-05-20)
+
+
+### Features
+
+* update dependencies ([367d7fc](https://github.com/iotaledger/twin-trust/commit/367d7fc1f970522650c776d231bfacc84f97be67))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.12 to 0.0.3-next.13
+
 ## [0.0.3-next.12](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.11...trust-service-v0.0.3-next.12) (2026-05-11)
 
 

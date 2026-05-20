@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.13](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.12...trust-models-v0.0.3-next.13) (2026-05-20)
+
+
+### Features
+
+* update dependencies ([367d7fc](https://github.com/iotaledger/twin-trust/commit/367d7fc1f970522650c776d231bfacc84f97be67))
+
 ## [0.0.3-next.12](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.11...trust-models-v0.0.3-next.12) (2026-05-11)
 
 
