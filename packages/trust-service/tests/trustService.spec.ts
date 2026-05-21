@@ -144,7 +144,7 @@ describe("TrustService", () => {
 
 	test("generate throws error for invalid identity", async () => {
 		const mockGenerator: ITrustGenerator = {
-			generate: async (_identity: string, _info?: { [key: string]: unknown }) => ({}),
+			generate: async (identity: string, info?: { [key: string]: unknown }) => ({}),
 			className: () => "MockGenerator"
 		};
 		TrustGeneratorFactory.register("mockGenerator", () => mockGenerator);
