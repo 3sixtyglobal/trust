@@ -56,7 +56,7 @@ The class name of the component.
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `info?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `info?`, `tenantId?`, `organizationId?`): `Promise`\<`unknown`\>
 
 Generate a trust payload.
 
@@ -76,13 +76,27 @@ Information to use in the generation.
 
 `IJsonLdNodeObject`
 
-The subject of the verifiable credential.
+The subject of the verifiable credential (JSON-LD).
+
+##### tenantId?
+
+`string`
+
+Optional tenant identifier. Embedded directly in the JWT
+payload as the `tid` claim (mirroring the existing auth-service session-JWT shape).
+
+##### organizationId?
+
+`string`
+
+Optional organization identifier. Embedded directly in
+the JWT payload as the `org` claim.
 
 #### Returns
 
 `Promise`\<`unknown`\>
 
-The generated payload.
+The generated JWT.
 
 #### Implementation of
 

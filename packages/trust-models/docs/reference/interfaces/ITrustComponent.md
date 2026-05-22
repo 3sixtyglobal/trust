@@ -38,7 +38,7 @@ Whether the payload is verified and any additional information extracted from th
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `generatorType?`, `info?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `generatorType?`, `info?`, `tenantId?`, `organizationId?`): `Promise`\<`unknown`\>
 
 Generate a payload using the specified generators.
 
@@ -59,6 +59,18 @@ The type of generator to use, defaults to the default generator type or first in
 ##### info?
 
 Optional information to include in the generated payload.
+
+##### tenantId?
+
+`string`
+
+Optional tenant identifier to embed in the payload.
+
+##### organizationId?
+
+`string`
+
+Optional organization identifier to embed in the payload.
 
 #### Returns
 
