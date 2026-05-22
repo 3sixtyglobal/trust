@@ -10,7 +10,14 @@ export interface ITrustGenerator extends IComponent {
 	 * Generate a trust payload.
 	 * @param identity The identity for which to generate the payload.
 	 * @param info Information to use in the generation.
+	 * @param tenantId Optional tenant identifier to embed in the payload.
+	 * @param organizationId Optional organization identifier to embed in the payload.
 	 * @returns The generated payload.
 	 */
-	generate(identity: string, info?: { [key: string]: unknown }): Promise<unknown>;
+	generate(
+		identity: string,
+		info?: { [key: string]: unknown },
+		tenantId?: string,
+		organizationId?: string
+	): Promise<unknown>;
 }

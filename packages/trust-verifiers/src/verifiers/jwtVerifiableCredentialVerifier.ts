@@ -114,6 +114,17 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 						info.data ??= {};
 						info.data.subject = JsonLdHelper.toNodeObject(subject);
 					}
+
+					// Multi-tenancy claims (`tid`, `org`) are JWT-level fields injected via
+					// `jwtPayloadFields` by the generator.
+					const payloadTenantId = jwt.payload.tid;
+					if (Is.stringValue(payloadTenantId)) {
+						info.tenantId = payloadTenantId;
+					}
+					const payloadOrganizationId = jwt.payload.org;
+					if (Is.stringValue(payloadOrganizationId)) {
+						info.organizationId = payloadOrganizationId;
+					}
 				} catch (err) {
 					isVerified = false;
 					errors.push(

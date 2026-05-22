@@ -16,6 +16,7 @@ describe("JwtVerifiableCredentialGenerator", () => {
 			"identity",
 			() => mockIdentityComponent as unknown as IIdentityComponent
 		);
+		mockIdentityComponent.verifiableCredentialCreate.mockReset();
 	});
 
 	it("should instantiate with default options", () => {
@@ -46,6 +47,102 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		const result = await generator.generate("did:example:123", { subject });
 		expect(mockIdentityComponent.verifiableCredentialCreate).toHaveBeenCalled();
 		expect(result).toBe(mockCredential.jwt);
+	});
+
+	it("passes tenantId + organizationId as jwtPayloadFields (tid + org) to the identity connector", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate(
+			"did:example:123",
+			{ subject: { id: "did:example:456" } },
+			"tenant-a",
+			"did:iota:org-a"
+		);
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const subjectArg = calls[0][2];
+		const optionsArg = calls[0][3];
+		expect(subjectArg).toEqual({ id: "did:example:456" });
+		expect(optionsArg).toMatchObject({
+			jwtPayloadFields: {
+				tid: "tenant-a",
+				org: "did:iota:org-a"
+			}
+		});
+	});
+
+	it("passes an empty jwtPayloadFields object when neither tenantId nor organizationId is provided", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate("did:example:123", { subject: { id: "did:example:456" } });
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const optionsArg = calls[0][3];
+		expect(optionsArg.jwtPayloadFields).toEqual({});
+	});
+
+	it("includes only tid in jwtPayloadFields when only tenantId is provided", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate("did:example:123", { subject: { id: "did:example:456" } }, "tenant-a");
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const optionsArg = calls[0][3];
+		expect(optionsArg.jwtPayloadFields).toEqual({ tid: "tenant-a" });
+	});
+
+	it("includes only org in jwtPayloadFields when only organizationId is provided", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate(
+			"did:example:123",
+			{ subject: { id: "did:example:456" } },
+			undefined,
+			"did:iota:org-a"
+		);
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const optionsArg = calls[0][3];
+		expect(optionsArg.jwtPayloadFields).toEqual({ org: "did:iota:org-a" });
+	});
+
+	it("does not merge tenantId or organizationId into the credentialSubject", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate(
+			"did:example:123",
+			{ subject: { id: "did:example:456", domain: "data" } },
+			"tenant-a",
+			"did:iota:org-a"
+		);
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const subjectArg = calls[0][2];
+		expect(subjectArg).toEqual({ id: "did:example:456", domain: "data" });
+		expect(subjectArg.tenantId).toBeUndefined();
+		expect(subjectArg.organizationId).toBeUndefined();
+		expect(subjectArg.tid).toBeUndefined();
+		expect(subjectArg.org).toBeUndefined();
 	});
 
 	it("should handle errors from identity component", async () => {

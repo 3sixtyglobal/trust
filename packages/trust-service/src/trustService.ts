@@ -129,6 +129,8 @@ export class TrustService implements ITrustComponent {
 	 * @param identity The identity for which to generate the payload.
 	 * @param generatorType The type of generator to use, defaults to the default generator type or first in factory.
 	 * @param info Optional information to include in the generated payload.
+	 * @param tenantId Optional tenant identifier to embed in the payload.
+	 * @param organizationId Optional organization identifier to embed in the payload.
 	 * @returns The generated payload.
 	 */
 	public async generate(
@@ -136,7 +138,9 @@ export class TrustService implements ITrustComponent {
 		generatorType?: string,
 		info?: {
 			[key: string]: unknown;
-		}
+		},
+		tenantId?: string,
+		organizationId?: string
 	): Promise<unknown> {
 		Guards.stringValue(TrustService.CLASS_NAME, nameof(identity), identity);
 
@@ -154,6 +158,6 @@ export class TrustService implements ITrustComponent {
 
 		const generator = TrustGeneratorFactory.get(generatorType);
 
-		return generator.generate(identity, info);
+		return generator.generate(identity, info, tenantId, organizationId);
 	}
 }
