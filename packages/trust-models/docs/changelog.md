@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.14](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.13...trust-models-v0.0.3-next.14) (2026-05-22)
+
+
+### Features
+
+* add optional tenantId + organizationId to trust VC payload ([#19](https://github.com/iotaledger/twin-trust/issues/19)) ([1e93f6b](https://github.com/iotaledger/twin-trust/commit/1e93f6b0eacbfa725f3c3515d4255b39dd122ce7))
+
 ## [0.0.3-next.13](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.12...trust-models-v0.0.3-next.13) (2026-05-20)
 
 
