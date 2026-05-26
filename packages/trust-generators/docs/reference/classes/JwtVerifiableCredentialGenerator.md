@@ -56,7 +56,7 @@ The class name of the component.
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `info?`, `tenantId?`, `organizationId?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `info?`, `tenantIdHash?`, `organizationId?`): `Promise`\<`unknown`\>
 
 Generate a trust payload.
 
@@ -78,11 +78,11 @@ Information to use in the generation.
 
 The subject of the verifiable credential (JSON-LD).
 
-##### tenantId?
+##### tenantIdHash?
 
 `string`
 
-Optional tenant identifier. Embedded directly in the JWT
+Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT
 payload as the `tid` claim (mirroring the existing auth-service session-JWT shape).
 
 ##### organizationId?
