@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.15](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.14...trust-models-v0.0.3-next.15) (2026-05-26)
+
+
+### Features
+
+* add TrustHelper hashTenantId ([#22](https://github.com/iotaledger/twin-trust/issues/22)) ([1efa9dc](https://github.com/iotaledger/twin-trust/commit/1efa9dc7ef0534dbb1a789fac300409190452273))
+
 ## [0.0.3-next.14](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.13...trust-models-v0.0.3-next.14) (2026-05-22)
 
 

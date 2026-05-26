@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.15](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.14...trust-verifiers-v0.0.3-next.15) (2026-05-26)
+
+
+### Miscellaneous Chores
+
+* **trust-verifiers:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.14 to 0.0.3-next.15
+
 ## [0.0.3-next.14](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.13...trust-verifiers-v0.0.3-next.14) (2026-05-22)
 
 

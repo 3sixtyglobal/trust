@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.15](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.14...trust-generators-v0.0.3-next.15) (2026-05-26)
+
+
+### Features
+
+* add TrustHelper hashTenantId ([#22](https://github.com/iotaledger/twin-trust/issues/22)) ([1efa9dc](https://github.com/iotaledger/twin-trust/commit/1efa9dc7ef0534dbb1a789fac300409190452273))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.14 to 0.0.3-next.15
+
 ## [0.0.3-next.14](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.13...trust-generators-v0.0.3-next.14) (2026-05-22)
 
 
