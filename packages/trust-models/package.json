@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@twin.org/core": "next",
+		"@twin.org/crypto": "next",
 		"@twin.org/data-json-ld": "next",
 		"@twin.org/nameof": "next"
 	},

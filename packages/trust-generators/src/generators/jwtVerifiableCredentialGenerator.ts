@@ -70,7 +70,7 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	 * @param identity The identity for which to generate the payload.
 	 * @param info Information to use in the generation.
 	 * @param info.subject The subject of the verifiable credential (JSON-LD).
-	 * @param tenantId Optional tenant identifier. Embedded directly in the JWT
+	 * @param tenantIdHash Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT
 	 * payload as the `tid` claim (mirroring the existing auth-service session-JWT shape).
 	 * @param organizationId Optional organization identifier. Embedded directly in
 	 * the JWT payload as the `org` claim.
@@ -79,7 +79,7 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	public async generate(
 		identity: string,
 		info?: { subject?: IJsonLdNodeObject },
-		tenantId?: string,
+		tenantIdHash?: string,
 		organizationId?: string
 	): Promise<unknown> {
 		Guards.stringValue(JwtVerifiableCredentialGenerator.CLASS_NAME, nameof(identity), identity);
@@ -92,8 +92,8 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 		}
 
 		const jwtPayloadFields: { [key: string]: string } = {};
-		if (Is.stringValue(tenantId)) {
-			jwtPayloadFields.tid = tenantId;
+		if (Is.stringValue(tenantIdHash)) {
+			jwtPayloadFields.tid = tenantIdHash;
 		}
 		if (Is.stringValue(organizationId)) {
 			jwtPayloadFields.org = organizationId;
