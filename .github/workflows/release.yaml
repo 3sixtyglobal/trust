@@ -339,7 +339,7 @@ jobs:
   # Build, test, and publish each workspace package to npm.
   # Runs once per workspace pattern (max-parallel: 1 for ordered publishing).
   publish-packages:
-    name: Publish Package (${{ matrix.package }})
+    name: Publish Package (${{ matrix.package || 'phase 2 only' }})
     runs-on:
       labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
       group: ${{ github.event.repository.private && 'twin' || 'default' }}
