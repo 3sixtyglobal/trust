@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.16](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.15...trust-service-v0.0.3-next.16) (2026-05-27)
+
+
+### Features
+
+* ttl-token per generation ([#26](https://github.com/iotaledger/twin-trust/issues/26)) ([a35e925](https://github.com/iotaledger/twin-trust/commit/a35e925560d05f30dd8c02eb4184c0c503ca075a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.15 to 0.0.3-next.16
+
 ## [0.0.3-next.15](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.14...trust-service-v0.0.3-next.15) (2026-05-26)
 
 

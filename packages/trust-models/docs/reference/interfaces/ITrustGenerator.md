@@ -10,7 +10,7 @@ Interface describing a trust generator component.
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `info?`, `tenantIdHash?`, `organizationId?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `info?`, `tenantIdHash?`, `organizationId?`, `options?`): `Promise`\<`unknown`\>
 
 Generate a trust payload.
 
@@ -37,6 +37,16 @@ Optional tenant identifier to embed in the payload, should be an opaque hashed v
 `string`
 
 Optional organization identifier to embed in the payload.
+
+##### options?
+
+Per-call generation options.
+
+###### tokenTtlInSeconds
+
+`number`
+
+TTL override in seconds for this token only.
 
 #### Returns
 
