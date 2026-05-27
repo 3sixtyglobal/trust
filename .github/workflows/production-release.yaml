@@ -17,10 +17,6 @@ name: Production Release
 #             Publishing and next-branch realignment proceed automatically via
 #             the Release workflow once the release PR is merged.
 #
-# If main is already aligned with next (Versions Prepare was run recently or
-# there are no version changes), enable "Skip versions prepare" to jump straight
-# to Phase 2.
-#
 # Event-driven note: The gate jobs poll the GitHub API every 60 seconds for up
 # to 6 hours each. For repositories where holding a runner for that duration is
 # unacceptable, replace each gate job with a lightweight repository_dispatch
@@ -37,11 +33,6 @@ on:
           - '🔧 patch'
           - '✨ minor'
           - '🚀 major'
-      skipVersionsPrepare:
-        description: 'Skip versions prepare (use when main is already aligned with next)'
-        required: false
-        type: boolean
-        default: false
 
 # Only one production release may run at a time. A second trigger is queued,
 # not cancelled, so it cannot race with an in-progress release.
@@ -53,11 +44,10 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   # PHASE 1 – PREPARE MAIN
   # Runs the Versions Prepare steps inline on main and creates the alignment
-  # PR. Skipped when skipVersionsPrepare is true.
+  # PR.
   # ──────────────────────────────────────────────────────────────────────────
   prepare-main:
     name: 'Phase 1 · Prepare main branch'
-    if: ${{ !inputs.skipVersionsPrepare }}
     runs-on:
       labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
       group: ${{ github.event.repository.private && 'twin' || 'default' }}
@@ -90,7 +80,6 @@ jobs:
   gate-main-alignment:
     name: 'Gate 1 · Merge main alignment PR'
     needs: prepare-main
-    if: ${{ !inputs.skipVersionsPrepare }}
     runs-on:
       labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
       group: ${{ github.event.repository.private && 'twin' || 'default' }}
@@ -123,7 +112,7 @@ jobs:
 
             if [ "$STATE" = "CLOSED" ]; then
               echo "::error title=Gate 1 Failed::PR #$PR_NUMBER ($PR_URL) was closed without merging. Production release aborted."
-              echo "Re-run this workflow (with 'Skip versions prepare' if main is already aligned) to restart."
+              echo "Re-run this workflow to restart."
               exit 1
             fi
 
@@ -137,15 +126,11 @@ jobs:
   # PHASE 2 – PREPARE RELEASE PR
   # Maps the semver input to the release type expected by release.yaml, then
   # dispatches the Release workflow (prepare phase) and waits for the release
-  # PR to appear. Runs whether Phase 1 completed or was skipped.
+  # PR to appear.
   # ──────────────────────────────────────────────────────────────────────────
   prepare-release:
     name: 'Phase 2 · Prepare release PR'
     needs: gate-main-alignment
-    if: |
-      always() &&
-      !cancelled() &&
-      (needs.gate-main-alignment.result == 'success' || needs.gate-main-alignment.result == 'skipped')
     runs-on:
       labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
       group: ${{ github.event.repository.private && 'twin' || 'default' }}
@@ -314,11 +299,7 @@ jobs:
         run: |
           echo "## Production Release Orchestration Complete"
           echo ""
-          if [ "${{ inputs.skipVersionsPrepare }}" = "true" ]; then
-            echo "Main alignment PR:  skipped (skipVersionsPrepare=true)"
-          else
-            echo "Main alignment PR:  ${{ needs.prepare-main.outputs.pr_url }}"
-          fi
+          echo "Main alignment PR:  ${{ needs.prepare-main.outputs.pr_url }}"
           echo "Release PR:         ${{ needs.prepare-release.outputs.pr_url }}"
           echo ""
           echo "The Release workflow is now:"
