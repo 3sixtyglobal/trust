@@ -131,6 +131,9 @@ export class TrustService implements ITrustComponent {
 	 * @param info Optional information to include in the generated payload.
 	 * @param tenantId Optional tenant identifier to embed in the payload.
 	 * @param organizationId Optional organization identifier to embed in the payload.
+	 * @param options Per-call generation options.
+	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only. Takes precedence over the
+	 * config-level `tokenTtlInSeconds` when provided.
 	 * @returns The generated payload.
 	 */
 	public async generate(
@@ -140,7 +143,8 @@ export class TrustService implements ITrustComponent {
 			[key: string]: unknown;
 		},
 		tenantId?: string,
-		organizationId?: string
+		organizationId?: string,
+		options?: { tokenTtlInSeconds: number }
 	): Promise<unknown> {
 		Guards.stringValue(TrustService.CLASS_NAME, nameof(identity), identity);
 
@@ -158,6 +162,6 @@ export class TrustService implements ITrustComponent {
 
 		const generator = TrustGeneratorFactory.get(generatorType);
 
-		return generator.generate(identity, info, tenantId, organizationId);
+		return generator.generate(identity, info, tenantId, organizationId, options);
 	}
 }

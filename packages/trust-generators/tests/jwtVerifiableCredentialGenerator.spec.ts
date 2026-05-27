@@ -145,6 +145,62 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		expect(subjectArg.org).toBeUndefined();
 	});
 
+	it("uses constructor tokenTtlInSeconds when no per-call override is provided", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1", tokenTtlInSeconds: 300 }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		const before = Date.now();
+		await generator.generate("did:example:123");
+		const after = Date.now();
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const vcOptionsArg = calls[0][3];
+		const expiration: Date = vcOptionsArg.expirationDate;
+		expect(expiration).toBeInstanceOf(Date);
+		const windowTtl = 300 * 1000;
+		expect(expiration.getTime()).toBeGreaterThanOrEqual(before + windowTtl);
+		expect(expiration.getTime()).toBeLessThanOrEqual(after + windowTtl);
+	});
+
+	it("uses per-call tokenTtlInSeconds override instead of constructor default", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1", tokenTtlInSeconds: 300 }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		const before = Date.now();
+		await generator.generate("did:example:123", undefined, undefined, undefined, {
+			tokenTtlInSeconds: 60
+		});
+		const after = Date.now();
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const vcOptionsArg = calls[0][3];
+		const expiration: Date = vcOptionsArg.expirationDate;
+		expect(expiration).toBeInstanceOf(Date);
+		const windowTtl = 60 * 1000;
+		expect(expiration.getTime()).toBeGreaterThanOrEqual(before + windowTtl);
+		expect(expiration.getTime()).toBeLessThanOrEqual(after + windowTtl);
+	});
+
+	it("does not set expirationDate when no TTL is configured and no per-call override is given", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate("did:example:123");
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const vcOptionsArg = calls[0][3];
+		expect(vcOptionsArg.expirationDate).toBeUndefined();
+	});
+
 	it("should handle errors from identity component", async () => {
 		const generator = new JwtVerifiableCredentialGenerator({
 			identityComponentType: "identity",

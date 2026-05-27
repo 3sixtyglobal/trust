@@ -142,6 +142,33 @@ describe("TrustService", () => {
 		TrustGeneratorFactory.unregister("mockGenerator");
 	});
 
+	test("generate passes options.tokenTtlInSeconds through to the generator", async () => {
+		let capturedOptions: { tokenTtlInSeconds: number } | undefined;
+		const mockGenerator: ITrustGenerator = {
+			generate: async (
+				identity: string,
+				info?: { [key: string]: unknown },
+				tenantIdHash?: string,
+				organizationId?: string,
+				options?: { tokenTtlInSeconds: number }
+			) => {
+				capturedOptions = options;
+				return {};
+			},
+			className: () => "MockGenerator"
+		};
+		TrustGeneratorFactory.register("mockGenerator", () => mockGenerator);
+
+		const trustService = new TrustService();
+		await trustService.generate("test-id", "mockGenerator", undefined, undefined, undefined, {
+			tokenTtlInSeconds: 120
+		});
+
+		expect(capturedOptions).toEqual({ tokenTtlInSeconds: 120 });
+
+		TrustGeneratorFactory.unregister("mockGenerator");
+	});
+
 	test("generate throws error for invalid identity", async () => {
 		const mockGenerator: ITrustGenerator = {
 			generate: async (identity: string, info?: { [key: string]: unknown }) => ({}),

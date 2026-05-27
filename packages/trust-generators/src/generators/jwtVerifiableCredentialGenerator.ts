@@ -74,20 +74,28 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	 * payload as the `tid` claim (mirroring the existing auth-service session-JWT shape).
 	 * @param organizationId Optional organization identifier. Embedded directly in
 	 * the JWT payload as the `org` claim.
+	 * @param options Per-call generation options.
+	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only. Takes precedence over the
+	 * config-level `tokenTtlInSeconds` when provided.
 	 * @returns The generated JWT.
 	 */
 	public async generate(
 		identity: string,
 		info?: { subject?: IJsonLdNodeObject },
 		tenantIdHash?: string,
-		organizationId?: string
+		organizationId?: string,
+		options?: { tokenTtlInSeconds: number }
 	): Promise<unknown> {
 		Guards.stringValue(JwtVerifiableCredentialGenerator.CLASS_NAME, nameof(identity), identity);
 
+		const ttlInSeconds = Is.integer(options?.tokenTtlInSeconds)
+			? options.tokenTtlInSeconds
+			: this._tokenTtlInSeconds;
+
 		let expirationDate;
 
-		if (Is.integer(this._tokenTtlInSeconds)) {
-			const ttlMs = this._tokenTtlInSeconds * 1000;
+		if (Is.integer(ttlInSeconds)) {
+			const ttlMs = ttlInSeconds * 1000;
 			expirationDate = new Date(Date.now() + ttlMs);
 		}
 
