@@ -88,7 +88,7 @@ Whether the payload is verified and any additional information extracted from th
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `generatorType?`, `info?`, `tenantId?`, `organizationId?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `generatorType?`, `info?`, `tenantId?`, `organizationId?`, `options?`): `Promise`\<`unknown`\>
 
 Generate a payload using the specified generators.
 
@@ -121,6 +121,17 @@ Optional tenant identifier to embed in the payload.
 `string`
 
 Optional organization identifier to embed in the payload.
+
+##### options?
+
+Per-call generation options.
+
+###### tokenTtlInSeconds
+
+`number`
+
+TTL override in seconds for this token only. Takes precedence over the
+config-level `tokenTtlInSeconds` when provided.
 
 #### Returns
 

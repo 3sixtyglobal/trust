@@ -56,7 +56,7 @@ The class name of the component.
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `info?`, `tenantIdHash?`, `organizationId?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `info?`, `tenantIdHash?`, `organizationId?`, `options?`): `Promise`\<`unknown`\>
 
 Generate a trust payload.
 
@@ -91,6 +91,17 @@ payload as the `tid` claim (mirroring the existing auth-service session-JWT shap
 
 Optional organization identifier. Embedded directly in
 the JWT payload as the `org` claim.
+
+##### options?
+
+Per-call generation options.
+
+###### tokenTtlInSeconds
+
+`number`
+
+TTL override in seconds for this token only. Takes precedence over the
+config-level `tokenTtlInSeconds` when provided.
 
 #### Returns
 
