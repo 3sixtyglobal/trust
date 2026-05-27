@@ -59,8 +59,12 @@ jobs:
     outputs:
       pr_number: ${{ steps.versions-prepare.outputs.pr_number }}
       pr_url: ${{ steps.versions-prepare.outputs.pr_url }}
+      has_changes: ${{ steps.versions-prepare.outputs.has_changes }}
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - name: Versions Prepare
         id: versions-prepare
         uses: ./.github/workflows/versions-prepare
@@ -80,6 +84,7 @@ jobs:
   gate-main-alignment:
     name: 'Gate 1 · Merge main alignment PR'
     needs: prepare-main
+    if: ${{ needs.prepare-main.outputs.has_changes == 'true' }}
     runs-on:
       labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
       group: ${{ github.event.repository.private && 'twin' || 'default' }}
@@ -126,11 +131,15 @@ jobs:
   # PHASE 2 – PREPARE RELEASE PR
   # Maps the semver input to the release type expected by release.yaml, then
   # dispatches the Release workflow (prepare phase) and waits for the release
-  # PR to appear.
+  # PR to appear. Runs whether Phase 1 produced a PR or was a no-op.
   # ──────────────────────────────────────────────────────────────────────────
   prepare-release:
     name: 'Phase 2 · Prepare release PR'
     needs: gate-main-alignment
+    if: |
+      always() &&
+      !cancelled() &&
+      (needs.gate-main-alignment.result == 'success' || needs.gate-main-alignment.result == 'skipped')
     runs-on:
       labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
       group: ${{ github.event.repository.private && 'twin' || 'default' }}
@@ -299,7 +308,11 @@ jobs:
         run: |
           echo "## Production Release Orchestration Complete"
           echo ""
-          echo "Main alignment PR:  ${{ needs.prepare-main.outputs.pr_url }}"
+          if [ "${{ needs.prepare-main.outputs.has_changes }}" = "true" ]; then
+            echo "Main alignment PR:  ${{ needs.prepare-main.outputs.pr_url }}"
+          else
+            echo "Main alignment PR:  skipped (no version changes)"
+          fi
           echo "Release PR:         ${{ needs.prepare-release.outputs.pr_url }}"
           echo ""
           echo "The Release workflow is now:"

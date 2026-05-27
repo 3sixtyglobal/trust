@@ -29,6 +29,9 @@ outputs:
   pr_url:
     description: 'URL of the created alignment PR'
     value: ${{ steps.create-pr.outputs.pr_url }}
+  has_changes:
+    description: 'Whether the versions script produced any changes'
+    value: ${{ steps.check-changes.outputs.has_changes }}
 
 runs:
   using: composite
@@ -95,8 +98,21 @@ runs:
           node scripts/versions-prepare.mjs production
         fi
 
+    - name: Check for changes
+      id: check-changes
+      shell: bash
+      run: |
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+          echo "No version changes detected. Skipping build and PR creation."
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Version changes detected. Proceeding with build and PR creation."
+        fi
+
     # Install dependencies with retry to handle transient registry failures.
     - name: Install dependencies
+      if: ${{ steps.check-changes.outputs.has_changes == 'true' }}
       shell: bash
       run: |
         for i in {1..3}; do
@@ -112,6 +128,7 @@ runs:
 
     # Setup any services required for tests here
     - name: Setup Test Environment
+      if: ${{ steps.check-changes.outputs.has_changes == 'true' }}
       uses: ./.github/workflows/setup-test-env
       with:
         test_env_vars: ${{ inputs.test_env_vars }}
@@ -119,6 +136,7 @@ runs:
     # Validate that the version changes do not break the build; tests are skipped because
     # test-environment setup is the responsibility of the calling workflow.
     - name: Build Packages
+      if: ${{ steps.check-changes.outputs.has_changes == 'true' }}
       shell: bash
       run: |
         npm run format
@@ -127,6 +145,7 @@ runs:
 
     # Commit all version and lockfile changes together so the PR is self-contained.
     - name: Commit Changes
+      if: ${{ steps.check-changes.outputs.has_changes == 'true' }}
       shell: bash
       run: |
         git add -A
@@ -136,6 +155,7 @@ runs:
     # Create a PR with the changes
     - name: Create Update PR
       id: create-pr
+      if: ${{ steps.check-changes.outputs.has_changes == 'true' }}
       shell: bash
       run: |
         PR_URL=$(gh pr create \
