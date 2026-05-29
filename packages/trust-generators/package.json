@@ -4,7 +4,7 @@
 	"description": "Implements trust credential generators that produce signed verifiable credential artefacts",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/iotaledger/trust.git",
+		"url": "git+https://github.com/iotaledger/twin-trust.git",
 		"directory": "packages/trust-generators"
 	},
 	"author": "martyn.janes@iota.org",
@@ -78,7 +78,7 @@
 		"schemas"
 	],
 	"bugs": {
-		"url": "git+https://github.com/iotaledger/trust/issues"
+		"url": "git+https://github.com/iotaledger/twin-trust/issues"
 	},
 	"homepage": "https://twindev.org"
 }
