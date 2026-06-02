@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.17](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.16...trust-generators-v0.0.3-next.17) (2026-06-02)
+
+
+### Features
+
+* update param names ([4c78d57](https://github.com/iotaledger/twin-trust/commit/4c78d5703ce7adef3fb5d3bbb1d2cde5db4376cc))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.16 to 0.0.3-next.17
+
 ## [0.0.3-next.16](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.15...trust-generators-v0.0.3-next.16) (2026-05-27)
 
 
