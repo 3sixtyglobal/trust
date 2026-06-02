@@ -38,7 +38,7 @@ Whether the payload is verified and any additional information extracted from th
 
 ### generate() {#generate}
 
-> **generate**(`identity`, `generatorType?`, `info?`, `tenantId?`, `organizationId?`): `Promise`\<`unknown`\>
+> **generate**(`identity`, `generatorType?`, `info?`, `tenantIdHash?`, `organizationId?`): `Promise`\<`unknown`\>
 
 Generate a payload using the specified generators.
 
@@ -60,11 +60,11 @@ The type of generator to use, defaults to the default generator type or first in
 
 Optional information to include in the generated payload.
 
-##### tenantId?
+##### tenantIdHash?
 
 `string`
 
-Optional tenant identifier to embed in the payload.
+Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT as the tid claim.
 
 ##### organizationId?
 

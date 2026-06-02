@@ -82,8 +82,7 @@ The subject of the verifiable credential (JSON-LD).
 
 `string`
 
-Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT
-payload as the `tid` claim (mirroring the existing auth-service session-JWT shape).
+Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT as the tid claim.
 
 ##### organizationId?
 
