@@ -70,8 +70,7 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	 * @param identity The identity for which to generate the payload.
 	 * @param info Information to use in the generation.
 	 * @param info.subject The subject of the verifiable credential (JSON-LD).
-	 * @param tenantIdHash Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT
-	 * payload as the `tid` claim (mirroring the existing auth-service session-JWT shape).
+	 * @param tenantIdHash Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT as the tid claim.
 	 * @param organizationId Optional organization identifier. Embedded directly in
 	 * the JWT payload as the `org` claim.
 	 * @param options Per-call generation options.
