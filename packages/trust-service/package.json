@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/trust-service",
-	"version": "0.0.3-next.17",
+	"version": "0.0.3-next.18",
 	"description": "Provides an orchestrating trust service that composes generators and verifiers into a unified API",
 	"repository": {
 		"type": "git",
@@ -31,7 +31,7 @@
 		"@twin.org/core": "next",
 		"@twin.org/logging-models": "next",
 		"@twin.org/nameof": "next",
-		"@twin.org/trust-models": "0.0.3-next.17"
+		"@twin.org/trust-models": "0.0.3-next.18"
 	},
 	"devDependencies": {
 		"@twin.org/api-processors": "next",

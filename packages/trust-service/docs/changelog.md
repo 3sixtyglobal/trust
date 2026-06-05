@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.18](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.17...trust-service-v0.0.3-next.18) (2026-06-05)
+
+
+### Features
+
+* add allow deny verifier ([#32](https://github.com/iotaledger/twin-trust/issues/32)) ([daf5d03](https://github.com/iotaledger/twin-trust/commit/daf5d033ffbe82e2228c48ca7ffea870a1ce956e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.17 to 0.0.3-next.18
+
 ## [0.0.3-next.17](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.16...trust-service-v0.0.3-next.17) (2026-06-02)
 
 
