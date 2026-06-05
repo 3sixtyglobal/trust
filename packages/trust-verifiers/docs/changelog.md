@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.19](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.18...trust-verifiers-v0.0.3-next.19) (2026-06-05)
+
+
+### Features
+
+* remove logging component ([54b56cb](https://github.com/iotaledger/twin-trust/commit/54b56cb81a6cb0aac41e37e8edda9c36685f2adb))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.18 to 0.0.3-next.19
+
 ## [0.0.3-next.18](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.0.3-next.17...trust-verifiers-v0.0.3-next.18) (2026-06-05)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.19](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.18...trust-models-v0.0.3-next.19) (2026-06-05)
+
+
+### Miscellaneous Chores
+
+* **trust-models:** Synchronize repo versions
+
 ## [0.0.3-next.18](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.17...trust-models-v0.0.3-next.18) (2026-06-05)
 
 
