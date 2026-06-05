@@ -3,7 +3,6 @@
 import { BaseError, Coerce, ComponentFactory, GeneralError, Is, type IError } from "@twin.org/core";
 import { JsonLdHelper } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
-import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
 import type { ITrustVerificationInfo, ITrustVerifier } from "@twin.org/trust-models";
 import { Jwt } from "@twin.org/web";
@@ -19,13 +18,6 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	public static readonly CLASS_NAME: string = nameof<JwtVerifiableCredentialVerifier>();
 
 	/**
-	 * The logging component.
-	 * @internal
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-private-class-members
-	private readonly _loggingComponent?: ILoggingComponent;
-
-	/**
 	 * The identity component.
 	 * @internal
 	 */
@@ -36,10 +28,6 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	 * @param options The options for the service.
 	 */
 	constructor(options?: IJwtVerifiableCredentialVerifierConstructorOptions) {
-		this._loggingComponent = ComponentFactory.getIfExists(
-			options?.loggingComponentType ?? "logging"
-		);
-
 		this._identityComponent = ComponentFactory.get(options?.identityComponentType ?? "identity");
 	}
 
