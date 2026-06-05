@@ -96,6 +96,70 @@ describe("TrustService", () => {
 		TrustVerifierFactory.unregister("failVerifier");
 	});
 
+	test("verify passes identity from first verifier to second verifier - allow", async () => {
+		const identityExtractor: ITrustVerifier = {
+			verify: async (payload, info) => {
+				info.identity = "did:test:allowed";
+				return true;
+			},
+			className: () => "IdentityExtractor"
+		};
+		const allowDenyVerifier: ITrustVerifier = {
+			verify: async (payload, info, errors) => {
+				const allowed = ["did:test:allowed"];
+				if (!allowed.includes(info.identity)) {
+					errors.push({ name: "Error", source: "AllowDeny", message: "identityNotAllowed" });
+					return false;
+				}
+				return true;
+			},
+			className: () => "AllowDenyVerifier"
+		};
+		TrustVerifierFactory.register("identityExtractor", () => identityExtractor);
+		TrustVerifierFactory.register("allowDenyVerifier", () => allowDenyVerifier);
+
+		const trustService = new TrustService();
+		const result = await trustService.verify({ test: "payload" });
+		expect(result.verified).toBe(true);
+		expect(result.info?.identity).toBe("did:test:allowed");
+		expect(result.errors).toBeUndefined();
+
+		TrustVerifierFactory.unregister("identityExtractor");
+		TrustVerifierFactory.unregister("allowDenyVerifier");
+	});
+
+	test("verify passes identity from first verifier to second verifier - deny", async () => {
+		const identityExtractor: ITrustVerifier = {
+			verify: async (payload, info) => {
+				info.identity = "did:test:denied";
+				return true;
+			},
+			className: () => "IdentityExtractor"
+		};
+		const allowDenyVerifier: ITrustVerifier = {
+			verify: async (payload, info, errors) => {
+				const denied = ["did:test:denied"];
+				if (denied.includes(info.identity)) {
+					errors.push({ name: "Error", source: "AllowDeny", message: "identityDenied" });
+					return false;
+				}
+				return true;
+			},
+			className: () => "AllowDenyVerifier"
+		};
+		TrustVerifierFactory.register("identityExtractor", () => identityExtractor);
+		TrustVerifierFactory.register("allowDenyVerifier", () => allowDenyVerifier);
+
+		const trustService = new TrustService();
+		const result = await trustService.verify({ test: "payload" });
+		expect(result.verified).toBe(false);
+		expect(result.info?.identity).toBe("did:test:denied");
+		expect(result.errors?.some(e => e.message?.includes("identityDenied"))).toBe(true);
+
+		TrustVerifierFactory.unregister("identityExtractor");
+		TrustVerifierFactory.unregister("allowDenyVerifier");
+	});
+
 	test("generate returns payload from mock generator", async () => {
 		const mockPayload = { success: true };
 		const mockGenerator: ITrustGenerator = {

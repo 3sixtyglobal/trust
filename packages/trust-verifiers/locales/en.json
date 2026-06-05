@@ -1,5 +1,10 @@
 {
 	"error": {
+		"identityAllowDenyVerifier": {
+			"identityMissing": "The identity is missing from the verification info.",
+			"identityNotAllowed": "The identity is not in the allowed identities list \"{identity}\".",
+			"identityDenied": "The identity is in the denied identities list \"{identity}\"."
+		},
 		"jwtVerifiableCredentialVerifier": {
 			"tokenMissingCredential": "The JWT token does not contain a verifiable credential.",
 			"tokenMissingIssuer": "The verifiable credential in the JWT does not contain an issuer.",
