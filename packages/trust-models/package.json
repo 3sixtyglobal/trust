@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/trust-models",
-	"version": "0.0.3-next.19",
+	"version": "0.0.3-next.20",
 	"description": "Defines shared trust data models and interfaces for credentials, proofs, and trust components",
 	"repository": {
 		"type": "git",

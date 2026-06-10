@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.20](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.19...trust-generators-v0.0.3-next.20) (2026-06-10)
+
+
+### Bug Fixes
+
+* default VC credentialSubject to the issuer when none is provided ([#37](https://github.com/iotaledger/twin-trust/issues/37)) ([9c7653d](https://github.com/iotaledger/twin-trust/commit/9c7653d6c34cc2014aac45ed7a3aa4ae720c3f63))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.19 to 0.0.3-next.20
+
 ## [0.0.3-next.19](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.18...trust-generators-v0.0.3-next.19) (2026-06-05)
 
 
