@@ -49,6 +49,25 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		expect(result).toBe(mockCredential.jwt);
 	});
 
+	it("defaults the credentialSubject to the issuer when no subject is provided", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		// No info/subject passed. The generator must NOT send an empty {} credentialSubject — the
+		// identity connector rejects it (verifiableCredentialCreateFailed), which silently broke the
+		// dataspace catalogue population. It defaults the subject to the credential issuer instead.
+		await generator.generate("did:example:123");
+
+		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
+		const issuerArg = calls[0][0];
+		const subjectArg = calls[0][2];
+		expect(subjectArg).not.toEqual({});
+		expect(subjectArg).toEqual({ id: issuerArg });
+	});
+
 	it("passes tenantId + organizationId as jwtPayloadFields (tid + org) to the identity connector", async () => {
 		const generator = new JwtVerifiableCredentialGenerator({
 			identityComponentType: "identity",

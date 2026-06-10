@@ -106,10 +106,12 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 			jwtPayloadFields.org = organizationId;
 		}
 
+		const issuer = DocumentHelper.joinId(identity, this._verificationMethodId);
+
 		const credential = await this._identityComponent.verifiableCredentialCreate(
-			DocumentHelper.joinId(identity, this._verificationMethodId),
+			issuer,
 			undefined,
-			info?.subject ?? {},
+			info?.subject ?? { id: issuer },
 			{
 				expirationDate,
 				jwtPayloadFields
