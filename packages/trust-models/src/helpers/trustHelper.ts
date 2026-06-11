@@ -1,7 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { BaseError, Converter, Is, UnauthorizedError } from "@twin.org/core";
-import { Blake2b } from "@twin.org/crypto";
+import { BaseError, Is, UnauthorizedError } from "@twin.org/core";
 import { nameof } from "@twin.org/nameof";
 import type { ITrustComponent } from "../models/ITrustComponent.js";
 import type { ITrustVerificationInfo } from "../models/ITrustVerificationInfo.js";
@@ -42,18 +41,5 @@ export class TrustHelper {
 			});
 		}
 		return trustResult.info;
-	}
-
-	/**
-	 * Hash the tenant ID using Blake2b and encode it in Base64URL format.
-	 * Used to create a consistent and secure representation of tenant IDs without exposing the original values.
-	 * @param tenantId The tenant ID to hash.
-	 * @returns The hashed tenant ID in Base64URL format, or undefined if the input tenant ID is not a valid string.
-	 */
-	public static hashTenantId(tenantId: string | undefined): string | undefined {
-		if (!Is.stringValue(tenantId)) {
-			return undefined;
-		}
-		return Converter.bytesToBase64Url(Blake2b.sum256(Converter.utf8ToBytes(tenantId)));
 	}
 }

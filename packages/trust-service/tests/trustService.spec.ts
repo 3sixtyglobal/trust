@@ -174,7 +174,11 @@ describe("TrustService", () => {
 
 		const trustService = new TrustService();
 		const result = await trustService.generate("test-id", "mockGenerator", { foo: "bar" });
-		expect(result).toMatchObject({ success: true, identity: "test-id", info: { foo: "bar" } });
+		expect(result).toMatchObject({
+			success: true,
+			identity: "test-id",
+			info: { foo: "bar" }
+		});
 
 		TrustGeneratorFactory.unregister("mockGenerator");
 	});
@@ -212,8 +216,6 @@ describe("TrustService", () => {
 			generate: async (
 				identity: string,
 				info?: { [key: string]: unknown },
-				tenantIdHash?: string,
-				organizationId?: string,
 				options?: { tokenTtlInSeconds: number }
 			) => {
 				capturedOptions = options;
@@ -224,7 +226,7 @@ describe("TrustService", () => {
 		TrustGeneratorFactory.register("mockGenerator", () => mockGenerator);
 
 		const trustService = new TrustService();
-		await trustService.generate("test-id", "mockGenerator", undefined, undefined, undefined, {
+		await trustService.generate("test-id", "mockGenerator", undefined, {
 			tokenTtlInSeconds: 120
 		});
 

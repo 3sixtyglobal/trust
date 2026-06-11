@@ -8,7 +8,6 @@ import type { ITrustServiceConfig } from "./ITrustServiceConfig.js";
 export interface ITrustServiceConstructorOptions {
 	/**
 	 * The logging component type.
-	 * @default logging
 	 */
 	loggingComponentType?: string;
 

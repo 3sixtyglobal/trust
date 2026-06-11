@@ -37,9 +37,7 @@ export class TrustService implements ITrustComponent {
 	 * @param options The options for the service.
 	 */
 	constructor(options?: ITrustServiceConstructorOptions) {
-		this._loggingComponent = ComponentFactory.getIfExists(
-			options?.loggingComponentType ?? "logging"
-		);
+		this._loggingComponent = ComponentFactory.getIfExists(options?.loggingComponentType);
 
 		this._defaultGeneratorType = options?.config?.defaultGeneratorType;
 	}
@@ -129,8 +127,6 @@ export class TrustService implements ITrustComponent {
 	 * @param identity The identity for which to generate the payload.
 	 * @param generatorType The type of generator to use, defaults to the default generator type or first in factory.
 	 * @param info Optional information to include in the generated payload.
-	 * @param tenantId Optional tenant identifier to embed in the payload.
-	 * @param organizationId Optional organization identifier to embed in the payload.
 	 * @param options Per-call generation options.
 	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only. Takes precedence over the
 	 * config-level `tokenTtlInSeconds` when provided.
@@ -142,8 +138,6 @@ export class TrustService implements ITrustComponent {
 		info?: {
 			[key: string]: unknown;
 		},
-		tenantId?: string,
-		organizationId?: string,
 		options?: { tokenTtlInSeconds: number }
 	): Promise<unknown> {
 		Guards.stringValue(TrustService.CLASS_NAME, nameof(identity), identity);
@@ -162,6 +156,6 @@ export class TrustService implements ITrustComponent {
 
 		const generator = TrustGeneratorFactory.get(generatorType);
 
-		return generator.generate(identity, info, tenantId, organizationId, options);
+		return generator.generate(identity, info, options);
 	}
 }

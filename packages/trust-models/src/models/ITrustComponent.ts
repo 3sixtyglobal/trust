@@ -27,15 +27,11 @@ export interface ITrustComponent extends IComponent {
 	 * @param identity The identity for which to generate the payload.
 	 * @param generatorType The type of generator to use, defaults to the default generator type or first in factory.
 	 * @param info Optional information to include in the generated payload.
-	 * @param tenantIdHash Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT as the tid claim.
-	 * @param organizationId Optional organization identifier to embed in the payload.
 	 * @returns The generated payload.
 	 */
 	generate(
 		identity: string,
 		generatorType?: string,
-		info?: { [key: string]: unknown },
-		tenantIdHash?: string,
-		organizationId?: string
+		info?: { [key: string]: unknown }
 	): Promise<unknown>;
 }

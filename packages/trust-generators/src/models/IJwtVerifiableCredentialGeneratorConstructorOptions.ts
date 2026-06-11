@@ -9,7 +9,6 @@ import type { IJwtVerifiableCredentialGeneratorConfig } from "./IJwtVerifiableCr
 export interface IJwtVerifiableCredentialGeneratorConstructorOptions {
 	/**
 	 * The logging component type.
-	 * @default logging
 	 */
 	loggingComponentType?: string;
 

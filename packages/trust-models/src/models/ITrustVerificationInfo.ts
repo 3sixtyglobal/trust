@@ -7,19 +7,9 @@ import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
  */
 export interface ITrustVerificationInfo {
 	/**
-	 * The identity associated with the payload.
+	 * The organization identity associated with the payload.
 	 */
 	identity: string;
-
-	/**
-	 * The tenant that issued the payload, if multi-tenancy was active at generation time.
-	 */
-	tenantId?: string;
-
-	/**
-	 * The organisation that issued the payload, if an authenticated user context was available at generation time.
-	 */
-	organizationId?: string;
 
 	/**
 	 * Additional JSON-LD node objects associated with the verification.

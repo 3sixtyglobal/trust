@@ -1,7 +1,5 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { Converter } from "@twin.org/core";
-import { Blake2b } from "@twin.org/crypto";
 import { TrustHelper } from "../src/helpers/trustHelper.js";
 import type { ITrustComponent } from "../src/models/ITrustComponent.js";
 import type { ITrustVerificationInfo } from "../src/models/ITrustVerificationInfo.js";
@@ -98,39 +96,6 @@ describe("TrustHelper", () => {
 				thrown = e;
 			}
 			expect(JSON.stringify(thrown)).toContain("stack");
-		});
-	});
-
-	describe("hashTenantId", () => {
-		it("returns undefined for undefined input", () => {
-			expect(TrustHelper.hashTenantId(undefined)).toBeUndefined();
-		});
-
-		it("returns undefined for an empty string", () => {
-			expect(TrustHelper.hashTenantId("")).toBeUndefined();
-		});
-
-		it("returns a base64url-encoded Blake2b-256 hash for a valid tenant ID", () => {
-			const tenantId = "tenant-a";
-			const expected = Converter.bytesToBase64Url(Blake2b.sum256(Converter.utf8ToBytes(tenantId)));
-			expect(TrustHelper.hashTenantId(tenantId)).toBe(expected);
-		});
-
-		it("produces different hashes for different tenant IDs", () => {
-			const hash1 = TrustHelper.hashTenantId("tenant-a");
-			const hash2 = TrustHelper.hashTenantId("tenant-b");
-			expect(hash1).not.toBe(hash2);
-		});
-
-		it("produces the same hash for the same tenant ID on repeated calls", () => {
-			const hash1 = TrustHelper.hashTenantId("tenant-a");
-			const hash2 = TrustHelper.hashTenantId("tenant-a");
-			expect(hash1).toBe(hash2);
-		});
-
-		it("output is a valid base64url string (no +, /, or = characters)", () => {
-			const hash = TrustHelper.hashTenantId("tenant-a") as string;
-			expect(hash).toMatch(/^[\w-]+$/);
 		});
 	});
 });

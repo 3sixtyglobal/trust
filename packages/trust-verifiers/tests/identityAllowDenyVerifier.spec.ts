@@ -5,7 +5,9 @@ import type { ITrustVerificationInfo } from "@twin.org/trust-models";
 import { IdentityAllowDenyVerifier } from "../src/verifiers/identityAllowDenyVerifier.js";
 
 describe("IdentityAllowDenyVerifier", () => {
-	const makeInfo = (identity: string): ITrustVerificationInfo => ({ identity });
+	const makeInfo = (identity: string): ITrustVerificationInfo => ({
+		identity
+	});
 
 	it("should return undefined when no lists are configured", async () => {
 		const verifier = new IdentityAllowDenyVerifier();

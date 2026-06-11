@@ -47,9 +47,7 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	 * @param options The options for the service.
 	 */
 	constructor(options: IJwtVerifiableCredentialGeneratorConstructorOptions) {
-		this._loggingComponent = ComponentFactory.getIfExists(
-			options?.loggingComponentType ?? "logging"
-		);
+		this._loggingComponent = ComponentFactory.getIfExists(options?.loggingComponentType);
 
 		this._identityComponent = ComponentFactory.get(options?.identityComponentType ?? "identity");
 
@@ -67,11 +65,9 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 
 	/**
 	 * Generate a trust payload.
-	 * @param identity The identity for which to generate the payload.
+	 * @param organizationId The identity for which to generate the payload.
 	 * @param info Information to use in the generation.
 	 * @param info.subject The subject of the verifiable credential (JSON-LD).
-	 * @param tenantIdHash Optional tenant identifier, should be an opaque hashed version. Embedded directly in the JWT as the tid claim.
-	 * @param organizationId Optional organization identifier. Embedded directly in
 	 * the JWT payload as the `org` claim.
 	 * @param options Per-call generation options.
 	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only. Takes precedence over the
@@ -79,13 +75,15 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	 * @returns The generated JWT.
 	 */
 	public async generate(
-		identity: string,
+		organizationId: string,
 		info?: { subject?: IJsonLdNodeObject },
-		tenantIdHash?: string,
-		organizationId?: string,
 		options?: { tokenTtlInSeconds: number }
 	): Promise<unknown> {
-		Guards.stringValue(JwtVerifiableCredentialGenerator.CLASS_NAME, nameof(identity), identity);
+		Guards.stringValue(
+			JwtVerifiableCredentialGenerator.CLASS_NAME,
+			nameof(organizationId),
+			organizationId
+		);
 
 		const ttlInSeconds = Is.integer(options?.tokenTtlInSeconds)
 			? options.tokenTtlInSeconds
@@ -98,25 +96,15 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 			expirationDate = new Date(Date.now() + ttlMs);
 		}
 
-		const jwtPayloadFields: { [key: string]: string } = {};
-		if (Is.stringValue(tenantIdHash)) {
-			jwtPayloadFields.tid = tenantIdHash;
-		}
-		if (Is.stringValue(organizationId)) {
-			jwtPayloadFields.org = organizationId;
-		}
-
-		const issuer = DocumentHelper.joinId(identity, this._verificationMethodId);
-
 		const credential = await this._identityComponent.verifiableCredentialCreate(
-			issuer,
+			DocumentHelper.joinId(organizationId, this._verificationMethodId),
 			undefined,
-			info?.subject ?? { id: issuer },
+			// Identity subject can not be empty object
+			info?.subject ?? { id: organizationId },
 			{
-				expirationDate,
-				jwtPayloadFields
+				expirationDate
 			},
-			identity
+			organizationId
 		);
 
 		return credential.jwt;

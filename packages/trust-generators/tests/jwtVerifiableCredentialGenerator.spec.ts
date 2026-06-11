@@ -49,121 +49,6 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		expect(result).toBe(mockCredential.jwt);
 	});
 
-	it("defaults the credentialSubject to the issuer when no subject is provided", async () => {
-		const generator = new JwtVerifiableCredentialGenerator({
-			identityComponentType: "identity",
-			config: { verificationMethodId: "did:example:123#key-1" }
-		});
-		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
-
-		// No info/subject passed. The generator must NOT send an empty {} credentialSubject — the
-		// identity connector rejects it (verifiableCredentialCreateFailed), which silently broke the
-		// dataspace catalogue population. It defaults the subject to the credential issuer instead.
-		await generator.generate("did:example:123");
-
-		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
-		const issuerArg = calls[0][0];
-		const subjectArg = calls[0][2];
-		expect(subjectArg).not.toEqual({});
-		expect(subjectArg).toEqual({ id: issuerArg });
-	});
-
-	it("passes tenantId + organizationId as jwtPayloadFields (tid + org) to the identity connector", async () => {
-		const generator = new JwtVerifiableCredentialGenerator({
-			identityComponentType: "identity",
-			config: { verificationMethodId: "did:example:123#key-1" }
-		});
-		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
-
-		await generator.generate(
-			"did:example:123",
-			{ subject: { id: "did:example:456" } },
-			"tenant-a",
-			"did:iota:org-a"
-		);
-
-		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
-		const subjectArg = calls[0][2];
-		const optionsArg = calls[0][3];
-		expect(subjectArg).toEqual({ id: "did:example:456" });
-		expect(optionsArg).toMatchObject({
-			jwtPayloadFields: {
-				tid: "tenant-a",
-				org: "did:iota:org-a"
-			}
-		});
-	});
-
-	it("passes an empty jwtPayloadFields object when neither tenantId nor organizationId is provided", async () => {
-		const generator = new JwtVerifiableCredentialGenerator({
-			identityComponentType: "identity",
-			config: { verificationMethodId: "did:example:123#key-1" }
-		});
-		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
-
-		await generator.generate("did:example:123", { subject: { id: "did:example:456" } });
-
-		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
-		const optionsArg = calls[0][3];
-		expect(optionsArg.jwtPayloadFields).toEqual({});
-	});
-
-	it("includes only tid in jwtPayloadFields when only tenantId is provided", async () => {
-		const generator = new JwtVerifiableCredentialGenerator({
-			identityComponentType: "identity",
-			config: { verificationMethodId: "did:example:123#key-1" }
-		});
-		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
-
-		await generator.generate("did:example:123", { subject: { id: "did:example:456" } }, "tenant-a");
-
-		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
-		const optionsArg = calls[0][3];
-		expect(optionsArg.jwtPayloadFields).toEqual({ tid: "tenant-a" });
-	});
-
-	it("includes only org in jwtPayloadFields when only organizationId is provided", async () => {
-		const generator = new JwtVerifiableCredentialGenerator({
-			identityComponentType: "identity",
-			config: { verificationMethodId: "did:example:123#key-1" }
-		});
-		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
-
-		await generator.generate(
-			"did:example:123",
-			{ subject: { id: "did:example:456" } },
-			undefined,
-			"did:iota:org-a"
-		);
-
-		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
-		const optionsArg = calls[0][3];
-		expect(optionsArg.jwtPayloadFields).toEqual({ org: "did:iota:org-a" });
-	});
-
-	it("does not merge tenantId or organizationId into the credentialSubject", async () => {
-		const generator = new JwtVerifiableCredentialGenerator({
-			identityComponentType: "identity",
-			config: { verificationMethodId: "did:example:123#key-1" }
-		});
-		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
-
-		await generator.generate(
-			"did:example:123",
-			{ subject: { id: "did:example:456", domain: "data" } },
-			"tenant-a",
-			"did:iota:org-a"
-		);
-
-		const calls = mockIdentityComponent.verifiableCredentialCreate.mock.calls;
-		const subjectArg = calls[0][2];
-		expect(subjectArg).toEqual({ id: "did:example:456", domain: "data" });
-		expect(subjectArg.tenantId).toBeUndefined();
-		expect(subjectArg.organizationId).toBeUndefined();
-		expect(subjectArg.tid).toBeUndefined();
-		expect(subjectArg.org).toBeUndefined();
-	});
-
 	it("uses constructor tokenTtlInSeconds when no per-call override is provided", async () => {
 		const generator = new JwtVerifiableCredentialGenerator({
 			identityComponentType: "identity",
@@ -192,7 +77,7 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
 
 		const before = Date.now();
-		await generator.generate("did:example:123", undefined, undefined, undefined, {
+		await generator.generate("did:example:123", undefined, {
 			tokenTtlInSeconds: 60
 		});
 		const after = Date.now();
