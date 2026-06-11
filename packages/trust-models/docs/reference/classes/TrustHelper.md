@@ -65,26 +65,3 @@ Whether to include detailed error information in the exception if verification f
 `Promise`\<[`ITrustVerificationInfo`](../interfaces/ITrustVerificationInfo.md)\>
 
 The information from the trust verification.
-
-***
-
-### hashTenantId() {#hashtenantid}
-
-> `static` **hashTenantId**(`tenantId`): `string` \| `undefined`
-
-Hash the tenant ID using Blake2b and encode it in Base64URL format.
-Used to create a consistent and secure representation of tenant IDs without exposing the original values.
-
-#### Parameters
-
-##### tenantId
-
-`string` \| `undefined`
-
-The tenant ID to hash.
-
-#### Returns
-
-`string` \| `undefined`
-
-The hashed tenant ID in Base64URL format, or undefined if the input tenant ID is not a valid string.

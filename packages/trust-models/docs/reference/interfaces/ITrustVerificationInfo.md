@@ -8,23 +8,7 @@ Interface describing a trust verifier information.
 
 > **identity**: `string`
 
-The identity associated with the payload.
-
-***
-
-### tenantId? {#tenantid}
-
-> `optional` **tenantId?**: `string`
-
-The tenant that issued the payload, if multi-tenancy was active at generation time.
-
-***
-
-### organizationId? {#organizationid}
-
-> `optional` **organizationId?**: `string`
-
-The organisation that issued the payload, if an authenticated user context was available at generation time.
+The organization identity associated with the payload.
 
 ***
 

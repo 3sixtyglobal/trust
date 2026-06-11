@@ -10,12 +10,6 @@ The options for the trust service.
 
 The logging component type.
 
-#### Default
-
-```ts
-logging
-```
-
 ***
 
 ### config? {#config}

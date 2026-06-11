@@ -10,12 +10,6 @@ The options for the JWT Verifiable Credential Generator.
 
 The logging component type.
 
-#### Default
-
-```ts
-logging
-```
-
 ***
 
 ### identityComponentType? {#identitycomponenttype}
