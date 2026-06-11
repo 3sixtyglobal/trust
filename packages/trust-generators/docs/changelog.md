@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.0.3-next.23](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.22...trust-generators-v0.0.3-next.23) (2026-06-11)
+
+
+### Features
+
+* add default generator config ([54d98ba](https://github.com/iotaledger/twin-trust/commit/54d98ba53b7450b56337daeda504437be0d21943))
+* add generators ([6228c88](https://github.com/iotaledger/twin-trust/commit/6228c88a8f0244b7bdfc76b8624c427c81d23f7b))
+* add optional tenantId + organizationId to trust VC payload ([#19](https://github.com/iotaledger/twin-trust/issues/19)) ([1e93f6b](https://github.com/iotaledger/twin-trust/commit/1e93f6b0eacbfa725f3c3515d4255b39dd122ce7))
+* add TrustHelper hashTenantId ([#22](https://github.com/iotaledger/twin-trust/issues/22)) ([1efa9dc](https://github.com/iotaledger/twin-trust/commit/1efa9dc7ef0534dbb1a789fac300409190452273))
+* organization identifiers ([#39](https://github.com/iotaledger/twin-trust/issues/39)) ([a5891b9](https://github.com/iotaledger/twin-trust/commit/a5891b9d57ef209c20f53302442d1910dce963d2))
+* ttl-token per generation ([#26](https://github.com/iotaledger/twin-trust/issues/26)) ([a35e925](https://github.com/iotaledger/twin-trust/commit/a35e925560d05f30dd8c02eb4184c0c503ca075a))
+* typescript 6 update ([a232da2](https://github.com/iotaledger/twin-trust/commit/a232da293afbd3b42843e187e4952dabd7917397))
+* update dependencies ([367d7fc](https://github.com/iotaledger/twin-trust/commit/367d7fc1f970522650c776d231bfacc84f97be67))
+* update param names ([4c78d57](https://github.com/iotaledger/twin-trust/commit/4c78d5703ce7adef3fb5d3bbb1d2cde5db4376cc))
+
+
+### Bug Fixes
+
+* default VC credentialSubject to the issuer when none is provided ([#37](https://github.com/iotaledger/twin-trust/issues/37)) ([9c7653d](https://github.com/iotaledger/twin-trust/commit/9c7653d6c34cc2014aac45ed7a3aa4ae720c3f63))
+* jwt verifier return just token on creation ([9778491](https://github.com/iotaledger/twin-trust/commit/97784917c0ce53c3908e91a0db9137f8473eadeb))
+* pass correct parameters to vc create ([bca9529](https://github.com/iotaledger/twin-trust/commit/bca95292605720f45f1f9dd2cec34053734b2d7f))
+* tests ([fcadcf1](https://github.com/iotaledger/twin-trust/commit/fcadcf1f4e9bab4acbfc1722b0112f1d9723d7fa))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.21 to 0.0.3-next.23
+
 ## [0.0.3-next.21](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.20...trust-generators-v0.0.3-next.21) (2026-06-11)
 
 
