@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-next.21](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.20...trust-models-v0.0.3-next.21) (2026-06-11)
+
+
+### Features
+
+* organization identifiers ([#39](https://github.com/iotaledger/twin-trust/issues/39)) ([a5891b9](https://github.com/iotaledger/twin-trust/commit/a5891b9d57ef209c20f53302442d1910dce963d2))
+
 ## [0.0.3-next.20](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.0.3-next.19...trust-models-v0.0.3-next.20) (2026-06-10)
 
 
