@@ -33,7 +33,7 @@ export class TrustService implements ITrustComponent {
 	private readonly _defaultGeneratorType?: string;
 
 	/**
-	 * Create a new instance of TrustService.
+	 * Creates a new instance of TrustService.
 	 * @param options The options for the service.
 	 */
 	constructor(options?: ITrustServiceConstructorOptions) {
@@ -44,17 +44,17 @@ export class TrustService implements ITrustComponent {
 
 	/**
 	 * Returns the class name of the component.
-	 * @returns The class name of the component.
+	 * @returns The runtime class name string
 	 */
 	public className(): string {
 		return TrustService.CLASS_NAME;
 	}
 
 	/**
-	 * Verify a payload by checking the validity of its structure and content using the registered verifiers.
+	 * Verifies a payload using all registered verifiers or an explicit override list.
 	 * @param payload The payload to verify.
-	 * @param overrideVerifiers List of verifiers to use instead of the default ones.
-	 * @returns Whether the payload is verified and any additional information extracted from the payload, or verification errors.
+	 * @param overrideVerifiers List of verifiers to use instead of the registered defaults.
+	 * @returns A promise that resolves to the verification result, including the verified flag, extracted info, and any errors.
 	 */
 	public async verify(
 		payload: unknown,
@@ -123,14 +123,14 @@ export class TrustService implements ITrustComponent {
 	}
 
 	/**
-	 * Generate a payload using the specified generators.
+	 * Generates a trust payload using the specified or default generator.
 	 * @param identity The identity for which to generate the payload.
-	 * @param generatorType The type of generator to use, defaults to the default generator type or first in factory.
+	 * @param generatorType The generator type to use; falls back to the configured default or the first registered generator.
 	 * @param info Optional information to include in the generated payload.
 	 * @param options Per-call generation options.
-	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only. Takes precedence over the
-	 * config-level `tokenTtlInSeconds` when provided.
-	 * @returns The generated payload.
+	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only; takes precedence over the config-level value when provided.
+	 * @returns A promise that resolves to the generated payload.
+	 * @throws GeneralError if no generators are registered.
 	 */
 	public async generate(
 		identity: string,

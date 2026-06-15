@@ -15,13 +15,14 @@ export class TrustHelper {
 	public static readonly CLASS_NAME: string = nameof<TrustHelper>();
 
 	/**
-	 * Verify the trust payload for the action.
+	 * Verifies the trust payload for the action, throwing if verification fails.
 	 * @param component The trust component to use.
 	 * @param trustPayload The trust payload to verify.
 	 * @param action The action being performed.
 	 * @param overrideVerifiers List of verifiers to use instead of the default ones.
 	 * @param includeErrorDetails Whether to include detailed error information in the exception if verification fails.
-	 * @returns The information from the trust verification.
+	 * @returns A promise that resolves to the verified trust information.
+	 * @throws UnauthorizedError if the payload cannot be verified or the identity is missing.
 	 */
 	public static async verifyTrust(
 		component: ITrustComponent,

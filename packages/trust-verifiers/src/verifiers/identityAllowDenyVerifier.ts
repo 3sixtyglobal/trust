@@ -27,7 +27,7 @@ export class IdentityAllowDenyVerifier implements ITrustVerifier {
 	private readonly _denyIdentities?: string[];
 
 	/**
-	 * Create a new instance of IdentityAllowDenyVerifier.
+	 * Creates a new instance of IdentityAllowDenyVerifier.
 	 * @param options The options for the verifier.
 	 */
 	constructor(options?: IIdentityAllowDenyVerifierConstructorOptions) {
@@ -37,7 +37,7 @@ export class IdentityAllowDenyVerifier implements ITrustVerifier {
 
 	/**
 	 * Returns the class name of the component.
-	 * @returns The class name of the component.
+	 * @returns The runtime class name string
 	 */
 	public className(): string {
 		return IdentityAllowDenyVerifier.CLASS_NAME;
@@ -68,7 +68,7 @@ export class IdentityAllowDenyVerifier implements ITrustVerifier {
 			return false;
 		}
 
-		if (hasAllow && !this._allowIdentities?.includes(info.identity)) {
+		if (hasAllow && !this._allowIdentities.includes(info.identity)) {
 			errors.push(
 				new GeneralError(IdentityAllowDenyVerifier.CLASS_NAME, "identityNotAllowed", {
 					identity: info.identity
@@ -77,7 +77,7 @@ export class IdentityAllowDenyVerifier implements ITrustVerifier {
 			return false;
 		}
 
-		if (hasDeny && this._denyIdentities?.includes(info.identity)) {
+		if (hasDeny && this._denyIdentities.includes(info.identity)) {
 			errors.push(
 				new GeneralError(IdentityAllowDenyVerifier.CLASS_NAME, "identityDenied", {
 					identity: info.identity

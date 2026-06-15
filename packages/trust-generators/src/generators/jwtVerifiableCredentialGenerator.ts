@@ -43,8 +43,8 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 	private readonly _tokenTtlInSeconds?: number;
 
 	/**
-	 * Create a new instance of JwtVerifiableCredentialGenerator.
-	 * @param options The options for the service.
+	 * Creates a new instance of JwtVerifiableCredentialGenerator.
+	 * @param options The options for the generator.
 	 */
 	constructor(options: IJwtVerifiableCredentialGeneratorConstructorOptions) {
 		this._loggingComponent = ComponentFactory.getIfExists(options?.loggingComponentType);
@@ -57,22 +57,20 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 
 	/**
 	 * Returns the class name of the component.
-	 * @returns The class name of the component.
+	 * @returns The runtime class name string
 	 */
 	public className(): string {
 		return JwtVerifiableCredentialGenerator.CLASS_NAME;
 	}
 
 	/**
-	 * Generate a trust payload.
-	 * @param organizationId The identity for which to generate the payload.
+	 * Generates a JWT Verifiable Credential for the given organization identity.
+	 * @param organizationId The identity for which to generate the credential.
 	 * @param info Information to use in the generation.
-	 * @param info.subject The subject of the verifiable credential (JSON-LD).
-	 * the JWT payload as the `org` claim.
+	 * @param info.subject The subject of the verifiable credential as a JSON-LD node object; defaults to `{ id: organizationId }` when omitted.
 	 * @param options Per-call generation options.
-	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only. Takes precedence over the
-	 * config-level `tokenTtlInSeconds` when provided.
-	 * @returns The generated JWT.
+	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only; takes precedence over the config-level value when provided.
+	 * @returns A promise that resolves to the signed JWT string.
 	 */
 	public async generate(
 		organizationId: string,

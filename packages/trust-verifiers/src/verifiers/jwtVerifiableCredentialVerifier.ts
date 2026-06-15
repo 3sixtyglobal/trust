@@ -24,8 +24,8 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	private readonly _identityComponent: IIdentityComponent;
 
 	/**
-	 * Create a new instance of JwtVerifiableCredentialVerifier.
-	 * @param options The options for the service.
+	 * Creates a new instance of JwtVerifiableCredentialVerifier.
+	 * @param options The options for the verifier.
 	 */
 	constructor(options?: IJwtVerifiableCredentialVerifierConstructorOptions) {
 		this._identityComponent = ComponentFactory.get(options?.identityComponentType ?? "identity");
@@ -33,7 +33,7 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 
 	/**
 	 * Returns the class name of the component.
-	 * @returns The class name of the component.
+	 * @returns The runtime class name string
 	 */
 	public className(): string {
 		return JwtVerifiableCredentialVerifier.CLASS_NAME;
