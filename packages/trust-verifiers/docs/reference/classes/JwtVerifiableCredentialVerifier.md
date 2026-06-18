@@ -12,7 +12,7 @@ Class to verify a JWT Verifiable Credential.
 
 > **new JwtVerifiableCredentialVerifier**(`options?`): `JwtVerifiableCredentialVerifier`
 
-Create a new instance of JwtVerifiableCredentialVerifier.
+Creates a new instance of JwtVerifiableCredentialVerifier.
 
 #### Parameters
 
@@ -20,7 +20,7 @@ Create a new instance of JwtVerifiableCredentialVerifier.
 
 [`IJwtVerifiableCredentialVerifierConstructorOptions`](../interfaces/IJwtVerifiableCredentialVerifierConstructorOptions.md)
 
-The options for the service.
+The options for the verifier.
 
 #### Returns
 
@@ -46,7 +46,7 @@ Returns the class name of the component.
 
 `string`
 
-The class name of the component.
+The runtime class name string
 
 #### Implementation of
 

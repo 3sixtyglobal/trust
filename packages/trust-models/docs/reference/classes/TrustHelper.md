@@ -26,7 +26,7 @@ Runtime name for the class.
 
 > `static` **verifyTrust**(`component`, `trustPayload`, `action`, `overrideVerifiers?`, `includeErrorDetails?`): `Promise`\<[`ITrustVerificationInfo`](../interfaces/ITrustVerificationInfo.md)\>
 
-Verify the trust payload for the action.
+Verifies the trust payload for the action, throwing if verification fails.
 
 #### Parameters
 
@@ -64,4 +64,8 @@ Whether to include detailed error information in the exception if verification f
 
 `Promise`\<[`ITrustVerificationInfo`](../interfaces/ITrustVerificationInfo.md)\>
 
-The information from the trust verification.
+A promise that resolves to the verified trust information.
+
+#### Throws
+
+UnauthorizedError if the payload cannot be verified or the identity is missing.

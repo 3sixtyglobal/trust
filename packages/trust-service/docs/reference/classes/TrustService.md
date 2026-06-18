@@ -12,7 +12,7 @@ Class for performing trust operations.
 
 > **new TrustService**(`options?`): `TrustService`
 
-Create a new instance of TrustService.
+Creates a new instance of TrustService.
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Returns the class name of the component.
 
 `string`
 
-The class name of the component.
+The runtime class name string
 
 #### Implementation of
 
@@ -58,7 +58,7 @@ The class name of the component.
 
 > **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `ITrustVerificationInfo`; `errors?`: `IError`[]; \}\>
 
-Verify a payload by checking the validity of its structure and content using the registered verifiers.
+Verifies a payload using all registered verifiers or an explicit override list.
 
 #### Parameters
 
@@ -72,13 +72,13 @@ The payload to verify.
 
 `string`[]
 
-List of verifiers to use instead of the default ones.
+List of verifiers to use instead of the registered defaults.
 
 #### Returns
 
 `Promise`\<\{ `verified`: `boolean`; `info?`: `ITrustVerificationInfo`; `errors?`: `IError`[]; \}\>
 
-Whether the payload is verified and any additional information extracted from the payload, or verification errors.
+A promise that resolves to the verification result, including the verified flag, extracted info, and any errors.
 
 #### Implementation of
 
@@ -90,7 +90,7 @@ Whether the payload is verified and any additional information extracted from th
 
 > **generate**(`identity`, `generatorType?`, `info?`, `options?`): `Promise`\<`unknown`\>
 
-Generate a payload using the specified generators.
+Generates a trust payload using the specified or default generator.
 
 #### Parameters
 
@@ -104,7 +104,7 @@ The identity for which to generate the payload.
 
 `string`
 
-The type of generator to use, defaults to the default generator type or first in factory.
+The generator type to use; falls back to the configured default or the first registered generator.
 
 ##### info?
 
@@ -118,14 +118,17 @@ Per-call generation options.
 
 `number`
 
-TTL override in seconds for this token only. Takes precedence over the
-config-level `tokenTtlInSeconds` when provided.
+TTL override in seconds for this token only; takes precedence over the config-level value when provided.
 
 #### Returns
 
 `Promise`\<`unknown`\>
 
-The generated payload.
+A promise that resolves to the generated payload.
+
+#### Throws
+
+GeneralError if no generators are registered.
 
 #### Implementation of
 

@@ -12,7 +12,7 @@ Class to generate a JWT Verifiable Credential.
 
 > **new JwtVerifiableCredentialGenerator**(`options`): `JwtVerifiableCredentialGenerator`
 
-Create a new instance of JwtVerifiableCredentialGenerator.
+Creates a new instance of JwtVerifiableCredentialGenerator.
 
 #### Parameters
 
@@ -20,7 +20,7 @@ Create a new instance of JwtVerifiableCredentialGenerator.
 
 [`IJwtVerifiableCredentialGeneratorConstructorOptions`](../interfaces/IJwtVerifiableCredentialGeneratorConstructorOptions.md)
 
-The options for the service.
+The options for the generator.
 
 #### Returns
 
@@ -46,7 +46,7 @@ Returns the class name of the component.
 
 `string`
 
-The class name of the component.
+The runtime class name string
 
 #### Implementation of
 
@@ -58,7 +58,7 @@ The class name of the component.
 
 > **generate**(`organizationId`, `info?`, `options?`): `Promise`\<`unknown`\>
 
-Generate a trust payload.
+Generates a JWT Verifiable Credential for the given organization identity.
 
 #### Parameters
 
@@ -66,7 +66,7 @@ Generate a trust payload.
 
 `string`
 
-The identity for which to generate the payload.
+The identity for which to generate the credential.
 
 ##### info?
 
@@ -76,8 +76,7 @@ Information to use in the generation.
 
 `IJsonLdNodeObject`
 
-The subject of the verifiable credential (JSON-LD).
-the JWT payload as the `org` claim.
+The subject of the verifiable credential as a JSON-LD node object; defaults to `{ id: organizationId }` when omitted.
 
 ##### options?
 
@@ -87,14 +86,13 @@ Per-call generation options.
 
 `number`
 
-TTL override in seconds for this token only. Takes precedence over the
-config-level `tokenTtlInSeconds` when provided.
+TTL override in seconds for this token only; takes precedence over the config-level value when provided.
 
 #### Returns
 
 `Promise`\<`unknown`\>
 
-The generated JWT.
+A promise that resolves to the signed JWT string.
 
 #### Implementation of
 

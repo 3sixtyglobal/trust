@@ -12,7 +12,7 @@ Class to gate verification based on allowed and denied identity lists.
 
 > **new IdentityAllowDenyVerifier**(`options?`): `IdentityAllowDenyVerifier`
 
-Create a new instance of IdentityAllowDenyVerifier.
+Creates a new instance of IdentityAllowDenyVerifier.
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Returns the class name of the component.
 
 `string`
 
-The class name of the component.
+The runtime class name string
 
 #### Implementation of
 
