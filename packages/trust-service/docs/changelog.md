@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.24](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.23...trust-service-v0.0.3-next.24) (2026-06-18)
+
+
+### Miscellaneous Chores
+
+* **trust-service:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.23 to 0.0.3-next.24
+
 ## [0.0.3-next.23](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.0.3-next.22...trust-service-v0.0.3-next.23) (2026-06-11)
 
 

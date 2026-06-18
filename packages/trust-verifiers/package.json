@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/trust-verifiers",
-	"version": "0.0.3-next.23",
+	"version": "0.0.3-next.24",
 	"description": "Implements trust verifiers that validate credentials and proofs against trust model requirements",
 	"repository": {
 		"type": "git",
@@ -33,7 +33,7 @@
 		"@twin.org/identity-models": "next",
 		"@twin.org/logging-models": "next",
 		"@twin.org/nameof": "next",
-		"@twin.org/trust-models": "0.0.3-next.23",
+		"@twin.org/trust-models": "0.0.3-next.24",
 		"@twin.org/web": "next"
 	},
 	"devDependencies": {

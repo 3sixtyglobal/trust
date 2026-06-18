@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.3-next.24](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.23...trust-generators-v0.0.3-next.24) (2026-06-18)
+
+
+### Bug Fixes
+
+* fall back to organization id when policy subject is empty ([#44](https://github.com/iotaledger/twin-trust/issues/44)) ([ee5e31c](https://github.com/iotaledger/twin-trust/commit/ee5e31c32c3ad465c9ffb9fa0c4cdfbaf3295e54))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.0.3-next.23 to 0.0.3-next.24
+
 ## [0.0.3-next.23](https://github.com/iotaledger/twin-trust/compare/trust-generators-v0.0.3-next.22...trust-generators-v0.0.3-next.23) (2026-06-11)
 
 
