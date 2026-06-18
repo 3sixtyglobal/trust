@@ -97,8 +97,9 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 		const credential = await this._identityComponent.verifiableCredentialCreate(
 			DocumentHelper.joinId(organizationId, this._verificationMethodId),
 			undefined,
-			// Identity subject can not be empty object
-			info?.subject ?? { id: organizationId },
+			// Identity subject can not be empty object, so fall back to the organization id
+			// when the subject is missing or an empty object (e.g. an empty PIP output).
+			Is.objectValue(info?.subject) ? info.subject : { id: organizationId },
 			{
 				expirationDate
 			},

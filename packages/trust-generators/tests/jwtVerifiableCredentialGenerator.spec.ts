@@ -49,6 +49,46 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		expect(result).toBe(mockCredential.jwt);
 	});
 
+	it("falls back to the organization id subject when no info is provided", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate("did:example:123");
+
+		const subjectArg = mockIdentityComponent.verifiableCredentialCreate.mock.calls[0][2];
+		expect(subjectArg).toEqual({ id: "did:example:123" });
+	});
+
+	it("falls back to the organization id subject when the subject is an empty object", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+
+		await generator.generate("did:example:123", { subject: {} });
+
+		const subjectArg = mockIdentityComponent.verifiableCredentialCreate.mock.calls[0][2];
+		expect(subjectArg).toEqual({ id: "did:example:123" });
+	});
+
+	it("uses the provided subject when it has at least one property", async () => {
+		const generator = new JwtVerifiableCredentialGenerator({
+			identityComponentType: "identity",
+			config: { verificationMethodId: "did:example:123#key-1" }
+		});
+		mockIdentityComponent.verifiableCredentialCreate.mockResolvedValue({ jwt: "jwt-token" });
+		const subject = { id: "did:example:456", foo: "bar" };
+
+		await generator.generate("did:example:123", { subject });
+
+		const subjectArg = mockIdentityComponent.verifiableCredentialCreate.mock.calls[0][2];
+		expect(subjectArg).toEqual(subject);
+	});
+
 	it("uses constructor tokenTtlInSeconds when no per-call override is provided", async () => {
 		const generator = new JwtVerifiableCredentialGenerator({
 			identityComponentType: "identity",
