@@ -2,12 +2,14 @@
 	"info": {
 		"trustService": {
 			"verifying": "Verifying payload: \"{payload}\"",
-			"verified": "Payload verified successfully: \"{info}\""
+			"verified": "Payload verified successfully"
 		}
 	},
 	"error": {
 		"trustService": {
-			"notVerified": "Payload verification failed: \"{failures}\""
+			"notVerified": "Payload verification failed",
+			"noGeneratorsRegistered": "No trust generators are registered in the factory",
+			"noVerifiersRegistered": "No trust verifiers are registered in the factory"
 		}
 	}
 }

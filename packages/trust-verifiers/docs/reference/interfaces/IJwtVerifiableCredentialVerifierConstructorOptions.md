@@ -4,23 +4,9 @@ The options for the JWT Verifiable Credential Verifier.
 
 ## Properties
 
-### loggingComponentType?
+### identityComponentType? {#identitycomponenttype}
 
-> `optional` **loggingComponentType**: `string`
-
-The logging component type.
-
-#### Default
-
-```ts
-logging
-```
-
-***
-
-### identityComponentType?
-
-> `optional` **identityComponentType**: `string`
+> `optional` **identityComponentType?**: `string`
 
 The identity component type.
 

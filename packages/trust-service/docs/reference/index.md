@@ -6,4 +6,5 @@
 
 ## Interfaces
 
+- [ITrustServiceConfig](interfaces/ITrustServiceConfig.md)
 - [ITrustServiceConstructorOptions](interfaces/ITrustServiceConstructorOptions.md)

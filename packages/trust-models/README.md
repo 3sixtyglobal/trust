@@ -1,6 +1,6 @@
 # TWIN Trust Models
 
-Models which define the structure of the trust contracts.
+This package is part of the trust repository and provides reusable trust building blocks so applications can issue, validate, and orchestrate trust artefacts with consistent behaviour.
 
 ## Installation
 

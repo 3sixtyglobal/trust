@@ -12,7 +12,7 @@ Class to verify a JWT Verifiable Credential.
 
 > **new JwtVerifiableCredentialVerifier**(`options?`): `JwtVerifiableCredentialVerifier`
 
-Create a new instance of JwtVerifiableCredentialVerifier.
+Creates a new instance of JwtVerifiableCredentialVerifier.
 
 #### Parameters
 
@@ -20,7 +20,7 @@ Create a new instance of JwtVerifiableCredentialVerifier.
 
 [`IJwtVerifiableCredentialVerifierConstructorOptions`](../interfaces/IJwtVerifiableCredentialVerifierConstructorOptions.md)
 
-The options for the service.
+The options for the verifier.
 
 #### Returns
 
@@ -28,7 +28,7 @@ The options for the service.
 
 ## Properties
 
-### CLASS\_NAME
+### CLASS\_NAME {#class_name}
 
 > `readonly` `static` **CLASS\_NAME**: `string`
 
@@ -36,7 +36,7 @@ Runtime name for the class.
 
 ## Methods
 
-### className()
+### className() {#classname}
 
 > **className**(): `string`
 
@@ -46,7 +46,7 @@ Returns the class name of the component.
 
 `string`
 
-The class name of the component.
+The runtime class name string
 
 #### Implementation of
 
@@ -54,9 +54,9 @@ The class name of the component.
 
 ***
 
-### verify()
+### verify() {#verify}
 
-> **verify**(`payload`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: `IError`[]; \}\>
+> **verify**(`payload`, `info`, `errors`): `Promise`\<`boolean` \| `undefined`\>
 
 Verify a payload by checking the validity of its structure and content.
 
@@ -68,11 +68,23 @@ Verify a payload by checking the validity of its structure and content.
 
 The payload to verify.
 
+##### info
+
+`ITrustVerificationInfo`
+
+Information extracted from previous verifiers and to be added by this verifier.
+
+##### errors
+
+`IError`[]
+
+Array to collect verification errors.
+
 #### Returns
 
-`Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: `IError`[]; \}\>
+`Promise`\<`boolean` \| `undefined`\>
 
-Whether the payload is verified and any additional information extracted from the payload, or verification failures.
+Whether the payload is verified, returns undefined if payload was not processed.
 
 #### Implementation of
 

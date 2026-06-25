@@ -8,9 +8,9 @@ Interface describing a trust verifier component.
 
 ## Methods
 
-### verify()
+### verify() {#verify}
 
-> **verify**(`payload`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: `IError`[]; \}\>
+> **verify**(`payload`, `info`, `errors`): `Promise`\<`boolean` \| `undefined`\>
 
 Verify a payload by checking the validity of its structure and content.
 
@@ -22,8 +22,20 @@ Verify a payload by checking the validity of its structure and content.
 
 The payload to verify.
 
+##### info
+
+[`ITrustVerificationInfo`](ITrustVerificationInfo.md)
+
+Information extracted from previous verifiers and to be added by this verifier.
+
+##### errors
+
+`IError`[]
+
+Array to collect verification errors.
+
 #### Returns
 
-`Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: `IError`[]; \}\>
+`Promise`\<`boolean` \| `undefined`\>
 
-Whether the payload is verified and any additional information extracted from the payload, or verification failures.
+Whether the payload is verified, returns undefined if payload was not processed.

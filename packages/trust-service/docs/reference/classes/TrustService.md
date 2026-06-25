@@ -12,7 +12,7 @@ Class for performing trust operations.
 
 > **new TrustService**(`options?`): `TrustService`
 
-Create a new instance of TrustService.
+Creates a new instance of TrustService.
 
 #### Parameters
 
@@ -28,7 +28,7 @@ The options for the service.
 
 ## Properties
 
-### CLASS\_NAME
+### CLASS\_NAME {#class_name}
 
 > `readonly` `static` **CLASS\_NAME**: `string`
 
@@ -36,7 +36,7 @@ Runtime name for the class.
 
 ## Methods
 
-### className()
+### className() {#classname}
 
 > **className**(): `string`
 
@@ -46,7 +46,7 @@ Returns the class name of the component.
 
 `string`
 
-The class name of the component.
+The runtime class name string
 
 #### Implementation of
 
@@ -54,11 +54,11 @@ The class name of the component.
 
 ***
 
-### verify()
+### verify() {#verify}
 
-> **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: \{\[`id`: `string`\]: `IError`[]; \}; \}\>
+> **verify**(`payload`, `overrideVerifiers?`): `Promise`\<\{ `verified`: `boolean`; `info?`: `ITrustVerificationInfo`; `errors?`: `IError`[]; \}\>
 
-Verify a payload by checking the validity of its structure and content using the registered verifiers.
+Verifies a payload using all registered verifiers or an explicit override list.
 
 #### Parameters
 
@@ -72,14 +72,64 @@ The payload to verify.
 
 `string`[]
 
-List of verifiers to use instead of the default ones.
+List of verifiers to use instead of the registered defaults.
 
 #### Returns
 
-`Promise`\<\{ `verified`: `boolean`; `info?`: `IJsonLdNodeObject`[]; `failures?`: \{\[`id`: `string`\]: `IError`[]; \}; \}\>
+`Promise`\<\{ `verified`: `boolean`; `info?`: `ITrustVerificationInfo`; `errors?`: `IError`[]; \}\>
 
-Whether the payload is verified and any additional information extracted from the payload, or failures per verifier.
+A promise that resolves to the verification result, including the verified flag, extracted info, and any errors.
 
 #### Implementation of
 
 `ITrustComponent.verify`
+
+***
+
+### generate() {#generate}
+
+> **generate**(`identity`, `generatorType?`, `info?`, `options?`): `Promise`\<`unknown`\>
+
+Generates a trust payload using the specified or default generator.
+
+#### Parameters
+
+##### identity
+
+`string`
+
+The identity for which to generate the payload.
+
+##### generatorType?
+
+`string`
+
+The generator type to use; falls back to the configured default or the first registered generator.
+
+##### info?
+
+Optional information to include in the generated payload.
+
+##### options?
+
+Per-call generation options.
+
+###### tokenTtlInSeconds
+
+`number`
+
+TTL override in seconds for this token only; takes precedence over the config-level value when provided.
+
+#### Returns
+
+`Promise`\<`unknown`\>
+
+A promise that resolves to the generated payload.
+
+#### Throws
+
+GeneralError if no generators are registered.
+
+#### Implementation of
+
+`ITrustComponent.generate`

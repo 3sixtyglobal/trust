@@ -1,10 +1,14 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory, type IError, Is } from "@twin.org/core";
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { ComponentFactory, GeneralError, Guards, Is, type IError } from "@twin.org/core";
 import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import { TrustVerifierFactory, type ITrustComponent } from "@twin.org/trust-models";
+import {
+	type ITrustVerificationInfo,
+	TrustGeneratorFactory,
+	TrustVerifierFactory,
+	type ITrustComponent
+} from "@twin.org/trust-models";
 import type { ITrustServiceConstructorOptions } from "./models/ITrustServiceConstructorOptions.js";
 
 /**
@@ -23,41 +27,48 @@ export class TrustService implements ITrustComponent {
 	private readonly _loggingComponent?: ILoggingComponent;
 
 	/**
-	 * Create a new instance of TrustService.
+	 * The default generator type.
+	 * @internal
+	 */
+	private readonly _defaultGeneratorType?: string;
+
+	/**
+	 * Creates a new instance of TrustService.
 	 * @param options The options for the service.
 	 */
 	constructor(options?: ITrustServiceConstructorOptions) {
-		this._loggingComponent = ComponentFactory.getIfExists(
-			options?.loggingComponentType ?? "logging"
-		);
+		this._loggingComponent = ComponentFactory.getIfExists(options?.loggingComponentType);
+
+		this._defaultGeneratorType = options?.config?.defaultGeneratorType;
 	}
 
 	/**
 	 * Returns the class name of the component.
-	 * @returns The class name of the component.
+	 * @returns The runtime class name string
 	 */
 	public className(): string {
 		return TrustService.CLASS_NAME;
 	}
 
 	/**
-	 * Verify a payload by checking the validity of its structure and content using the registered verifiers.
+	 * Verifies a payload using all registered verifiers or an explicit override list.
 	 * @param payload The payload to verify.
-	 * @param overrideVerifiers List of verifiers to use instead of the default ones.
-	 * @returns Whether the payload is verified and any additional information extracted from the payload, or failures per verifier.
+	 * @param overrideVerifiers List of verifiers to use instead of the registered defaults.
+	 * @returns A promise that resolves to the verification result, including the verified flag, extracted info, and any errors.
 	 */
 	public async verify(
 		payload: unknown,
 		overrideVerifiers?: string[]
 	): Promise<{
 		verified: boolean;
-		info?: IJsonLdNodeObject[];
-		failures?: { [id: string]: IError[] };
+		info?: ITrustVerificationInfo;
+		errors?: IError[];
 	}> {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();
+
 		let verified = false;
-		const info: IJsonLdNodeObject[] = [];
-		const failures: { [id: string]: IError[] } = {};
+		const info: ITrustVerificationInfo = { identity: "" };
+		const errors: IError[] = [];
 
 		await this._loggingComponent?.log({
 			level: "info",
@@ -69,20 +80,16 @@ export class TrustService implements ITrustComponent {
 			}
 		});
 
-		for (const verifierName of verifierNames) {
-			const verifier = TrustVerifierFactory.get(verifierName);
-			const verifierResult = await verifier.verify(payload);
+		if (verifierNames.length === 0) {
+			errors.push(new GeneralError(TrustService.CLASS_NAME, "noVerifiersRegistered"));
+		} else {
+			for (const verifierName of verifierNames) {
+				const verifier = TrustVerifierFactory.get(verifierName);
+				const verifierResult = await verifier.verify(payload, info, errors);
 
-			if (verifierResult.verified) {
-				verified = true;
-
-				if (Is.arrayValue(verifierResult.info)) {
-					info.push(...verifierResult.info);
+				if (!Is.empty(verifierResult)) {
+					verified = verifierResult;
 				}
-			}
-
-			if (Is.arrayValue(verifierResult.failures)) {
-				failures[verifierName] = verifierResult.failures;
 			}
 		}
 
@@ -93,7 +100,7 @@ export class TrustService implements ITrustComponent {
 				message: "verified",
 				ts: Date.now(),
 				data: {
-					info: JSON.stringify(info)
+					info
 				}
 			});
 		} else {
@@ -103,15 +110,52 @@ export class TrustService implements ITrustComponent {
 				message: "notVerified",
 				ts: Date.now(),
 				data: {
-					failures: JSON.stringify(failures)
+					errors
 				}
 			});
 		}
 
 		return {
 			verified,
-			info: Is.arrayValue(info) ? info : undefined,
-			failures: Is.objectValue(failures) ? failures : undefined
+			info: info.identity.length > 0 ? info : undefined,
+			errors: errors.length > 0 ? errors : undefined
 		};
+	}
+
+	/**
+	 * Generates a trust payload using the specified or default generator.
+	 * @param identity The identity for which to generate the payload.
+	 * @param generatorType The generator type to use; falls back to the configured default or the first registered generator.
+	 * @param info Optional information to include in the generated payload.
+	 * @param options Per-call generation options.
+	 * @param options.tokenTtlInSeconds TTL override in seconds for this token only; takes precedence over the config-level value when provided.
+	 * @returns A promise that resolves to the generated payload.
+	 * @throws GeneralError if no generators are registered.
+	 */
+	public async generate(
+		identity: string,
+		generatorType?: string,
+		info?: {
+			[key: string]: unknown;
+		},
+		options?: { tokenTtlInSeconds: number }
+	): Promise<unknown> {
+		Guards.stringValue(TrustService.CLASS_NAME, nameof(identity), identity);
+
+		if (Is.empty(generatorType)) {
+			generatorType = this._defaultGeneratorType;
+
+			if (Is.empty(generatorType)) {
+				const names = TrustGeneratorFactory.names();
+				if (names.length === 0) {
+					throw new GeneralError(TrustService.CLASS_NAME, "noGeneratorsRegistered");
+				}
+				generatorType = names[0];
+			}
+		}
+
+		const generator = TrustGeneratorFactory.get(generatorType);
+
+		return generator.generate(identity, info, options);
 	}
 }

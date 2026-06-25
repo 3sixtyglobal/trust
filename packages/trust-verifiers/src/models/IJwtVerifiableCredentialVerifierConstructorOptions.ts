@@ -6,12 +6,6 @@
  */
 export interface IJwtVerifiableCredentialVerifierConstructorOptions {
 	/**
-	 * The logging component type.
-	 * @default logging
-	 */
-	loggingComponentType?: string;
-
-	/**
 	 * The identity component type.
 	 * @default identity
 	 */

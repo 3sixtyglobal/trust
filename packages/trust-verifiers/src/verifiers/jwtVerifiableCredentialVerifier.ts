@@ -1,11 +1,10 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { BaseError, Coerce, ComponentFactory, GeneralError, type IError, Is } from "@twin.org/core";
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import { BaseError, Coerce, ComponentFactory, GeneralError, Is, type IError } from "@twin.org/core";
+import { JsonLdHelper } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
-import type { ILoggingComponent } from "@twin.org/logging-models";
 import { nameof } from "@twin.org/nameof";
-import type { ITrustVerifier } from "@twin.org/trust-models";
+import type { ITrustVerificationInfo, ITrustVerifier } from "@twin.org/trust-models";
 import { Jwt } from "@twin.org/web";
 import type { IJwtVerifiableCredentialVerifierConstructorOptions } from "../models/IJwtVerifiableCredentialVerifierConstructorOptions.js";
 
@@ -19,32 +18,22 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	public static readonly CLASS_NAME: string = nameof<JwtVerifiableCredentialVerifier>();
 
 	/**
-	 * The logging component.
-	 * @internal
-	 */
-	private readonly _loggingComponent?: ILoggingComponent;
-
-	/**
 	 * The identity component.
 	 * @internal
 	 */
 	private readonly _identityComponent: IIdentityComponent;
 
 	/**
-	 * Create a new instance of JwtVerifiableCredentialVerifier.
-	 * @param options The options for the service.
+	 * Creates a new instance of JwtVerifiableCredentialVerifier.
+	 * @param options The options for the verifier.
 	 */
 	constructor(options?: IJwtVerifiableCredentialVerifierConstructorOptions) {
-		this._loggingComponent = ComponentFactory.getIfExists(
-			options?.loggingComponentType ?? "logging"
-		);
-
 		this._identityComponent = ComponentFactory.get(options?.identityComponentType ?? "identity");
 	}
 
 	/**
 	 * Returns the class name of the component.
-	 * @returns The class name of the component.
+	 * @returns The runtime class name string
 	 */
 	public className(): string {
 		return JwtVerifiableCredentialVerifier.CLASS_NAME;
@@ -53,30 +42,28 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	/**
 	 * Verify a payload by checking the validity of its structure and content.
 	 * @param payload The payload to verify.
-	 * @returns Whether the payload is verified and any additional information extracted from the payload, or verification failures.
+	 * @param info Information extracted from previous verifiers and to be added by this verifier.
+	 * @param info.identity The identity associated with the payload.
+	 * @param errors Array to collect verification errors.
+	 * @returns Whether the payload is verified, returns undefined if payload was not processed.
 	 */
-	public async verify(payload: unknown): Promise<{
-		verified: boolean;
-		info?: IJsonLdNodeObject[];
-		failures?: IError[];
-	}> {
-		const info: IJsonLdNodeObject[] = [];
-		const failures: IError[] = [];
-
+	public async verify(
+		payload: unknown,
+		info: ITrustVerificationInfo,
+		errors: IError[]
+	): Promise<boolean | undefined> {
 		if (Is.stringValue(payload)) {
 			const jwt = await Jwt.decode(payload);
 
-			if (
-				Is.objectValue(jwt.header) &&
-				Is.objectValue(jwt.payload) &&
-				Is.uint8Array(jwt.signature)
-			) {
+			if (Is.objectValue(jwt.header) && Is.object(jwt.payload) && Is.uint8Array(jwt.signature)) {
+				let isVerified = true;
 				try {
 					const expiredMs = (Coerce.number(jwt.payload.exp) ?? 0) * 1000;
 					if (expiredMs > 0 && expiredMs < Date.now()) {
-						failures.push(
+						errors.push(
 							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenExpired")
 						);
+						isVerified = false;
 					}
 
 					const verificationResult =
@@ -84,39 +71,51 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 
 					const verifiableCredential = verificationResult.verifiableCredential;
 					if (Is.empty(verifiableCredential)) {
-						failures.push(
+						errors.push(
 							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingCredential")
 						);
+						isVerified = false;
+					} else {
+						info.data ??= {};
+						info.data.verifiableCredential = JsonLdHelper.toNodeObject(verifiableCredential);
 					}
 
 					const issuer: string | undefined = Is.stringValue(verifiableCredential?.issuer)
 						? verifiableCredential?.issuer
 						: undefined;
 					if (Is.empty(issuer)) {
-						failures.push(
+						errors.push(
 							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingIssuer")
 						);
+						isVerified = false;
+					} else {
+						info.identity = issuer;
 					}
 
 					const subject = verifiableCredential?.credentialSubject;
 					if (Is.empty(subject)) {
-						failures.push(
+						errors.push(
 							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingSubject")
 						);
+						isVerified = false;
 					} else {
-						const subjectArray = Array.isArray(subject) ? subject : [subject];
-						info.push(...subjectArray);
+						info.data ??= {};
+						info.data.subject = JsonLdHelper.toNodeObject(subject);
 					}
 				} catch (err) {
-					failures.push(BaseError.fromError(err));
+					isVerified = false;
+					errors.push(
+						new GeneralError(
+							JwtVerifiableCredentialVerifier.CLASS_NAME,
+							"tokenDecodingFailed",
+							undefined,
+							BaseError.fromError(err)
+						)
+					);
 				}
+
+				return isVerified;
 			}
 		}
-
-		return {
-			verified: failures.length === 0,
-			info,
-			failures
-		};
 	}
 }
