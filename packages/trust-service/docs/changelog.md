@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.9.0](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.9.0...trust-service-v0.9.0) (2026-06-25)
+
+
+### Features
+
+* add verifier overrides ([bb16a35](https://github.com/iotaledger/twin-trust/commit/bb16a35e0d6966e050cbdcc9e32a8c78839431d4))
+* initial commit ([d378ef4](https://github.com/iotaledger/twin-trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
+* release to production ([#51](https://github.com/iotaledger/twin-trust/issues/51)) ([998b21a](https://github.com/iotaledger/twin-trust/commit/998b21a2c4663b7d49fc11ed2866f34ef75de390))
+
 ## [0.9.0-next.1](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.9.0-next.0...trust-service-v0.9.0-next.1) (2026-06-23)
 
 
