@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.9.1](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.9.1...trust-verifiers-v0.9.1) (2026-07-27)
+
+
+### Features
+
+* initial commit ([d378ef4](https://github.com/iotaledger/twin-trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
+* release to production ([#51](https://github.com/iotaledger/twin-trust/issues/51)) ([998b21a](https://github.com/iotaledger/twin-trust/commit/998b21a2c4663b7d49fc11ed2866f34ef75de390))
+* release to production ([#57](https://github.com/iotaledger/twin-trust/issues/57)) ([4b8e6da](https://github.com/iotaledger/twin-trust/commit/4b8e6da3496d8095f60cc1459569c24b545856d5))
+
 ## [0.9.1-next.1](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.9.1-next.0...trust-verifiers-v0.9.1-next.1) (2026-06-26)
 
 
