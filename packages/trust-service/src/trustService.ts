@@ -67,6 +67,7 @@ export class TrustService implements ITrustComponent {
 		const verifierNames = overrideVerifiers ?? TrustVerifierFactory.names();
 
 		let verified = false;
+		let hasExplicitRejection = false;
 		const info: ITrustVerificationInfo = { identity: "" };
 		const errors: IError[] = [];
 
@@ -87,7 +88,10 @@ export class TrustService implements ITrustComponent {
 				const verifier = TrustVerifierFactory.get(verifierName);
 				const verifierResult = await verifier.verify(payload, info, errors);
 
-				if (!Is.empty(verifierResult)) {
+				if (verifierResult === false) {
+					hasExplicitRejection = true;
+					verified = false;
+				} else if (verifierResult === true && !hasExplicitRejection) {
 					verified = verifierResult;
 				}
 			}

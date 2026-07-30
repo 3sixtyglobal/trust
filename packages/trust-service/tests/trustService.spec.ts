@@ -96,6 +96,43 @@ describe("TrustService", () => {
 		TrustVerifierFactory.unregister("failVerifier");
 	});
 
+	test("verify keeps explicit rejection when a later verifier returns true", async () => {
+		const identityMissingError: IError = {
+			name: "MockError",
+			source: "AllowDeny",
+			message: "identityMissing"
+		};
+
+		const allowDenyVerifier: ITrustVerifier = {
+			verify: async (payload, info, errors) => {
+				errors.push(identityMissingError);
+				return false;
+			},
+			className: () => "AllowDenyVerifier"
+		};
+
+		const identityExtractor: ITrustVerifier = {
+			verify: async (payload, info) => {
+				info.identity = "did:test:denied";
+				return true;
+			},
+			className: () => "IdentityExtractor"
+		};
+
+		TrustVerifierFactory.register("allowDenyVerifier", () => allowDenyVerifier);
+		TrustVerifierFactory.register("identityExtractor", () => identityExtractor);
+
+		const trustService = new TrustService();
+		const result = await trustService.verify({ test: "payload" });
+
+		expect(result.verified).toBe(false);
+		expect(result.info?.identity).toBe("did:test:denied");
+		expect(result.errors).toEqual([identityMissingError]);
+
+		TrustVerifierFactory.unregister("allowDenyVerifier");
+		TrustVerifierFactory.unregister("identityExtractor");
+	});
+
 	test("verify passes identity from first verifier to second verifier - allow", async () => {
 		const identityExtractor: ITrustVerifier = {
 			verify: async (payload, info) => {
