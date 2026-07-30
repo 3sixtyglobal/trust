@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.9.2-next.1](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.9.2-next.0...trust-verifiers-v0.9.2-next.1) (2026-07-30)
+
+
+### Features
+
+* add allow deny verifier ([#32](https://github.com/iotaledger/twin-trust/issues/32)) ([daf5d03](https://github.com/iotaledger/twin-trust/commit/daf5d033ffbe82e2228c48ca7ffea870a1ce956e))
+* add generators ([6228c88](https://github.com/iotaledger/twin-trust/commit/6228c88a8f0244b7bdfc76b8624c427c81d23f7b))
+* add optional tenantId + organizationId to trust VC payload ([#19](https://github.com/iotaledger/twin-trust/issues/19)) ([1e93f6b](https://github.com/iotaledger/twin-trust/commit/1e93f6b0eacbfa725f3c3515d4255b39dd122ce7))
+* always include identity in verification info ([9594d19](https://github.com/iotaledger/twin-trust/commit/9594d19e9d718bd42b82964750ae3bcfb7df51bf))
+* flatten error structure ([5fdd665](https://github.com/iotaledger/twin-trust/commit/5fdd665d0fc523a655563a0c20d1d82b634534e2))
+* initial commit ([d378ef4](https://github.com/iotaledger/twin-trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
+* organization identifiers ([#39](https://github.com/iotaledger/twin-trust/issues/39)) ([a5891b9](https://github.com/iotaledger/twin-trust/commit/a5891b9d57ef209c20f53302442d1910dce963d2))
+* remove logging component ([54b56cb](https://github.com/iotaledger/twin-trust/commit/54b56cb81a6cb0aac41e37e8edda9c36685f2adb))
+* support pass through of info between verifiers ([1ce64b9](https://github.com/iotaledger/twin-trust/commit/1ce64b97a949278b447cc12b576ce5de537f30f3))
+* typescript 6 update ([a232da2](https://github.com/iotaledger/twin-trust/commit/a232da293afbd3b42843e187e4952dabd7917397))
+* update dependencies ([367d7fc](https://github.com/iotaledger/twin-trust/commit/367d7fc1f970522650c776d231bfacc84f97be67))
+* verification info structure ([#10](https://github.com/iotaledger/twin-trust/issues/10)) ([8b09ec8](https://github.com/iotaledger/twin-trust/commit/8b09ec8128214b659f427fc3a985eb8ced9ed5dc))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.9.2-next.0 to 0.9.2-next.1
+
 ## [0.9.1](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.9.1...trust-verifiers-v0.9.1) (2026-07-27)
 
 

@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.9.2-next.1](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.9.2-next.0...trust-models-v0.9.2-next.1) (2026-07-30)
+
+
+### Features
+
+* add default generator config ([54d98ba](https://github.com/iotaledger/twin-trust/commit/54d98ba53b7450b56337daeda504437be0d21943))
+* add generators ([6228c88](https://github.com/iotaledger/twin-trust/commit/6228c88a8f0244b7bdfc76b8624c427c81d23f7b))
+* add optional tenantId + organizationId to trust VC payload ([#19](https://github.com/iotaledger/twin-trust/issues/19)) ([1e93f6b](https://github.com/iotaledger/twin-trust/commit/1e93f6b0eacbfa725f3c3515d4255b39dd122ce7))
+* add TrustHelper hashTenantId ([#22](https://github.com/iotaledger/twin-trust/issues/22)) ([1efa9dc](https://github.com/iotaledger/twin-trust/commit/1efa9dc7ef0534dbb1a789fac300409190452273))
+* add verifier overrides ([bb16a35](https://github.com/iotaledger/twin-trust/commit/bb16a35e0d6966e050cbdcc9e32a8c78839431d4))
+* always include identity in verification info ([9594d19](https://github.com/iotaledger/twin-trust/commit/9594d19e9d718bd42b82964750ae3bcfb7df51bf))
+* error if no verifiers registered ([aa1cef6](https://github.com/iotaledger/twin-trust/commit/aa1cef6a130b008144073696077fd0a41d4bc533))
+* flatten error structure ([5fdd665](https://github.com/iotaledger/twin-trust/commit/5fdd665d0fc523a655563a0c20d1d82b634534e2))
+* guarantee identity in helper return value ([8a582f3](https://github.com/iotaledger/twin-trust/commit/8a582f32125365a414dbd61c28dd870fb60d3acb))
+* initial commit ([d378ef4](https://github.com/iotaledger/twin-trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
+* organization identifiers ([#39](https://github.com/iotaledger/twin-trust/issues/39)) ([a5891b9](https://github.com/iotaledger/twin-trust/commit/a5891b9d57ef209c20f53302442d1910dce963d2))
+* support pass through of info between verifiers ([1ce64b9](https://github.com/iotaledger/twin-trust/commit/1ce64b97a949278b447cc12b576ce5de537f30f3))
+* ttl-token per generation ([#26](https://github.com/iotaledger/twin-trust/issues/26)) ([a35e925](https://github.com/iotaledger/twin-trust/commit/a35e925560d05f30dd8c02eb4184c0c503ca075a))
+* typescript 6 update ([a232da2](https://github.com/iotaledger/twin-trust/commit/a232da293afbd3b42843e187e4952dabd7917397))
+* update dependencies ([367d7fc](https://github.com/iotaledger/twin-trust/commit/367d7fc1f970522650c776d231bfacc84f97be67))
+* update param names ([4c78d57](https://github.com/iotaledger/twin-trust/commit/4c78d5703ce7adef3fb5d3bbb1d2cde5db4376cc))
+* verification info structure ([#10](https://github.com/iotaledger/twin-trust/issues/10)) ([8b09ec8](https://github.com/iotaledger/twin-trust/commit/8b09ec8128214b659f427fc3a985eb8ced9ed5dc))
+
 ## [0.9.1](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.9.1...trust-models-v0.9.1) (2026-07-27)
 
 
