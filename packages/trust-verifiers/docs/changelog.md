@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.2-next.2](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.9.2-next.1...trust-verifiers-v0.9.2-next.2) (2026-08-07)
+
+
+### Miscellaneous Chores
+
+* **trust-verifiers:** Synchronize repo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.9.2-next.1 to 0.9.2-next.2
+
 ## [0.9.2-next.1](https://github.com/iotaledger/twin-trust/compare/trust-verifiers-v0.9.2-next.0...trust-verifiers-v0.9.2-next.1) (2026-07-30)
 
 

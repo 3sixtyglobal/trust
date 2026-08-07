@@ -1,6 +1,6 @@
 {
 	"name": "@twin.org/trust-generators",
-	"version": "0.9.2-next.1",
+	"version": "0.9.2-next.2",
 	"description": "Implements trust credential generators that produce signed verifiable credential artefacts",
 	"repository": {
 		"type": "git",
@@ -33,7 +33,7 @@
 		"@twin.org/identity-models": "next",
 		"@twin.org/logging-models": "next",
 		"@twin.org/nameof": "next",
-		"@twin.org/trust-models": "0.9.2-next.1",
+		"@twin.org/trust-models": "0.9.2-next.2",
 		"@twin.org/web": "next"
 	},
 	"devDependencies": {

@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.2-next.2](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.9.2-next.1...trust-service-v0.9.2-next.2) (2026-08-07)
+
+
+### Features
+
+* linting and dependency update ([f6f8dfb](https://github.com/iotaledger/twin-trust/commit/f6f8dfbf9b9f7e509e641de562e94eb16b02c069))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @twin.org/trust-models bumped from 0.9.2-next.1 to 0.9.2-next.2
+
 ## [0.9.2-next.1](https://github.com/iotaledger/twin-trust/compare/trust-service-v0.9.2-next.0...trust-service-v0.9.2-next.1) (2026-07-30)
 
 
