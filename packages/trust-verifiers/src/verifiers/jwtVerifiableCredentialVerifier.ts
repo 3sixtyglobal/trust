@@ -1,12 +1,22 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { BaseError, Coerce, ComponentFactory, GeneralError, Is, type IError } from "@twin.org/core";
+import {
+	BaseError,
+	Coerce,
+	ComponentFactory,
+	GeneralError,
+	Is,
+	LruCache,
+	ObjectHelper,
+	type IError
+} from "@twin.org/core";
 import { JsonLdHelper } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import { nameof } from "@twin.org/nameof";
 import type { ITrustVerificationInfo, ITrustVerifier } from "@twin.org/trust-models";
 import { Jwt } from "@twin.org/web";
 import type { IJwtVerifiableCredentialVerifierConstructorOptions } from "../models/IJwtVerifiableCredentialVerifierConstructorOptions.js";
+import type { IJwtVerificationCacheEntry } from "../models/IJwtVerificationCacheEntry.js";
 
 /**
  * Class to verify a JWT Verifiable Credential.
@@ -18,10 +28,29 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	public static readonly CLASS_NAME: string = nameof<JwtVerifiableCredentialVerifier>();
 
 	/**
+	 * Default time-to-idle in milliseconds for cached verification results.
+	 * @internal
+	 */
+	private static readonly _DEFAULT_CACHE_TTI_MS: number = 5000;
+
+	/**
+	 * Default maximum number of cached verification results.
+	 * @internal
+	 */
+	private static readonly _DEFAULT_CACHE_CAPACITY: number = 1000;
+
+	/**
 	 * The identity component.
 	 * @internal
 	 */
 	private readonly _identityComponent: IIdentityComponent;
+
+	/**
+	 * LRU cache for verification results, keyed on the payload.
+	 * Undefined when caching is disabled (tti is 0).
+	 * @internal
+	 */
+	private readonly _verificationCache?: LruCache<IJwtVerificationCacheEntry>;
 
 	/**
 	 * Creates a new instance of JwtVerifiableCredentialVerifier.
@@ -29,6 +58,20 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	 */
 	constructor(options?: IJwtVerifiableCredentialVerifierConstructorOptions) {
 		this._identityComponent = ComponentFactory.get(options?.identityComponentType ?? "identity");
+
+		const cacheTtiMs =
+			options?.config?.verificationCacheTtiMs ??
+			JwtVerifiableCredentialVerifier._DEFAULT_CACHE_TTI_MS;
+		this._verificationCache =
+			cacheTtiMs > 0
+				? new LruCache<IJwtVerificationCacheEntry>({
+						capacity:
+							options?.config?.verificationCacheCapacity ??
+							JwtVerifiableCredentialVerifier._DEFAULT_CACHE_CAPACITY,
+						ttiMs: cacheTtiMs,
+						mutexTimeoutMs: options?.config?.verificationCacheMutexTimeoutMs
+					})
+				: undefined;
 	}
 
 	/**
@@ -53,69 +96,133 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 		errors: IError[]
 	): Promise<boolean | undefined> {
 		if (Is.stringValue(payload)) {
-			const jwt = await Jwt.decode(payload);
+			let result = this._verificationCache?.get(payload);
+			if (Is.empty(result)) {
+				result = await this.verificationResult(payload);
+			}
 
-			if (Is.objectValue(jwt.header) && Is.object(jwt.payload) && Is.uint8Array(jwt.signature)) {
-				let isVerified = true;
-				try {
-					const expiredMs = (Coerce.number(jwt.payload.exp) ?? 0) * 1000;
-					if (expiredMs > 0 && expiredMs < Date.now()) {
-						errors.push(
-							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenExpired")
-						);
-						isVerified = false;
-					}
+			if (Is.notEmpty(result)) {
+				errors.push(...result.errors);
 
-					const verificationResult =
-						await this._identityComponent.verifiableCredentialVerify(payload);
-
-					const verifiableCredential = verificationResult.verifiableCredential;
-					if (Is.empty(verifiableCredential)) {
-						errors.push(
-							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingCredential")
-						);
-						isVerified = false;
-					} else {
-						info.data ??= {};
-						info.data.verifiableCredential = JsonLdHelper.toNodeObject(verifiableCredential);
-					}
-
-					const issuer: string | undefined = Is.stringValue(verifiableCredential?.issuer)
-						? verifiableCredential?.issuer
-						: undefined;
-					if (Is.empty(issuer)) {
-						errors.push(
-							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingIssuer")
-						);
-						isVerified = false;
-					} else {
-						info.identity = issuer;
-					}
-
-					const subject = verifiableCredential?.credentialSubject;
-					if (Is.empty(subject)) {
-						errors.push(
-							new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingSubject")
-						);
-						isVerified = false;
-					} else {
-						info.data ??= {};
-						info.data.subject = JsonLdHelper.toNodeObject(subject);
-					}
-				} catch (err) {
-					isVerified = false;
-					errors.push(
-						new GeneralError(
-							JwtVerifiableCredentialVerifier.CLASS_NAME,
-							"tokenDecodingFailed",
-							undefined,
-							BaseError.fromError(err)
-						)
-					);
+				if (Is.notEmpty(result.identity)) {
+					info.identity = result.identity;
 				}
 
-				return isVerified;
+				if (Is.notEmpty(result.data)) {
+					info.data ??= {};
+					// Cloned so a consumer mutating the info cannot corrupt the cached result.
+					Object.assign(info.data, ObjectHelper.clone(result.data));
+				}
+
+				return result.verified;
 			}
 		}
+	}
+
+	/**
+	 * Get the verification result for a payload, returning the cached one when the cache holds it.
+	 * @param payload The payload to verify, also used as the cache key.
+	 * @returns The verification result, undefined when the payload is not a JWT.
+	 * @internal
+	 */
+	private async verificationResult(
+		payload: string
+	): Promise<IJwtVerificationCacheEntry | undefined> {
+		const jwt = await Jwt.decode(payload);
+		if (!Is.objectValue(jwt.header) || !Is.object(jwt.payload) || !Is.uint8Array(jwt.signature)) {
+			// Probably not a JWT, so let the next verifier handle it.
+			return;
+		}
+
+		const expiresMs = Math.floor((Coerce.number(jwt.payload.exp) ?? 0) * 1000);
+
+		// Nothing worth retaining when caching is disabled or the token has already expired.
+		if (Is.undefined(this._verificationCache) || (expiresMs > 0 && expiresMs <= Date.now())) {
+			return this.buildVerificationResult(payload, expiresMs);
+		}
+
+		// The token expiry is handed to the cache as a hard deadline, so a cached result is
+		// dropped at whichever of the expiry or the idle window comes first.
+		return this._verificationCache.getOrSet(
+			payload,
+			async () => this.buildVerificationResult(payload, expiresMs),
+			expiresMs > 0 ? expiresMs : undefined
+		);
+	}
+
+	/**
+	 * Verify a payload through the identity component.
+	 * @param payload The payload to verify.
+	 * @param expiresMs The epoch milliseconds at which the token expires, 0 when it has no expiry.
+	 * @returns The verification result.
+	 * @internal
+	 */
+	private async buildVerificationResult(
+		payload: string,
+		expiresMs: number
+	): Promise<IJwtVerificationCacheEntry> {
+		const result: IJwtVerificationCacheEntry = { verified: true, errors: [] };
+
+		try {
+			if (expiresMs > 0 && expiresMs < Date.now()) {
+				result.errors.push(
+					new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenExpired")
+				);
+				result.verified = false;
+			}
+
+			const verificationResult = await this._identityComponent.verifiableCredentialVerify(payload);
+
+			if (verificationResult.revoked) {
+				result.errors.push(
+					new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenRevoked")
+				);
+				result.verified = false;
+			}
+
+			const verifiableCredential = verificationResult.verifiableCredential;
+			if (Is.empty(verifiableCredential)) {
+				result.errors.push(
+					new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingCredential")
+				);
+				result.verified = false;
+			} else {
+				result.data ??= {};
+				result.data.verifiableCredential = JsonLdHelper.toNodeObject(verifiableCredential);
+			}
+
+			const issuer = verifiableCredential?.issuer;
+			if (!Is.stringValue(issuer)) {
+				result.errors.push(
+					new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingIssuer")
+				);
+				result.verified = false;
+			} else {
+				result.identity = issuer;
+			}
+
+			const subject = verifiableCredential?.credentialSubject;
+			if (Is.empty(subject)) {
+				result.errors.push(
+					new GeneralError(JwtVerifiableCredentialVerifier.CLASS_NAME, "tokenMissingSubject")
+				);
+				result.verified = false;
+			} else {
+				result.data ??= {};
+				result.data.subject = JsonLdHelper.toNodeObject(subject);
+			}
+		} catch (err) {
+			result.errors.push(
+				new GeneralError(
+					JwtVerifiableCredentialVerifier.CLASS_NAME,
+					"tokenDecodingFailed",
+					undefined,
+					BaseError.fromError(err)
+				)
+			);
+			result.verified = false;
+		}
+
+		return result;
 	}
 }
