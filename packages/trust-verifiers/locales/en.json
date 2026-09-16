@@ -9,6 +9,7 @@
 			"tokenMissingCredential": "The JWT token does not contain a verifiable credential.",
 			"tokenMissingIssuer": "The verifiable credential in the JWT does not contain an issuer.",
 			"tokenExpired": "The JWT token has expired.",
+			"tokenRevoked": "The verifiable credential in the JWT has been revoked.",
 			"tokenMissingSubject": "The verifiable credential in the JWT does not contain a subject.",
 			"tokenDecodingFailed": "Failed to decode the JWT token."
 		}

@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0.
 export * from "./models/IIdentityAllowDenyVerifierConfig.js";
 export * from "./models/IIdentityAllowDenyVerifierConstructorOptions.js";
+export * from "./models/IJwtVerifiableCredentialVerifierConfig.js";
 export * from "./models/IJwtVerifiableCredentialVerifierConstructorOptions.js";
+export * from "./models/IJwtVerificationCacheEntry.js";
 export * from "./verifiers/identityAllowDenyVerifier.js";
 export * from "./verifiers/jwtVerifiableCredentialVerifier.js";

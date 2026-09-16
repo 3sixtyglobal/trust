@@ -15,3 +15,11 @@ The identity component type.
 ```ts
 identity
 ```
+
+***
+
+### config? {#config}
+
+> `optional` **config?**: [`IJwtVerifiableCredentialVerifierConfig`](IJwtVerifiableCredentialVerifierConfig.md)
+
+The configuration for the verifier.
