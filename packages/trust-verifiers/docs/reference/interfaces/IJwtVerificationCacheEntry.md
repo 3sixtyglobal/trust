@@ -12,6 +12,15 @@ Whether the payload is verified.
 
 ***
 
+### completed {#completed}
+
+> **completed**: `boolean`
+
+Whether the verification ran to completion. False when the identity component threw, as the
+outcome is then not a verdict on the token, and only a completed verification is cached.
+
+***
+
 ### errors {#errors}
 
 > **errors**: `IError`[]
