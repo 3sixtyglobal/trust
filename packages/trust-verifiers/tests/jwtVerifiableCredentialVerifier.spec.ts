@@ -1,6 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory, type IError } from "@twin.org/core";
+import { ComponentFactory, GeneralError, type IError } from "@twin.org/core";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import type { ITrustVerificationInfo } from "@twin.org/trust-models";
 import { Jwt } from "@twin.org/web";
@@ -391,20 +391,60 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		expect(mockIdentityComponent.verifiableCredentialVerify).toHaveBeenCalledTimes(2);
 	});
 
-	it("should cache a failed verification", async () => {
+	it("should not cache a verification which did not complete", async () => {
+		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		mockIdentityComponent.verifiableCredentialVerify.mockImplementationOnce(async () => {
+			throw new GeneralError("iotaIdentityConnector", "didResolutionTimeout", {
+				did: "did:iota:testnet:0x4c6b",
+				timeoutMs: 5000
+			});
+		});
+		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
+			verifiableCredential: {
+				issuer: "issuer",
+				credentialSubject: { id: "subject" }
+			}
+		}));
+		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
+
+		const errors: IError[] = [];
+		expect(await verifier.verify(token, { identity: "" }, errors)).toBe(false);
+		expect(errors.some((f: IError) => f.message?.includes("tokenVerificationIncomplete"))).toBe(
+			true
+		);
+
+		// The fault was momentary, so the retry must reach the identity component rather than be
+		// served the failure from the cache.
+		const retryErrors: IError[] = [];
+		expect(await verifier.verify(token, { identity: "" }, retryErrors)).toBe(true);
+		expect(retryErrors).toEqual([]);
+		expect(mockIdentityComponent.verifiableCredentialVerify).toHaveBeenCalledTimes(2);
+	});
+
+	it("should retry every call while the identity component keeps failing", async () => {
 		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => {
-			throw new Error("verificationFailed");
+			throw new GeneralError("iotaIdentityConnector", "checkingVerifiableCredentialFailed");
+		});
+		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
+
+		expect(await verifier.verify(token, { identity: "" }, [])).toBe(false);
+		expect(await verifier.verify(token, { identity: "" }, [])).toBe(false);
+		expect(mockIdentityComponent.verifiableCredentialVerify).toHaveBeenCalledTimes(2);
+	});
+
+	it("should report the expiry alongside a verification which did not complete", async () => {
+		const token = await createToken({ exp: Math.floor(Date.now() / 1000) - 1000 });
+		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => {
+			throw new GeneralError("iotaIdentityConnector", "didResolutionTimeout");
 		});
 		const verifier = new JwtVerifiableCredentialVerifier({ identityComponentType: "identity" });
 
 		const errors: IError[] = [];
 		expect(await verifier.verify(token, { identity: "" }, errors)).toBe(false);
-		expect(errors.some((f: IError) => f.message?.includes("tokenDecodingFailed"))).toBe(true);
-
-		const cachedErrors: IError[] = [];
-		expect(await verifier.verify(token, { identity: "" }, cachedErrors)).toBe(false);
-		expect(cachedErrors.some((f: IError) => f.message?.includes("tokenDecodingFailed"))).toBe(true);
-		expect(mockIdentityComponent.verifiableCredentialVerify).toHaveBeenCalledTimes(1);
+		expect(errors.some((f: IError) => f.message?.includes("tokenExpired"))).toBe(true);
+		expect(errors.some((f: IError) => f.message?.includes("tokenVerificationIncomplete"))).toBe(
+			true
+		);
 	});
 });

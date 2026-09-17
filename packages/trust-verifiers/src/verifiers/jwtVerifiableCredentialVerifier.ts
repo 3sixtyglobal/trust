@@ -4,12 +4,14 @@ import {
 	BaseError,
 	Coerce,
 	ComponentFactory,
+	Converter,
 	GeneralError,
 	Is,
 	LruCache,
 	ObjectHelper,
 	type IError
 } from "@twin.org/core";
+import { Blake2b } from "@twin.org/crypto";
 import { JsonLdHelper } from "@twin.org/data-json-ld";
 import type { IIdentityComponent } from "@twin.org/identity-models";
 import { nameof } from "@twin.org/nameof";
@@ -46,7 +48,7 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	private readonly _identityComponent: IIdentityComponent;
 
 	/**
-	 * LRU cache for verification results, keyed on the payload.
+	 * LRU cache for verification results, keyed on the hash of the payload.
 	 * Undefined when caching is disabled (tti is 0).
 	 * @internal
 	 */
@@ -96,9 +98,16 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 		errors: IError[]
 	): Promise<boolean | undefined> {
 		if (Is.stringValue(payload)) {
-			let result = this._verificationCache?.get(payload);
+			let cacheKey: string | undefined;
+			let result: IJwtVerificationCacheEntry | undefined;
+
+			if (Is.notEmpty(this._verificationCache)) {
+				cacheKey = this.cacheKey(payload);
+				result = this._verificationCache.get(cacheKey);
+			}
+
 			if (Is.empty(result)) {
-				result = await this.verificationResult(payload);
+				result = await this.verificationResult(payload, cacheKey);
 			}
 
 			if (Is.notEmpty(result)) {
@@ -120,13 +129,26 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	}
 
 	/**
+	 * Build the cache key for a payload. The payload is hashed so the tokens themselves are not
+	 * held in memory for the life of their cache entries.
+	 * @param payload The payload to build a key for.
+	 * @returns The cache key.
+	 * @internal
+	 */
+	private cacheKey(payload: string): string {
+		return Converter.bytesToHex(Blake2b.sum256(Converter.utf8ToBytes(payload)));
+	}
+
+	/**
 	 * Get the verification result for a payload, returning the cached one when the cache holds it.
-	 * @param payload The payload to verify, also used as the cache key.
+	 * @param payload The payload to verify.
+	 * @param cacheKey The key the result is cached under, undefined when caching is disabled.
 	 * @returns The verification result, undefined when the payload is not a JWT.
 	 * @internal
 	 */
 	private async verificationResult(
-		payload: string
+		payload: string,
+		cacheKey?: string
 	): Promise<IJwtVerificationCacheEntry | undefined> {
 		const jwt = await Jwt.decode(payload);
 		if (!Is.objectValue(jwt.header) || !Is.object(jwt.payload) || !Is.uint8Array(jwt.signature)) {
@@ -137,17 +159,30 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 		const expiresMs = Math.floor((Coerce.number(jwt.payload.exp) ?? 0) * 1000);
 
 		// Nothing worth retaining when caching is disabled or the token has already expired.
-		if (Is.undefined(this._verificationCache) || (expiresMs > 0 && expiresMs <= Date.now())) {
+		if (
+			Is.undefined(this._verificationCache) ||
+			!Is.stringValue(cacheKey) ||
+			(expiresMs > 0 && expiresMs <= Date.now())
+		) {
 			return this.buildVerificationResult(payload, expiresMs);
 		}
 
 		// The token expiry is handed to the cache as a hard deadline, so a cached result is
 		// dropped at whichever of the expiry or the idle window comes first.
-		return this._verificationCache.getOrSet(
-			payload,
+		const result = await this._verificationCache.getOrSet(
+			cacheKey,
 			async () => this.buildVerificationResult(payload, expiresMs),
 			expiresMs > 0 ? expiresMs : undefined
 		);
+
+		// A verification which did not complete is not a verdict on the token, so it is dropped
+		// from the cache and the next call retries instead of being served the failure for the
+		// life of the token.
+		if (!result.completed) {
+			this._verificationCache.delete(cacheKey);
+		}
+
+		return result;
 	}
 
 	/**
@@ -161,7 +196,7 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 		payload: string,
 		expiresMs: number
 	): Promise<IJwtVerificationCacheEntry> {
-		const result: IJwtVerificationCacheEntry = { verified: true, errors: [] };
+		const result: IJwtVerificationCacheEntry = { verified: true, completed: true, errors: [] };
 
 		try {
 			if (expiresMs > 0 && expiresMs < Date.now()) {
@@ -212,15 +247,19 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 				result.data.subject = JsonLdHelper.toNodeObject(subject);
 			}
 		} catch (err) {
+			// The identity component throws for a token it rejected and for a call it could not
+			// make, and nothing in the error tells the two apart, so the verification is marked
+			// incomplete and the outcome is not retained.
 			result.errors.push(
 				new GeneralError(
 					JwtVerifiableCredentialVerifier.CLASS_NAME,
-					"tokenDecodingFailed",
+					"tokenVerificationIncomplete",
 					undefined,
 					BaseError.fromError(err)
 				)
 			);
 			result.verified = false;
+			result.completed = false;
 		}
 
 		return result;
