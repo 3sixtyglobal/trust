@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.11.0](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.11.0...trust-models-v0.11.0) (2026-09-29)
+
+
+### Features
+
+* add verifier overrides ([bb16a35](https://github.com/iotaledger/twin-trust/commit/bb16a35e0d6966e050cbdcc9e32a8c78839431d4))
+* initial commit ([d378ef4](https://github.com/iotaledger/twin-trust/commit/d378ef4cd66c98fa188aaf3b23152d1e47d88a37))
+* release to production ([#51](https://github.com/iotaledger/twin-trust/issues/51)) ([998b21a](https://github.com/iotaledger/twin-trust/commit/998b21a2c4663b7d49fc11ed2866f34ef75de390))
+* release to production ([#57](https://github.com/iotaledger/twin-trust/issues/57)) ([4b8e6da](https://github.com/iotaledger/twin-trust/commit/4b8e6da3496d8095f60cc1459569c24b545856d5))
+* release to production ([#66](https://github.com/iotaledger/twin-trust/issues/66)) ([bd28020](https://github.com/iotaledger/twin-trust/commit/bd2802098f01c96f19cfeb23f29493cbbf5f49b6))
+* release to production [skip ci] ([#74](https://github.com/iotaledger/twin-trust/issues/74)) ([53cf8a3](https://github.com/iotaledger/twin-trust/commit/53cf8a367ae51d9afc7c8e914bfc7deba3f8e36a))
+* release to production [skip ci] ([#83](https://github.com/iotaledger/twin-trust/issues/83)) ([99f75c0](https://github.com/iotaledger/twin-trust/commit/99f75c0f29d652a021f8d7c310d900c6d190f95b))
+
 ## [0.10.1-next.1](https://github.com/iotaledger/twin-trust/compare/trust-models-v0.10.1-next.0...trust-models-v0.10.1-next.1) (2026-09-17)
 
 
