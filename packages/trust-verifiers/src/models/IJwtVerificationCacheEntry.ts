@@ -13,6 +13,12 @@ export interface IJwtVerificationCacheEntry {
 	verified: boolean;
 
 	/**
+	 * Whether the verification ran to completion. False when the identity component threw, as the
+	 * outcome is then not a verdict on the token, and only a completed verification is cached.
+	 */
+	completed: boolean;
+
+	/**
 	 * The errors collected during the verification.
 	 */
 	errors: IError[];

@@ -11,7 +11,7 @@
 			"tokenExpired": "The JWT token has expired.",
 			"tokenRevoked": "The verifiable credential in the JWT has been revoked.",
 			"tokenMissingSubject": "The verifiable credential in the JWT does not contain a subject.",
-			"tokenDecodingFailed": "Failed to decode the JWT token."
+			"tokenVerificationIncomplete": "The JWT token verification did not complete, see the cause for the reason."
 		}
 	}
 }
