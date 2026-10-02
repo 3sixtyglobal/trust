@@ -48,9 +48,8 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   prepare-main:
     name: 'Phase 1 · Prepare main branch'
-    runs-on:
-      labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
-      group: ${{ github.event.repository.private && 'twin' || 'default' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+
     timeout-minutes: 90
     permissions:
       contents: write
@@ -85,9 +84,8 @@ jobs:
     name: 'Gate 1 · Merge main alignment PR'
     needs: prepare-main
     if: ${{ needs.prepare-main.outputs.has_changes == 'true' }}
-    runs-on:
-      labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
-      group: ${{ github.event.repository.private && 'twin' || 'default' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+
     timeout-minutes: 360
     permissions:
       pull-requests: read
@@ -140,9 +138,8 @@ jobs:
       always() &&
       !cancelled() &&
       (needs.gate-main-alignment.result == 'success' || needs.gate-main-alignment.result == 'skipped')
-    runs-on:
-      labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
-      group: ${{ github.event.repository.private && 'twin' || 'default' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+
     timeout-minutes: 60
     permissions:
       actions: write
@@ -244,9 +241,8 @@ jobs:
   gate-release-pr:
     name: 'Gate 2 · Merge release PR'
     needs: prepare-release
-    runs-on:
-      labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
-      group: ${{ github.event.repository.private && 'twin' || 'default' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+
     timeout-minutes: 360
     permissions:
       pull-requests: read
@@ -299,9 +295,7 @@ jobs:
     name: 'Production release handoff complete'
     needs: [prepare-main, prepare-release, gate-release-pr]
     if: always() && !cancelled() && needs.gate-release-pr.result == 'success'
-    runs-on:
-      labels: ${{ github.event.repository.private && 'self-hosted' || 'ubuntu-latest' }}
-      group: ${{ github.event.repository.private && 'twin' || 'default' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
 
     steps:
       - name: Print release summary
