@@ -4,7 +4,7 @@
 	"description": "Trust packages for issuing, verifying, and orchestrating credential trust workflows",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/iotaledger/twin-trust.git"
+		"url": "git+https://github.com/3sixtyglobal/twin-trust.git"
 	},
 	"author": "martyn.janes@iota.org",
 	"license": "Apache-2.0",
@@ -70,7 +70,7 @@
 	},
 	"type": "module",
 	"bugs": {
-		"url": "git+https://github.com/iotaledger/twin-trust/issues"
+		"url": "git+https://github.com/3sixtyglobal/twin-trust/issues"
 	},
 	"homepage": "https://twindev.org"
 }

@@ -14,3 +14,7 @@ By separating concerns across focused packages, the codebase supports reuse, cle
 ## Contributing
 
 To contribute to this package see the guidelines for building and publishing in [CONTRIBUTING](./CONTRIBUTING.md)
+
+## Origin
+
+This repository is derived from the original [iotaledger/twin-trust](https://github.com/iotaledger/twin-trust) repository.
