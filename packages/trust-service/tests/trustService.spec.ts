@@ -1,8 +1,8 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { Factory, type IError } from "@twin.org/core";
-import type { ITrustVerifier, ITrustGenerator } from "@twin.org/trust-models";
-import { TrustVerifierFactory, TrustGeneratorFactory } from "@twin.org/trust-models";
+import { Factory, type IError } from "@3sixty/core";
+import type { ITrustVerifier, ITrustGenerator } from "@3sixty/trust-models";
+import { TrustVerifierFactory, TrustGeneratorFactory } from "@3sixty/trust-models";
 import { TrustService } from "../src/trustService.js";
 
 describe("TrustService", () => {

@@ -5,7 +5,7 @@ Use these patterns to register trust components, resolve them from factories, an
 ## TrustGeneratorFactory
 
 ```typescript
-import { TrustGeneratorFactory, type ITrustGenerator } from '@twin.org/trust-models';
+import { TrustGeneratorFactory, type ITrustGenerator } from '@3sixty/trust-models';
 
 const signedPayloadGenerator: ITrustGenerator = {
   className: () => 'SignedPayloadGenerator',
@@ -41,8 +41,8 @@ import {
   TrustVerifierFactory,
   type ITrustVerificationInfo,
   type ITrustVerifier
-} from '@twin.org/trust-models';
-import type { IError } from '@twin.org/core';
+} from '@3sixty/trust-models';
+import type { IError } from '@3sixty/core';
 
 const audienceVerifier: ITrustVerifier = {
   className: () => 'AudienceVerifier',
@@ -81,7 +81,7 @@ TrustVerifierFactory.unregister('audience');
 ## TrustHelper
 
 ```typescript
-import { TrustHelper, type ITrustComponent } from '@twin.org/trust-models';
+import { TrustHelper, type ITrustComponent } from '@3sixty/trust-models';
 
 const trustComponent: ITrustComponent = {
   className: () => 'MockTrustComponent',

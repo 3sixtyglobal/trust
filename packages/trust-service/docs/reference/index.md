@@ -1,4 +1,4 @@
-# @twin.org/trust-service
+# @3sixty/trust-service
 
 ## Classes
 

@@ -48,7 +48,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   prepare-main:
     name: 'Phase 1 · Prepare main branch'
-    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"3sixty","labels":"self-hosted"}') || 'ubuntu-latest' }}
 
     timeout-minutes: 90
     permissions:
@@ -69,11 +69,11 @@ jobs:
         uses: ./.github/workflows/versions-prepare
         with:
           branch: main
-          gpg_private_key: ${{ secrets.TWIN_GPG_PRIVATE_KEY }}
-          gpg_key_id: ${{ secrets.TWIN_GPG_KEY_ID }}
-          test_env_vars: ${{ secrets.TWIN_TEST_ENV_VARS }}
+          gpg_private_key: ${{ secrets.ORG_GPG_PRIVATE_KEY }}
+          gpg_key_id: ${{ secrets.ORG_GPG_KEY_ID }}
+          test_env_vars: ${{ secrets.ORG_TEST_ENV_VARS }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_token: ${{ secrets.TWIN_GHA_RELEASE_TOKEN }}
+          release_token: ${{ secrets.ORG_GHA_RELEASE_TOKEN }}
 
   # ──────────────────────────────────────────────────────────────────────────
   # GATE 1 – WAIT FOR MAIN ALIGNMENT PR
@@ -84,7 +84,7 @@ jobs:
     name: 'Gate 1 · Merge main alignment PR'
     needs: prepare-main
     if: ${{ needs.prepare-main.outputs.has_changes == 'true' }}
-    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"3sixty","labels":"self-hosted"}') || 'ubuntu-latest' }}
 
     timeout-minutes: 360
     permissions:
@@ -123,7 +123,7 @@ jobs:
             sleep 60
           done
         env:
-          GH_TOKEN: ${{ secrets.TWIN_GHA_RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.ORG_GHA_RELEASE_TOKEN }}
 
   # ──────────────────────────────────────────────────────────────────────────
   # PHASE 2 – PREPARE RELEASE PR
@@ -138,7 +138,7 @@ jobs:
       always() &&
       !cancelled() &&
       (needs.gate-main-alignment.result == 'success' || needs.gate-main-alignment.result == 'skipped')
-    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"3sixty","labels":"self-hosted"}') || 'ubuntu-latest' }}
 
     timeout-minutes: 60
     permissions:
@@ -173,7 +173,7 @@ jobs:
             --ref main \
             -f releaseType="$RELEASE_TYPE"
         env:
-          GH_TOKEN: ${{ secrets.TWIN_GHA_RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.ORG_GHA_RELEASE_TOKEN }}
 
       # Poll for the release PR (identified by the autorelease: pending label).
       # The Release prepare phase runs docs-update and a full build before
@@ -230,7 +230,7 @@ jobs:
           echo "Check the Release workflow run for failure details."
           exit 1
         env:
-          GH_TOKEN: ${{ secrets.TWIN_GHA_RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.ORG_GHA_RELEASE_TOKEN }}
 
   # ──────────────────────────────────────────────────────────────────────────
   # GATE 2 – WAIT FOR RELEASE PR
@@ -241,7 +241,7 @@ jobs:
   gate-release-pr:
     name: 'Gate 2 · Merge release PR'
     needs: prepare-release
-    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"3sixty","labels":"self-hosted"}') || 'ubuntu-latest' }}
 
     timeout-minutes: 360
     permissions:
@@ -283,7 +283,7 @@ jobs:
             sleep 60
           done
         env:
-          GH_TOKEN: ${{ secrets.TWIN_GHA_RELEASE_TOKEN }}
+          GH_TOKEN: ${{ secrets.ORG_GHA_RELEASE_TOKEN }}
 
   # ──────────────────────────────────────────────────────────────────────────
   # SUMMARY
@@ -295,7 +295,7 @@ jobs:
     name: 'Production release handoff complete'
     needs: [prepare-main, prepare-release, gate-release-pr]
     if: always() && !cancelled() && needs.gate-release-pr.result == 'success'
-    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"twin","labels":"self-hosted"}') || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.repository.private && fromJSON('{"group":"3sixty","labels":"self-hosted"}') || 'ubuntu-latest' }}
 
     steps:
       - name: Print release summary

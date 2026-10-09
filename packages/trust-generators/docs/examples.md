@@ -5,9 +5,9 @@ These snippets show how to create JWT credential payloads and inspect generator 
 ## JwtVerifiableCredentialGenerator
 
 ```typescript
-import { ComponentFactory } from '@twin.org/core';
-import type { IIdentityComponent } from '@twin.org/identity-models';
-import { JwtVerifiableCredentialGenerator } from '@twin.org/trust-generators';
+import { ComponentFactory } from '@3sixty/core';
+import type { IIdentityComponent } from '@3sixty/identity-models';
+import { JwtVerifiableCredentialGenerator } from '@3sixty/trust-generators';
 
 const identityComponent: IIdentityComponent = {
   verifiableCredentialCreate: async () => ({

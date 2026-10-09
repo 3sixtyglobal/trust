@@ -1,4 +1,4 @@
-# @twin.org/trust-verifiers
+# @3sixty/trust-verifiers
 
 ## Classes
 

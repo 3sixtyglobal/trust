@@ -5,10 +5,10 @@ These snippets demonstrate how to initialise a JWT verifier and evaluate a token
 ## JwtVerifiableCredentialVerifier
 
 ```typescript
-import { ComponentFactory, type IError } from '@twin.org/core';
-import type { IIdentityComponent } from '@twin.org/identity-models';
-import type { ITrustVerificationInfo } from '@twin.org/trust-models';
-import { JwtVerifiableCredentialVerifier } from '@twin.org/trust-verifiers';
+import { ComponentFactory, type IError } from '@3sixty/core';
+import type { IIdentityComponent } from '@3sixty/identity-models';
+import type { ITrustVerificationInfo } from '@3sixty/trust-models';
+import { JwtVerifiableCredentialVerifier } from '@3sixty/trust-verifiers';
 
 const identityComponent: IIdentityComponent = {
   verifiableCredentialVerify: async () => ({

@@ -8,6 +8,7 @@
 	"release-type": "node",
 	"initial-version": "0.0.1",
 	"versioning": "default",
+	"last-release-sha": "9c024596a9c063f313c1f7cd4771d9c6bc189783",
 	"packages": {
 		"packages/trust-models": {
 			"package-name": "trust-models",

@@ -10,6 +10,7 @@
 	"versioning": "prerelease",
 	"prerelease": true,
 	"prerelease-type": "next",
+	"last-release-sha": "b750c3fcf13f53660b6708aa3a5dc5ebac1c9630",
 	"packages": {
 		"packages/trust-models": {
 			"package-name": "trust-models",

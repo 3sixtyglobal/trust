@@ -1,11 +1,11 @@
-# TWIN Trust Service
+# 3Sixty Trust Service
 
 This package is part of the trust repository and provides reusable trust building blocks so applications can issue, validate, and orchestrate trust artefacts with consistent behaviour.
 
 ## Installation
 
 ```shell
-npm install @twin.org/trust-service
+npm install @3sixty/trust-service
 ```
 
 ## Examples

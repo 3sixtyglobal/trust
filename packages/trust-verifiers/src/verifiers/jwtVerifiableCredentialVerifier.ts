@@ -10,13 +10,13 @@ import {
 	LruCache,
 	ObjectHelper,
 	type IError
-} from "@twin.org/core";
-import { Blake2b } from "@twin.org/crypto";
-import { JsonLdHelper } from "@twin.org/data-json-ld";
-import type { IIdentityComponent } from "@twin.org/identity-models";
-import { nameof } from "@twin.org/nameof";
-import type { ITrustVerificationInfo, ITrustVerifier } from "@twin.org/trust-models";
-import { Jwt } from "@twin.org/web";
+} from "@3sixty/core";
+import { Blake2b } from "@3sixty/crypto";
+import { JsonLdHelper } from "@3sixty/data-json-ld";
+import type { IIdentityComponent } from "@3sixty/identity-models";
+import { nameof } from "@3sixty/nameof";
+import type { ITrustVerificationInfo, ITrustVerifier } from "@3sixty/trust-models";
+import { Jwt } from "@3sixty/web";
 import type { IJwtVerifiableCredentialVerifierConstructorOptions } from "../models/IJwtVerifiableCredentialVerifierConstructorOptions.js";
 import type { IJwtVerificationCacheEntry } from "../models/IJwtVerificationCacheEntry.js";
 

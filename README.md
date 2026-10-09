@@ -1,4 +1,4 @@
-# TWIN Trust
+# 3Sixty Trust
 
 This repository provides a cohesive set of trust building blocks for issuing, validating, and orchestrating verifiable trust artefacts across distributed applications. The packages are designed to work together so that shared models, generation workflows, verification logic, and service orchestration remain consistent.
 

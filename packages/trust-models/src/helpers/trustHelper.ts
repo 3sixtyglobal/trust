@@ -1,7 +1,7 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { BaseError, Is, UnauthorizedError } from "@twin.org/core";
-import { nameof } from "@twin.org/nameof";
+import { BaseError, Is, UnauthorizedError } from "@3sixty/core";
+import { nameof } from "@3sixty/nameof";
 import type { ITrustComponent } from "../models/ITrustComponent.js";
 import type { ITrustVerificationInfo } from "../models/ITrustVerificationInfo.js";
 

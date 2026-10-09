@@ -1,10 +1,10 @@
 {
-	"name": "@twin.org/trust-verifiers",
-	"version": "0.11.1-next.0",
+	"name": "@3sixty/trust-verifiers",
+	"version": "0.20.0-next.0",
 	"description": "Implements trust verifiers that validate credentials and proofs against trust model requirements",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/3sixtyglobal/twin-trust.git",
+		"url": "git+https://github.com/3sixtyglobal/trust.git",
 		"directory": "packages/trust-verifiers"
 	},
 	"author": "martyn.janes@iota.org",
@@ -28,19 +28,19 @@
 		"dist:no-test": "pnpm run clean && concurrently -g -n build,locales,types \"pnpm run build\" \"pnpm run validate-locales\" \"pnpm run test:build\""
 	},
 	"dependencies": {
-		"@twin.org/core": "next",
-		"@twin.org/crypto": "next",
-		"@twin.org/data-json-ld": "next",
-		"@twin.org/identity-models": "next",
-		"@twin.org/logging-models": "next",
-		"@twin.org/nameof": "next",
-		"@twin.org/trust-models": "0.11.1-next.0",
-		"@twin.org/web": "next"
+		"@3sixty/core": "next",
+		"@3sixty/crypto": "next",
+		"@3sixty/data-json-ld": "next",
+		"@3sixty/identity-models": "next",
+		"@3sixty/logging-models": "next",
+		"@3sixty/nameof": "next",
+		"@3sixty/trust-models": "0.20.0-next.0",
+		"@3sixty/web": "next"
 	},
 	"devDependencies": {
-		"@twin.org/nameof-transformer": "next",
-		"@twin.org/nameof-vitest-plugin": "next",
-		"@twin.org/validate-locales": "next",
+		"@3sixty/nameof-transformer": "next",
+		"@3sixty/nameof-vitest-plugin": "next",
+		"@3sixty/validate-locales": "next",
 		"@vitest/coverage-v8": "5.0.1",
 		"concurrently": "10.0.5",
 		"copyfiles": "2.4.1",
@@ -80,7 +80,7 @@
 		"schemas"
 	],
 	"bugs": {
-		"url": "git+https://github.com/3sixtyglobal/twin-trust/issues"
+		"url": "git+https://github.com/3sixtyglobal/trust/issues"
 	},
-	"homepage": "https://twindev.org"
+	"homepage": "https://3sixty.global"
 }

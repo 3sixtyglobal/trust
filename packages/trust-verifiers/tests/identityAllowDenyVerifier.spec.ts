@@ -1,7 +1,7 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IError } from "@twin.org/core";
-import type { ITrustVerificationInfo } from "@twin.org/trust-models";
+import type { IError } from "@3sixty/core";
+import type { ITrustVerificationInfo } from "@3sixty/trust-models";
 import { IdentityAllowDenyVerifier } from "../src/verifiers/identityAllowDenyVerifier.js";
 
 describe("IdentityAllowDenyVerifier", () => {

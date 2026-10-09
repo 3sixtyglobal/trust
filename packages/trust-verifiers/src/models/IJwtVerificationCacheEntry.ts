@@ -1,7 +1,7 @@
 // Copyright 2026 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import type { IError } from "@twin.org/core";
-import type { IJsonLdNodeObject } from "@twin.org/data-json-ld";
+import type { IError } from "@3sixty/core";
+import type { IJsonLdNodeObject } from "@3sixty/data-json-ld";
 
 /**
  * The outcome of verifying a JWT, held in the verifier cache.

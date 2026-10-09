@@ -1,4 +1,4 @@
-# @twin.org/trust-generators
+# @3sixty/trust-generators
 
 ## Classes
 

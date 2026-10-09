@@ -5,14 +5,14 @@ The following snippets show a practical end-to-end flow where generators and ver
 ## TrustService
 
 ```typescript
-import { TrustService } from '@twin.org/trust-service';
+import { TrustService } from '@3sixty/trust-service';
 import {
   TrustGeneratorFactory,
   TrustVerifierFactory,
   type ITrustGenerator,
   type ITrustVerifier
-} from '@twin.org/trust-models';
-import type { IError } from '@twin.org/core';
+} from '@3sixty/trust-models';
+import type { IError } from '@3sixty/core';
 
 const generator: ITrustGenerator = {
   className: () => 'JwtGenerator',

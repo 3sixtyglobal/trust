@@ -1,4 +1,4 @@
-# @twin.org/trust-models
+# @3sixty/trust-models
 
 ## Classes
 
