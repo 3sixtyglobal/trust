@@ -1,5 +1,5 @@
 {
-	"name": "@3sixty/trust",
+	"name": "3sixty-trust",
 	"version": "0.0.0",
 	"description": "Trust packages for issuing, verifying, and orchestrating credential trust workflows",
 	"repository": {
