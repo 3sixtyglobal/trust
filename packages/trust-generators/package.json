@@ -1,6 +1,6 @@
 {
 	"name": "@3sixty/trust-generators",
-	"version": "0.20.0-next.0",
+	"version": "0.20.0-next.1",
 	"description": "Implements trust credential generators that produce signed verifiable credential artefacts",
 	"repository": {
 		"type": "git",
@@ -33,7 +33,7 @@
 		"@3sixty/identity-models": "next",
 		"@3sixty/logging-models": "next",
 		"@3sixty/nameof": "next",
-		"@3sixty/trust-models": "0.20.0-next.0",
+		"@3sixty/trust-models": "0.20.0-next.1",
 		"@3sixty/web": "next"
 	},
 	"devDependencies": {
