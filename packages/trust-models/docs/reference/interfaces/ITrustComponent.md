@@ -58,6 +58,8 @@ The type of generator to use, defaults to the default generator type or first in
 
 ##### info?
 
+\{\[`key`: `string`\]: `unknown`; \}
+
 Optional information to include in the generated payload.
 
 #### Returns

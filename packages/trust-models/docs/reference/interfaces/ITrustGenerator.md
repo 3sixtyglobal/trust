@@ -24,6 +24,8 @@ The identity for which to generate the payload.
 
 ##### info?
 
+\{\[`key`: `string`\]: `unknown`; \}
+
 Information to use in the generation.
 
 ##### options?

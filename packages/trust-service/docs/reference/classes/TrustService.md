@@ -108,6 +108,8 @@ The generator type to use; falls back to the configured default or the first reg
 
 ##### info?
 
+\{\[`key`: `string`\]: `unknown`; \}
+
 Optional information to include in the generated payload.
 
 ##### options?
