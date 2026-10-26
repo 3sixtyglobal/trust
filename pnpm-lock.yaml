@@ -249,7 +249,7 @@ importers:
         version: 0.20.0-next.4
       '@3sixty/identity-models':
         specifier: next
-        version: 0.20.0-next.2
+        version: 0.20.0-next.3
       '@3sixty/logging-models':
         specifier: next
         version: 0.20.0-next.2
@@ -257,7 +257,7 @@ importers:
         specifier: next
         version: 0.20.0-next.4
       '@3sixty/trust-models':
-        specifier: 0.20.0-next.1
+        specifier: 0.20.0-next.2
         version: link:../trust-models
     devDependencies:
       '@3sixty/nameof-transformer':
@@ -352,7 +352,7 @@ importers:
         specifier: next
         version: 0.20.0-next.4
       '@3sixty/trust-models':
-        specifier: 0.20.0-next.1
+        specifier: 0.20.0-next.2
         version: link:../trust-models
     devDependencies:
       '@3sixty/nameof-transformer':
@@ -405,12 +405,12 @@ importers:
         version: 0.20.0-next.4
       '@3sixty/identity-models':
         specifier: next
-        version: 0.20.0-next.2
+        version: 0.20.0-next.3
       '@3sixty/nameof':
         specifier: next
         version: 0.20.0-next.4
       '@3sixty/trust-models':
-        specifier: 0.20.0-next.1
+        specifier: 0.20.0-next.2
         version: link:../trust-models
       '@3sixty/web':
         specifier: next
@@ -480,8 +480,8 @@ packages:
     resolution: {integrity: sha512-GUgvE4EA3SOIrHWz7btls7jAI8FoVL/N0wlqP/S/liCtcDzDBN8EkJjzeQ/3LYEr209x7F/RcP5Jn0UNF/D79Q==}
     engines: {bun: '>=1.4.4', node: '>=24.0.0'}
 
-  '@3sixty/identity-models@0.20.0-next.2':
-    resolution: {integrity: sha512-w4RVMjjK0FVfP+zizeVGb7yEp2nPtCw2Tn9oyk6bKX6IOFwjZCv58Tqamut1R5LH9sZv8KiFub5g309TRNoaxQ==}
+  '@3sixty/identity-models@0.20.0-next.3':
+    resolution: {integrity: sha512-eTipJ7ldva0JWBBnbpptaktzbn4q24UZtAqXSY0qvLY+PEggnOBS7RGxA6J8FO5Sj1OZ7uYY3bT3FUbCi4Hr4w==}
     engines: {bun: '>=1.4.4', node: '>=24.0.0'}
 
   '@3sixty/logging-models@0.20.0-next.2':
@@ -3664,7 +3664,7 @@ snapshots:
       reflect-metadata: 0.2.2
       tslib: 2.8.1
 
-  '@3sixty/identity-models@0.20.0-next.2':
+  '@3sixty/identity-models@0.20.0-next.3':
     dependencies:
       '@3sixty/context': 0.20.0-next.4
       '@3sixty/core': 0.20.0-next.4
