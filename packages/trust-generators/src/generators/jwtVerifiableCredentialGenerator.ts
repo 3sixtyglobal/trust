@@ -1,6 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory, Guards, Is } from "@3sixty/core";
+import { ComponentFactory, DurationConstants, Guards, Is } from "@3sixty/core";
 import type { IJsonLdNodeObject } from "@3sixty/data-json-ld";
 import { DocumentHelper, type IIdentityComponent } from "@3sixty/identity-models";
 import type { ILoggingComponent } from "@3sixty/logging-models";
@@ -90,7 +90,7 @@ export class JwtVerifiableCredentialGenerator implements ITrustGenerator {
 		let expirationDate;
 
 		if (Is.integer(ttlInSeconds)) {
-			const ttlMs = ttlInSeconds * 1000;
+			const ttlMs = ttlInSeconds * DurationConstants.MsPerSecond;
 			expirationDate = new Date(Date.now() + ttlMs);
 		}
 

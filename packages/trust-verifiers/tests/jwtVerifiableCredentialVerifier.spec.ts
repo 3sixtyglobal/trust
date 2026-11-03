@@ -1,10 +1,13 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory, GeneralError, type IError } from "@3sixty/core";
+import { ComponentFactory, DurationConstants, GeneralError, type IError } from "@3sixty/core";
 import type { IIdentityComponent } from "@3sixty/identity-models";
 import type { ITrustVerificationInfo } from "@3sixty/trust-models";
 import { Jwt } from "@3sixty/web";
 import { JwtVerifiableCredentialVerifier } from "../src/verifiers/jwtVerifiableCredentialVerifier.js";
+
+const SIX_SECONDS_MS = 6 * DurationConstants.MsPerSecond;
+const TWO_SECONDS_MS = 2 * DurationConstants.MsPerSecond;
 
 // Mock identity component
 const mockIdentityComponent = {
@@ -40,7 +43,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	it("should verify a valid JWT", async () => {
 		const payload = {
 			header: { alg: "EdDSA" },
-			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
+			payload: { exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
 			payload.header,
@@ -106,7 +109,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	it("should fail verification for expired JWT", async () => {
 		const payload = {
 			header: { alg: "EdDSA" },
-			payload: { exp: Math.floor(Date.now() / 1000) - 1000 }
+			payload: { exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) - 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
 			payload.header,
@@ -131,7 +134,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	it("should fail verification for missing credential", async () => {
 		const payload = {
 			header: { alg: "EdDSA" },
-			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
+			payload: { exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
 			payload.header,
@@ -153,7 +156,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	it("should fail verification for missing issuer", async () => {
 		const payload = {
 			header: { alg: "EdDSA" },
-			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
+			payload: { exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
 			payload.header,
@@ -178,7 +181,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	it("should fail verification for missing subject", async () => {
 		const payload = {
 			header: { alg: "EdDSA" },
-			payload: { exp: Math.floor(Date.now() / 1000) + 1000 }
+			payload: { exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000 }
 		};
 		const token = await Jwt.encodeWithSigner(
 			payload.header,
@@ -201,7 +204,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should fail verification for a revoked credential", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
 			revoked: true,
 			verifiableCredential: {
@@ -218,7 +223,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should cache the verification result for repeat payloads", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
 			verifiableCredential: {
 				issuer: "issuer",
@@ -236,7 +243,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should serve the errors and info from the cached result", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
 			verifiableCredential: {
 				issuer: "issuer",
@@ -263,7 +272,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should not decode the token again on a cache hit", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
 			verifiableCredential: {
 				issuer: "issuer",
@@ -285,7 +296,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 
 	it("should stop serving an entry at the token expiry even while it is being hit", async () => {
 		const nowMs = Date.now();
-		const token = await createToken({ exp: Math.floor(nowMs / 1000) + 5 });
+		const token = await createToken({ exp: Math.floor(nowMs / DurationConstants.MsPerSecond) + 5 });
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
 			verifiableCredential: {
 				issuer: "issuer",
@@ -294,20 +305,24 @@ describe("JwtVerifiableCredentialVerifier", () => {
 		}));
 		const verifier = new JwtVerifiableCredentialVerifier({
 			identityComponentType: "identity",
-			config: { verificationCacheTtiMs: 3600000 }
+			config: { verificationCacheTtiMs: DurationConstants.MsPerHour }
 		});
 		vi.useFakeTimers();
 		vi.setSystemTime(nowMs);
 		try {
 			// Hit the entry every second, so an idle window alone would keep it alive indefinitely.
-			for (let offsetMs = 0; offsetMs <= 4000; offsetMs += 1000) {
+			for (
+				let offsetMs = 0;
+				offsetMs <= 4 * DurationConstants.MsPerSecond;
+				offsetMs += DurationConstants.MsPerSecond
+			) {
 				vi.setSystemTime(nowMs + offsetMs);
 				await verifier.verify(token, { identity: "" }, []);
 			}
 			expect(mockIdentityComponent.verifiableCredentialVerify).toHaveBeenCalledTimes(1);
 
 			// Past the token expiry the entry is gone, despite the hour long tti and the traffic.
-			vi.setSystemTime(nowMs + 6000);
+			vi.setSystemTime(nowMs + SIX_SECONDS_MS);
 			const errors: IError[] = [];
 			expect(await verifier.verify(token, { identity: "" }, errors)).toBe(false);
 			expect(errors.some((f: IError) => f.message?.includes("tokenExpired"))).toBe(true);
@@ -318,7 +333,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should not cache the verification result when the tti is 0", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
 			verifiableCredential: {
 				issuer: "issuer",
@@ -338,7 +355,7 @@ describe("JwtVerifiableCredentialVerifier", () => {
 
 	it("should not serve a cached result once the token expiry has passed", async () => {
 		const nowMs = Date.now();
-		const token = await createToken({ exp: Math.floor(nowMs / 1000) + 1 });
+		const token = await createToken({ exp: Math.floor(nowMs / DurationConstants.MsPerSecond) + 1 });
 		vi.useFakeTimers();
 		vi.setSystemTime(nowMs);
 		try {
@@ -350,13 +367,13 @@ describe("JwtVerifiableCredentialVerifier", () => {
 			}));
 			const verifier = new JwtVerifiableCredentialVerifier({
 				identityComponentType: "identity",
-				config: { verificationCacheTtiMs: 60000 }
+				config: { verificationCacheTtiMs: DurationConstants.MsPerMinute }
 			});
 
 			await verifier.verify(token, { identity: "" }, []);
 			expect(mockIdentityComponent.verifiableCredentialVerify).toHaveBeenCalledTimes(1);
 
-			vi.setSystemTime(nowMs + 2000);
+			vi.setSystemTime(nowMs + TWO_SECONDS_MS);
 			const errors: IError[] = [];
 			const result = await verifier.verify(token, { identity: "" }, errors);
 
@@ -392,11 +409,13 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should not cache a verification which did not complete", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementationOnce(async () => {
 			throw new GeneralError("iotaIdentityConnector", "didResolutionTimeout", {
 				did: "did:iota:testnet:0x4c6b",
-				timeoutMs: 5000
+				timeoutMs: 5 * DurationConstants.MsPerSecond
 			});
 		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => ({
@@ -422,7 +441,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should retry every call while the identity component keeps failing", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) + 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) + 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => {
 			throw new GeneralError("iotaIdentityConnector", "checkingVerifiableCredentialFailed");
 		});
@@ -434,7 +455,9 @@ describe("JwtVerifiableCredentialVerifier", () => {
 	});
 
 	it("should report the expiry alongside a verification which did not complete", async () => {
-		const token = await createToken({ exp: Math.floor(Date.now() / 1000) - 1000 });
+		const token = await createToken({
+			exp: Math.floor(Date.now() / DurationConstants.MsPerSecond) - 1000
+		});
 		mockIdentityComponent.verifiableCredentialVerify.mockImplementation(async () => {
 			throw new GeneralError("iotaIdentityConnector", "didResolutionTimeout");
 		});

@@ -5,6 +5,7 @@ import {
 	Coerce,
 	ComponentFactory,
 	Converter,
+	DurationConstants,
 	GeneralError,
 	Is,
 	LruCache,
@@ -33,7 +34,7 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 	 * Default time-to-idle in milliseconds for cached verification results.
 	 * @internal
 	 */
-	private static readonly _DEFAULT_CACHE_TTI_MS: number = 5000;
+	private static readonly _DEFAULT_CACHE_TTI_MS: number = 5 * DurationConstants.MsPerSecond;
 
 	/**
 	 * Default maximum number of cached verification results.
@@ -156,7 +157,9 @@ export class JwtVerifiableCredentialVerifier implements ITrustVerifier {
 			return;
 		}
 
-		const expiresMs = Math.floor((Coerce.number(jwt.payload.exp) ?? 0) * 1000);
+		const expiresMs = Math.floor(
+			(Coerce.number(jwt.payload.exp) ?? 0) * DurationConstants.MsPerSecond
+		);
 
 		// Nothing worth retaining when caching is disabled or the token has already expired.
 		if (

@@ -1,6 +1,6 @@
 // Copyright 2025 IOTA Stiftung.
 // SPDX-License-Identifier: Apache-2.0.
-import { ComponentFactory } from "@3sixty/core";
+import { ComponentFactory, DurationConstants } from "@3sixty/core";
 import type { IIdentityComponent } from "@3sixty/identity-models";
 import { JwtVerifiableCredentialGenerator } from "../src/generators/jwtVerifiableCredentialGenerator.js";
 import type { IJwtVerifiableCredentialGeneratorConstructorOptions } from "../src/models/IJwtVerifiableCredentialGeneratorConstructorOptions.js";
@@ -104,7 +104,7 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		const vcOptionsArg = calls[0][3];
 		const expiration: Date = vcOptionsArg.expirationDate;
 		expect(expiration).toBeInstanceOf(Date);
-		const windowTtl = 300 * 1000;
+		const windowTtl = 5 * DurationConstants.MsPerMinute;
 		expect(expiration.getTime()).toBeGreaterThanOrEqual(before + windowTtl);
 		expect(expiration.getTime()).toBeLessThanOrEqual(after + windowTtl);
 	});
@@ -126,7 +126,7 @@ describe("JwtVerifiableCredentialGenerator", () => {
 		const vcOptionsArg = calls[0][3];
 		const expiration: Date = vcOptionsArg.expirationDate;
 		expect(expiration).toBeInstanceOf(Date);
-		const windowTtl = 60 * 1000;
+		const windowTtl = DurationConstants.MsPerMinute;
 		expect(expiration.getTime()).toBeGreaterThanOrEqual(before + windowTtl);
 		expect(expiration.getTime()).toBeLessThanOrEqual(after + windowTtl);
 	});
