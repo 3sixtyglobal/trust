@@ -6,5 +6,4 @@ import type { ITrustGenerator } from "../models/ITrustGenerator.js";
 /**
  * Factory for managing generator registration and retrieval.
  */
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export const TrustGeneratorFactory = Factory.createFactory<ITrustGenerator>("trust-generator");
